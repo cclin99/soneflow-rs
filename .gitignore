@@ -1,0 +1,16 @@
+*.tar
+*.tar.gz
+mosqito-1.2.1/
+.venv/
+.venv*/
+target/
+target-bench-*/
+data/
+AGENTS.md
+.claude/
+soneflow-py/dist/
+.pytest_cache/
+__pycache__/
+*.stackdump
+tmp/
+private/

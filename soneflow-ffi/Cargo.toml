@@ -1,0 +1,17 @@
+[package]
+name = "soneflow-ffi"
+version = "0.1.0"
+edition = "2021"
+description = "C ABI v1 for the soneflow crate"
+license = "Apache-2.0"
+
+[lib]
+name = "soneflow_ffi"
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+soneflow = { path = "../soneflow" }
+rayon = { version = "1.12", optional = true }
+
+[features]
+test-panic = ["dep:rayon"]

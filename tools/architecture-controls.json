@@ -1,0 +1,678 @@
+[
+  {
+    "name": "valid-layer",
+    "expected_rejected": false,
+    "observed_rejected": false,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::tables::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "core-direct-upward",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::zwtv::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;",
+      "zwtv.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [
+          "crate::core -> crate::zwtv (rule crate::core: allow ['crate::tables', 'crate::error', 'crate::types'])"
+        ],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 4,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1,
+          "zwtv.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs",
+          "1 zwtv.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "parent-child-cycle",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core;",
+      "core/mod.rs": "mod leaf; pub const X:u32=1; pub fn f()->u32{leaf::f()}",
+      "core/leaf.rs": "use super::X; pub fn f()->u32{X}"
+    },
+    "result": {
+      "violations": {
+        "cycles": [
+          "{crate::core, crate::core::leaf}"
+        ],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 2,
+        "modules_without_rule": [],
+        "crap": {
+          "skipped": "no --crap file"
+        },
+        "code_lines": {
+          "core/leaf.rs": 1,
+          "core/mod.rs": 1,
+          "lib.rs": 1
+        },
+        "largest_files": [
+          "1 core/leaf.rs",
+          "1 core/mod.rs",
+          "1 lib.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "high-complexity-metric",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::tables::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [
+          "CRAP 100.0 > 30.0 probe core.rs:1",
+          "CC 9 > 8 (core) probe core.rs:1"
+        ],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 100.0 CC 9 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "missing-metrics-full-gate",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::tables::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "skipped": "no --crap file"
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "empty-metrics-full-gate",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::tables::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 0,
+          "top": []
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "wrong-root-metrics-full-gate",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate::tables::X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 0,
+          "top": []
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-exact",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "#[allow(clippy::too_many_arguments)]\npub fn f(){}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": [
+          "core.rs:1: /allow\\(clippy::too_many_arguments\\)/ (core)"
+        ]
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 2,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "2 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-whitespace",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "#[allow( clippy::too_many_arguments )]\npub fn f(){}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 2,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "2 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-list",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "#[allow(dead_code, clippy::too_many_arguments)]\npub fn f(){}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 2,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "2 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-comment-false-positive",
+    "expected_rejected": false,
+    "observed_rejected": true,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "// #[allow(clippy::too_many_arguments)]\npub fn f(){}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": [
+          "core.rs:1: /allow\\(clippy::too_many_arguments\\)/ (core)"
+        ]
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-mul-add-exact",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "pub fn f(x:f64)->f64{x.mul_add(2.,1.)}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": [
+          "core.rs:1: /\\.mul_add\\(/ (core)"
+        ]
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "forbid-mul-add-whitespace",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "pub fn f(x:f64)->f64{x.mul_add (2.,1.)}",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "inline-module-upward",
+    "expected_rejected": true,
+    "observed_rejected": false,
+    "control_pass": false,
+    "source": {
+      "lib.rs": "pub mod core { use crate::zwtv::X; pub fn f()->u32{X} } pub mod zwtv { pub const X:u32=1; }"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 1,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "skipped": "no --crap file"
+        },
+        "code_lines": {
+          "lib.rs": 1
+        },
+        "largest_files": [
+          "1 lib.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "qualified-whitespace-path",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "use crate :: zwtv :: X; pub fn f()->u32{X}",
+      "tables.rs": "pub const X:u32=1;",
+      "zwtv.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [
+          "crate::core -> crate::zwtv (rule crate::core: allow ['crate::tables', 'crate::error', 'crate::types'])"
+        ],
+        "unruled": [],
+        "crap": [],
+        "size": [],
+        "forbid": []
+      },
+      "info": {
+        "modules": 4,
+        "edges": 1,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 1,
+          "lib.rs": 1,
+          "tables.rs": 1,
+          "zwtv.rs": 1
+        },
+        "largest_files": [
+          "1 core.rs",
+          "1 lib.rs",
+          "1 tables.rs",
+          "1 zwtv.rs"
+        ]
+      }
+    }
+  },
+  {
+    "name": "core-size-201",
+    "expected_rejected": true,
+    "observed_rejected": true,
+    "control_pass": true,
+    "source": {
+      "lib.rs": "pub mod core; pub mod tables;",
+      "core.rs": "pub const C0:u32=0;\npub const C1:u32=1;\npub const C2:u32=2;\npub const C3:u32=3;\npub const C4:u32=4;\npub const C5:u32=5;\npub const C6:u32=6;\npub const C7:u32=7;\npub const C8:u32=8;\npub const C9:u32=9;\npub const C10:u32=10;\npub const C11:u32=11;\npub const C12:u32=12;\npub const C13:u32=13;\npub const C14:u32=14;\npub const C15:u32=15;\npub const C16:u32=16;\npub const C17:u32=17;\npub const C18:u32=18;\npub const C19:u32=19;\npub const C20:u32=20;\npub const C21:u32=21;\npub const C22:u32=22;\npub const C23:u32=23;\npub const C24:u32=24;\npub const C25:u32=25;\npub const C26:u32=26;\npub const C27:u32=27;\npub const C28:u32=28;\npub const C29:u32=29;\npub const C30:u32=30;\npub const C31:u32=31;\npub const C32:u32=32;\npub const C33:u32=33;\npub const C34:u32=34;\npub const C35:u32=35;\npub const C36:u32=36;\npub const C37:u32=37;\npub const C38:u32=38;\npub const C39:u32=39;\npub const C40:u32=40;\npub const C41:u32=41;\npub const C42:u32=42;\npub const C43:u32=43;\npub const C44:u32=44;\npub const C45:u32=45;\npub const C46:u32=46;\npub const C47:u32=47;\npub const C48:u32=48;\npub const C49:u32=49;\npub const C50:u32=50;\npub const C51:u32=51;\npub const C52:u32=52;\npub const C53:u32=53;\npub const C54:u32=54;\npub const C55:u32=55;\npub const C56:u32=56;\npub const C57:u32=57;\npub const C58:u32=58;\npub const C59:u32=59;\npub const C60:u32=60;\npub const C61:u32=61;\npub const C62:u32=62;\npub const C63:u32=63;\npub const C64:u32=64;\npub const C65:u32=65;\npub const C66:u32=66;\npub const C67:u32=67;\npub const C68:u32=68;\npub const C69:u32=69;\npub const C70:u32=70;\npub const C71:u32=71;\npub const C72:u32=72;\npub const C73:u32=73;\npub const C74:u32=74;\npub const C75:u32=75;\npub const C76:u32=76;\npub const C77:u32=77;\npub const C78:u32=78;\npub const C79:u32=79;\npub const C80:u32=80;\npub const C81:u32=81;\npub const C82:u32=82;\npub const C83:u32=83;\npub const C84:u32=84;\npub const C85:u32=85;\npub const C86:u32=86;\npub const C87:u32=87;\npub const C88:u32=88;\npub const C89:u32=89;\npub const C90:u32=90;\npub const C91:u32=91;\npub const C92:u32=92;\npub const C93:u32=93;\npub const C94:u32=94;\npub const C95:u32=95;\npub const C96:u32=96;\npub const C97:u32=97;\npub const C98:u32=98;\npub const C99:u32=99;\npub const C100:u32=100;\npub const C101:u32=101;\npub const C102:u32=102;\npub const C103:u32=103;\npub const C104:u32=104;\npub const C105:u32=105;\npub const C106:u32=106;\npub const C107:u32=107;\npub const C108:u32=108;\npub const C109:u32=109;\npub const C110:u32=110;\npub const C111:u32=111;\npub const C112:u32=112;\npub const C113:u32=113;\npub const C114:u32=114;\npub const C115:u32=115;\npub const C116:u32=116;\npub const C117:u32=117;\npub const C118:u32=118;\npub const C119:u32=119;\npub const C120:u32=120;\npub const C121:u32=121;\npub const C122:u32=122;\npub const C123:u32=123;\npub const C124:u32=124;\npub const C125:u32=125;\npub const C126:u32=126;\npub const C127:u32=127;\npub const C128:u32=128;\npub const C129:u32=129;\npub const C130:u32=130;\npub const C131:u32=131;\npub const C132:u32=132;\npub const C133:u32=133;\npub const C134:u32=134;\npub const C135:u32=135;\npub const C136:u32=136;\npub const C137:u32=137;\npub const C138:u32=138;\npub const C139:u32=139;\npub const C140:u32=140;\npub const C141:u32=141;\npub const C142:u32=142;\npub const C143:u32=143;\npub const C144:u32=144;\npub const C145:u32=145;\npub const C146:u32=146;\npub const C147:u32=147;\npub const C148:u32=148;\npub const C149:u32=149;\npub const C150:u32=150;\npub const C151:u32=151;\npub const C152:u32=152;\npub const C153:u32=153;\npub const C154:u32=154;\npub const C155:u32=155;\npub const C156:u32=156;\npub const C157:u32=157;\npub const C158:u32=158;\npub const C159:u32=159;\npub const C160:u32=160;\npub const C161:u32=161;\npub const C162:u32=162;\npub const C163:u32=163;\npub const C164:u32=164;\npub const C165:u32=165;\npub const C166:u32=166;\npub const C167:u32=167;\npub const C168:u32=168;\npub const C169:u32=169;\npub const C170:u32=170;\npub const C171:u32=171;\npub const C172:u32=172;\npub const C173:u32=173;\npub const C174:u32=174;\npub const C175:u32=175;\npub const C176:u32=176;\npub const C177:u32=177;\npub const C178:u32=178;\npub const C179:u32=179;\npub const C180:u32=180;\npub const C181:u32=181;\npub const C182:u32=182;\npub const C183:u32=183;\npub const C184:u32=184;\npub const C185:u32=185;\npub const C186:u32=186;\npub const C187:u32=187;\npub const C188:u32=188;\npub const C189:u32=189;\npub const C190:u32=190;\npub const C191:u32=191;\npub const C192:u32=192;\npub const C193:u32=193;\npub const C194:u32=194;\npub const C195:u32=195;\npub const C196:u32=196;\npub const C197:u32=197;\npub const C198:u32=198;\npub const C199:u32=199;\npub const C200:u32=200;",
+      "tables.rs": "pub const X:u32=1;"
+    },
+    "result": {
+      "violations": {
+        "cycles": [],
+        "layers": [],
+        "unruled": [],
+        "crap": [],
+        "size": [
+          "core.rs: 201 code lines > 200 (core)"
+        ],
+        "forbid": []
+      },
+      "info": {
+        "modules": 3,
+        "edges": 0,
+        "modules_without_rule": [],
+        "crap": {
+          "functions": 1,
+          "top": [
+            "CRAP 2.0 CC 1 cov 1.0 probe core.rs:1"
+          ]
+        },
+        "code_lines": {
+          "core.rs": 201,
+          "lib.rs": 1,
+          "tables.rs": 1
+        },
+        "largest_files": [
+          "201 core.rs",
+          "1 lib.rs",
+          "1 tables.rs"
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,15 @@
+[package]
+name = "soneflow-py"
+version = "0.1.0"
+edition = "2021"
+description = "Python bindings for the soneflow crate (ISO 532-1:2017 Zwicker loudness)"
+license = "Apache-2.0"
+
+[lib]
+name = "soneflow"
+crate-type = ["cdylib"]
+
+[dependencies]
+soneflow_core = { package = "soneflow", path = "../soneflow" }
+pyo3 = { version = "0.23", features = ["abi3-py39", "extension-module"] }
+numpy = "0.23"

@@ -1,0 +1,119 @@
+/* C smoke test for the committed include/soneflow.h (spec §9).
+ * Compiled by CI with gcc (ubuntu) and MSVC cl (windows) against the cdylib.
+ * 注意:C 連結不檢查簽名——header 與 Rust 的同步由 CI 的 cbindgen 再生
+ * 比對步驟把關;本檔案負責呼叫慣例與行為煙霧測試。 */
+#include <math.h>
+#include <stdint.h>
+#include <stdio.h>
+
+#include "soneflow.h"
+
+#define LEN 48000
+#define FRAMES 500 /* ceil(ceil(48000/24)/4) */
+
+static double signal[LEN];
+static double out_n[FRAMES];
+static double out_spec[240 * FRAMES];
+static double out_bark[240];
+static double out_time[FRAMES];
+static SnfStreamFrame stream_out[8];
+
+int main(void) {
+    size_t frames;
+    int32_t code;
+    size_t i;
+
+    for (i = 0; i < LEN; i++) {
+        /* 與 Rust 測試同款整數演算訊號,~54 dB SPL,無錯誤路徑 */
+        signal[i] = (double)(i % 480) / 480.0 * 0.02 - 0.01;
+    }
+
+    frames = snf_zwtv_out_frames(LEN);
+    if (frames != FRAMES) {
+        fprintf(stderr, "frames: got %zu want %d\n", frames, FRAMES);
+        return 1;
+    }
+
+    code = snf_loudness_zwtv(signal, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
+                                out_bark, out_time);
+    if (code != 0) {
+        fprintf(stderr, "zwtv: code %d\n", (int)code);
+        return 1;
+    }
+    for (i = 0; i < FRAMES; i++) {
+        if (!isfinite(out_n[i]) || out_n[i] < 0.0) {
+            fprintf(stderr, "zwtv: out_n[%zu] = %f\n", i, out_n[i]);
+            return 1;
+        }
+    }
+    if (out_bark[0] < 0.09 || out_bark[0] > 0.11 || out_bark[239] < 23.9 ||
+        out_bark[239] > 24.1) {
+        fprintf(stderr, "bark axis: [%f, %f]\n", out_bark[0], out_bark[239]);
+        return 1;
+    }
+
+    code = snf_loudness_zwst(signal, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
+                                out_bark);
+    if (code != 0) {
+        fprintf(stderr, "zwst: code %d\n", (int)code);
+        return 1;
+    }
+    if (!isfinite(out_n[0]) || out_n[0] <= 0.0) {
+        fprintf(stderr, "zwst: n = %f\n", out_n[0]);
+        return 1;
+    }
+
+    {
+        SnfStream *stream = snf_stream_new(SNF_FIELD_FREE);
+        size_t offset = 0;
+        size_t total_written = 0;
+        size_t printed = 0;
+        if (snf_stream_max_frames(480) > 8) {
+            fprintf(stderr, "stream_max_frames(480) exceeds static capacity\n");
+            return 1;
+        }
+        if (stream == NULL) {
+            fprintf(stderr, "stream_new returned NULL\n");
+            return 1;
+        }
+        while (offset < LEN) {
+            size_t chunk_len = LEN - offset < 480 ? LEN - offset : 480;
+            size_t written = 0;
+            code = snf_stream_push(stream, signal + offset, chunk_len, stream_out, 8,
+                                      &written);
+            if (code != SNF_OK) {
+                fprintf(stderr, "stream_push: code %d\n", (int)code);
+                snf_stream_free(stream);
+                return 1;
+            }
+            for (i = 0; i < written && printed < 3; i++, printed++) {
+                printf("stream[%zu]: t=%llu n=%f phon=%f flags=%u\n", printed,
+                       (unsigned long long)stream_out[i].t_frame_index, stream_out[i].n,
+                       stream_out[i].n_phon, (unsigned)stream_out[i].flags);
+            }
+            total_written += written;
+            offset += chunk_len;
+        }
+        {
+            size_t written = 0;
+            code = snf_stream_flush(stream, stream_out, 8, &written);
+            total_written += written;
+        }
+        snf_stream_free(stream);
+        if (code != SNF_OK || total_written != FRAMES) {
+            fprintf(stderr, "stream: code=%d frames=%zu\n", (int)code, total_written);
+            return 1;
+        }
+    }
+
+    /* 錯誤碼 smoke:fs 不支援 → 3(字面值,不依賴 #define) */
+    code = snf_loudness_zwtv(signal, LEN, 44100.0, 0, out_n, out_spec,
+                                out_bark, out_time);
+    if (code != 3) {
+        fprintf(stderr, "error mapping: got %d want 3\n", (int)code);
+        return 1;
+    }
+
+    printf("smoke ok: frames=%zu zwtv_n0=%f\n", frames, out_n[0]);
+    return 0;
+}

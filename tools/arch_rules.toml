@@ -1,0 +1,128 @@
+# Architecture rules for soneflow/src, checked by tools/arch_check.py.
+# Paths are relative to soneflow/src; module names without the `crate::` prefix.
+# A module may always depend on its own subtree; `allow` lists the rest.
+
+facade = ["crate"]      # lib.rs re-exports the public API
+require_rules = true    # a new top-level module needs a rule here
+# Every module under these needs a rule of its own (no inheriting from the
+# parent's rule), so a new dependency inside core is always a rule change.
+require_exact_rules = ["core"]
+
+# Leaves: data, error and type definitions, CPU detection, phon conversion.
+[[layer]]
+module = "tables"
+allow = []
+
+[[layer]]
+module = "error"
+allow = []
+
+[[layer]]
+module = "types"
+allow = []
+
+[[layer]]
+module = "simd"
+allow = []
+
+[[layer]]
+module = "sone2phon"
+allow = []
+
+# Third-octave filter coefficients are stored as dsp::sos sections.
+[[layer]]
+module = "tables_noct"
+allow = ["dsp::sos"]
+
+[[layer]]
+module = "dsp"
+allow = ["tables_noct"]
+
+# Core (R7a criterion 4'): one rule per module, listing what it actually uses.
+# Implied: the two stages (calc_slopes, main_loudness) do not depend on each
+# other; c_constants and low_freq are leaves; a child never uses its parent
+# (the parent uses its children, so that would also be a cycle).
+[[layer]]
+module = "core"                         # stage-level contract; mod.rs uses none
+allow = ["tables", "error", "types"]
+
+[[layer]]
+module = "core::bark_axis"
+allow = []
+
+[[layer]]
+module = "core::calc_slopes"
+allow = ["tables"]
+
+[[layer]]
+module = "core::calc_slopes::checked"
+allow = ["core::calc_slopes::product", "numeric_guard"]
+
+[[layer]]
+module = "numeric_guard"
+allow = []
+
+[[layer]]
+module = "batch_guard"
+allow = ["numeric_guard", "error"]
+
+[[layer]]
+module = "core::calc_slopes::model"
+allow = ["core::calc_slopes::positions"]
+
+[[layer]]
+module = "core::calc_slopes::positions"
+allow = []
+
+[[layer]]
+module = "core::calc_slopes::product"
+allow = ["core::calc_slopes::model", "core::calc_slopes::positions", "tables"]
+
+[[layer]]
+module = "core::calc_slopes::walk"
+allow = ["core::calc_slopes::model", "core::calc_slopes::positions"]
+
+[[layer]]
+module = "core::main_loudness"          # mod.rs assembles; children in own subtree
+allow = ["error", "types"]
+
+[[layer]]
+module = "core::main_loudness::c_constants"
+allow = ["tables"]
+
+[[layer]]
+module = "core::main_loudness::low_freq"
+allow = ["tables"]
+
+[[layer]]
+module = "core::main_loudness::core_band"
+allow = ["core::main_loudness::c_constants", "tables", "types"]
+
+# Pipelines: stationary and time-varying do not depend on each other.
+[[layer]]
+module = "zwst"
+allow = ["core", "dsp", "tables", "tables_noct", "error", "types", "batch_guard", "numeric_guard"]
+
+[[layer]]
+module = "zwtv"
+allow = ["core", "dsp", "simd", "sone2phon", "tables", "error", "types", "batch_guard", "numeric_guard"]
+
+[crap]
+max = 30.0              # cargo-crap default threshold, whole crate
+
+[[crap.scope]]
+path = "core"
+cc_max = 8
+
+[[size]]
+path = "core"
+code_lines_max = 200
+
+# Token rules, after removing comments and string literals (any whitespace).
+[[forbid]]
+path = "core"
+lint = "clippy::too_many_arguments"     # allow / expect / cfg_attr, lint lists
+
+[[forbid]]
+path = "core"
+call = "mul_add"                        # x.mul_add(..), f64::mul_add(..)

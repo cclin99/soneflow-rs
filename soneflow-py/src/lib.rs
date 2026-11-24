@@ -1,0 +1,423 @@
+//! Python bindings for the `soneflow` crate. The input is copied to an owned buffer
+//! before the GIL is released (soundness: other Python threads may mutate
+//! the ndarray mid-computation); outputs are moved into numpy arrays
+//! without an extra copy.
+
+use numpy::ndarray::Array2;
+use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray1};
+use pyo3::exceptions::{
+    PyNotImplementedError, PyOverflowError, PyRuntimeError, PyTypeError, PyValueError,
+};
+use pyo3::prelude::*;
+use pyo3::types::{PyDict, PyList};
+
+type ZwtvOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray2<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+);
+type ZwstOutput<'py> = (f64, Bound<'py, PyArray1<f64>>, Bound<'py, PyArray1<f64>>);
+type StreamOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<u64>>,
+    Bound<'py, PyArray1<u32>>,
+);
+
+type QualityOutput<'py> = (
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<f64>>,
+    Bound<'py, PyArray1<u64>>,
+    Bound<'py, PyArray1<u32>>,
+    Bound<'py, PyAny>,
+);
+
+fn usage_error(error: soneflow_core::StreamUsageError) -> PyErr {
+    let message = format!("{error:?}");
+    match error.code() {
+        -4 | -5 => PyValueError::new_err(message),
+        -7 | -8 => PyOverflowError::new_err(message),
+        -12 => PyNotImplementedError::new_err(message),
+        _ => PyRuntimeError::new_err(message),
+    }
+}
+
+fn batch_error(error: soneflow_core::SoneflowError) -> PyErr {
+    if error.code() == 5 {
+        PyRuntimeError::new_err(error.to_string())
+    } else {
+        PyValueError::new_err(error.to_string())
+    }
+}
+
+fn quality_array<'py>(
+    py: Python<'py>,
+    quality: &[soneflow_core::FrameQualityV1],
+) -> PyResult<Bound<'py, PyAny>> {
+    let dtype = [
+        ("version", "u4"),
+        ("quality_bits", "u4"),
+        ("t_frame_index", "u8"),
+        ("session_id", "u8"),
+        ("recovery_generation", "u8"),
+        ("first_affected_internal", "u8"),
+        ("through_internal", "u8"),
+        ("stage_mask", "u4"),
+        ("reason_mask", "u4"),
+    ];
+    let rows = PyList::empty(py);
+    for q in quality {
+        rows.append((
+            q.version,
+            q.quality_bits,
+            q.t_frame_index,
+            q.session_id,
+            q.recovery_generation,
+            q.first_affected_internal,
+            q.through_internal,
+            q.stage_mask,
+            q.reason_mask,
+        ))?;
+    }
+    let kwargs = PyDict::new(py);
+    kwargs.set_item("dtype", PyList::new(py, dtype)?)?;
+    py.import("numpy")?
+        .getattr("array")?
+        .call((rows,), Some(&kwargs))
+}
+
+fn snapshot_dict(
+    py: Python<'_>,
+    s: soneflow_core::DiagnosticSnapshotV1,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = PyDict::new(py);
+    for (name, value) in [
+        ("version", s.version),
+        ("struct_size", s.struct_size),
+        ("status_bits", s.status_bits),
+        ("stage_mask", s.stage_mask),
+        ("reason_mask", s.reason_mask),
+        ("first_stage", s.first_stage),
+        ("first_band", s.first_band),
+        ("latest_stage", s.latest_stage),
+        ("latest_band", s.latest_band),
+        ("reserved", s.reserved),
+    ] {
+        result.set_item(name, value)?;
+    }
+    for (name, value) in [
+        ("session_id", s.session_id),
+        ("recovery_generation", s.recovery_generation),
+        ("sequence", s.sequence),
+        ("incident_count", s.incident_count),
+        ("first_detection_sample", s.first_detection_sample),
+        ("last_detection_sample", s.last_detection_sample),
+        ("first_affected_internal", s.first_affected_internal),
+        ("covered_through_internal", s.covered_through_internal),
+    ] {
+        result.set_item(name, value)?;
+    }
+    Ok(result)
+}
+
+fn frames_to_arrays<'py>(
+    py: Python<'py>,
+    frames: &[soneflow_core::StreamFrame],
+) -> StreamOutput<'py> {
+    let n: Vec<f64> = frames.iter().map(|f| f.n).collect();
+    let n_phon: Vec<f64> = frames.iter().map(|f| f.n_phon).collect();
+    let t = frames.iter().map(|f| f.t_frame_index).collect::<Vec<_>>();
+    let flags = frames.iter().map(|f| f.flags.bits()).collect::<Vec<_>>();
+    (
+        n.into_pyarray(py),
+        n_phon.into_pyarray(py),
+        t.into_pyarray(py),
+        flags.into_pyarray(py),
+    )
+}
+
+fn parse_field(s: &str) -> PyResult<soneflow_core::FieldType> {
+    s.parse().map_err(|_| {
+        PyValueError::new_err(format!(
+            "field_type must be \"free\" or \"diffuse\", got {s:?}"
+        ))
+    })
+}
+
+fn parse_nl_init(s: &str) -> PyResult<soneflow_core::NlInit> {
+    match s {
+        "zero" => Ok(soneflow_core::NlInit::Zero),
+        "mosqito_tail" => Ok(soneflow_core::NlInit::MosqitoTail),
+        other => Err(PyValueError::new_err(format!(
+            "nl_init must be \"zero\" or \"mosqito_tail\", got {other:?}"
+        ))),
+    }
+}
+
+fn contiguous<'py, 'a>(signal: &'a PyReadonlyArray1<'py, f64>) -> PyResult<&'a [f64]> {
+    signal
+        .as_slice()
+        .map_err(|_| PyTypeError::new_err("signal must be a C-contiguous 1-D float64 ndarray"))
+}
+
+/// Time-varying loudness (ISO 532-1 zwtv).
+/// Returns (n[frames], n_specific[240, frames], bark_axis[240], time_axis[frames]).
+///
+/// `nl_init` selects the initial state of the nonlinear temporal decay:
+/// `"zero"` (default, ISO 532-1 Annex A: the result for a signal prefix does
+/// not depend on later samples) or `"mosqito_tail"` (MoSQITo 1.2.1 behaviour,
+/// seeded from the last frame; for parity comparisons only).
+#[pyfunction]
+#[pyo3(signature = (signal, fs, field_type = "free", nl_init = "zero"))]
+fn loudness_zwtv<'py>(
+    py: Python<'py>,
+    signal: PyReadonlyArray1<'py, f64>,
+    fs: f64,
+    field_type: &str,
+    nl_init: &str,
+) -> PyResult<ZwtvOutput<'py>> {
+    let field = parse_field(field_type)?;
+    let init = parse_nl_init(nl_init)?;
+    let owned = contiguous(&signal)?.to_vec();
+    let r = py
+        .allow_threads(move || {
+            soneflow_core::ZwtvProcessor::new().process_with(&owned, fs, field, init)
+        })
+        .map_err(batch_error)?;
+    let frames = r.n.len();
+    let spec = Array2::from_shape_vec((240, frames), r.n_specific)
+        .expect("n_specific is 240*frames by construction")
+        .into_pyarray(py);
+    Ok((
+        r.n.into_pyarray(py),
+        spec,
+        r.bark_axis.into_pyarray(py),
+        r.time_axis.into_pyarray(py),
+    ))
+}
+
+/// Stationary loudness (ISO 532-1 zwst).
+/// Returns (n, n_specific[240], bark_axis[240]).
+#[pyfunction]
+#[pyo3(signature = (signal, fs, field_type = "free"))]
+fn loudness_zwst<'py>(
+    py: Python<'py>,
+    signal: PyReadonlyArray1<'py, f64>,
+    fs: f64,
+    field_type: &str,
+) -> PyResult<ZwstOutput<'py>> {
+    let field = parse_field(field_type)?;
+    let owned = contiguous(&signal)?.to_vec();
+    let r = py
+        .allow_threads(move || soneflow_core::loudness_zwst(&owned, fs, field))
+        .map_err(batch_error)?;
+    Ok((
+        r.n,
+        r.n_specific.into_pyarray(py),
+        r.bark_axis.into_pyarray(py),
+    ))
+}
+
+/// Convert loudness in sone to loudness level in phon using the frozen R5 formula.
+#[pyfunction]
+fn sone2phon(n: f64) -> PyResult<f64> {
+    if !n.is_finite() || n < 0.0 {
+        return Err(PyValueError::new_err("sone must be non-negative"));
+    }
+    Ok(soneflow_core::sone2phon(n))
+}
+
+/// Streaming time-varying loudness (ISO 532-1 zwtv), 48 kHz, 24-sample latency.
+///
+/// Single-threaded use only (the handle has no internal lock). Unlike the batch
+/// API, non-finite samples do not raise: they are zeroed and reported via the
+/// NONFINITE_INPUT flag on the frame that consumes them, or via `residual_flags`
+/// after `flush()` if no frame follows. Before `flush()`, `residual_flags` is
+/// provisional (pending flags travel with the next output frame). `push()` after
+/// `flush()` raises RuntimeError; call `reset()` to reuse the stream. Each call
+/// allocates fresh output arrays (the zero-allocation guarantee is a Rust-core
+/// hot-path contract, not a binding-level one).
+#[pyclass(name = "ZwtvStream", unsendable)]
+struct PyZwtvStream {
+    // Boxed on purpose: the core stream is align(32) (inline AVX2 __m256d
+    // constants), but Python object allocation only guarantees 16-byte
+    // alignment. Storing it inline in the pyclass is UB and faults on
+    // aligned SIMD loads whenever the object lands on a 16-mod-32 address.
+    inner: Box<soneflow_core::ZwtvStream>,
+    scratch: Vec<soneflow_core::StreamFrame>,
+    quality_scratch: Vec<soneflow_core::FrameQualityV1>,
+    flushed: bool,
+}
+
+#[pymethods]
+impl PyZwtvStream {
+    #[new]
+    #[pyo3(signature = (field_type = "free"))]
+    fn new(field_type: &str) -> PyResult<Self> {
+        Ok(Self {
+            inner: Box::new(soneflow_core::ZwtvStream::new(parse_field(field_type)?)),
+            scratch: Vec::new(),
+            quality_scratch: Vec::new(),
+            flushed: false,
+        })
+    }
+
+    /// Push a chunk; returns (n, n_phon, t_frame_index, flags) for completed frames.
+    fn push<'py>(
+        &mut self,
+        py: Python<'py>,
+        chunk: PyReadonlyArray1<'py, f64>,
+    ) -> PyResult<StreamOutput<'py>> {
+        if self.flushed {
+            return Err(PyRuntimeError::new_err(
+                "stream is flushed; call reset() before pushing again",
+            ));
+        }
+        let owned = contiguous(&chunk)?.to_vec();
+        let cap = soneflow_core::ZwtvStream::max_frames_for_chunk(owned.len());
+        self.scratch.resize(cap.max(1), Default::default());
+        let (inner, scratch) = (&mut self.inner, &mut self.scratch[..]);
+        let written = py.allow_threads(move || inner.push(&owned, scratch));
+        Ok(frames_to_arrays(py, &self.scratch[..written]))
+    }
+
+    /// Drain the held tail frame. Idempotent: repeated flushes return empty arrays.
+    fn flush<'py>(&mut self, py: Python<'py>) -> StreamOutput<'py> {
+        self.scratch.resize(1, Default::default());
+        let (inner, scratch) = (&mut self.inner, &mut self.scratch[..]);
+        let written = py.allow_threads(move || inner.flush(scratch));
+        self.flushed = true;
+        frames_to_arrays(py, &self.scratch[..written])
+    }
+
+    /// Reset to a freshly-constructed stream (bitwise-equivalent output).
+    fn reset(&mut self) -> PyResult<()> {
+        self.inner
+            .reset_with_diagnostics()
+            .map_err(|error| PyRuntimeError::new_err(format!("{error:?}")))?;
+        self.flushed = false;
+        Ok(())
+    }
+
+    /// Recommended measurement API: returns the legacy four arrays plus a
+    /// structured quality array. Fault fallback/recovery values are not valid
+    /// measurements; input, clamp and warmup flags must also be considered.
+    fn push_with_quality<'py>(
+        &mut self,
+        py: Python<'py>,
+        chunk: PyReadonlyArray1<'py, f64>,
+    ) -> PyResult<QualityOutput<'py>> {
+        let owned = contiguous(&chunk)?.to_vec();
+        if self.flushed {
+            return Err(usage_error(soneflow_core::StreamUsageError::AfterFlush));
+        }
+        let cap = soneflow_core::ZwtvStream::max_frames_for_chunk(owned.len()).max(1);
+        self.scratch.resize(cap, Default::default());
+        self.quality_scratch.resize(cap, Default::default());
+        let (inner, out, quality) = (
+            &mut self.inner,
+            &mut self.scratch[..],
+            &mut self.quality_scratch[..],
+        );
+        let written = py
+            .allow_threads(move || inner.push_with_quality(&owned, out, quality))
+            .map_err(usage_error)?;
+        let (n, phon, time, flags) = frames_to_arrays(py, &self.scratch[..written]);
+        Ok((
+            n,
+            phon,
+            time,
+            flags,
+            quality_array(py, &self.quality_scratch[..written])?,
+        ))
+    }
+
+    /// Checked tail processing; repeated calls return five empty arrays.
+    fn flush_with_quality<'py>(&mut self, py: Python<'py>) -> PyResult<QualityOutput<'py>> {
+        self.scratch.resize(1, Default::default());
+        self.quality_scratch.resize(1, Default::default());
+        let (inner, out, quality) = (
+            &mut self.inner,
+            &mut self.scratch[..],
+            &mut self.quality_scratch[..],
+        );
+        let written = py
+            .allow_threads(move || inner.flush_with_quality(out, quality))
+            .map_err(usage_error)?;
+        self.flushed = true;
+        let (n, phon, time, flags) = frames_to_arrays(py, &self.scratch[..written]);
+        Ok((
+            n,
+            phon,
+            time,
+            flags,
+            quality_array(py, &self.quality_scratch[..written])?,
+        ))
+    }
+
+    /// Non-consuming summary. Legacy push/flush callers must query after each
+    /// processing call and after flush to assess numerical measurement validity.
+    #[getter]
+    fn diagnostics<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+        snapshot_dict(py, self.inner.diagnostics())
+    }
+
+    fn ack_diagnostics(&mut self, sequence: u64) -> PyResult<()> {
+        self.inner.ack_diagnostics(sequence).map_err(usage_error)
+    }
+
+    /// Preserve the previous summary while starting a new session atomically.
+    fn reset_with_diagnostics<'py>(&mut self, py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+        // Allocate before resetting: Python conversion failure cannot discard
+        // a session. The unsendable object remains exclusively borrowed.
+        let previous = snapshot_dict(py, self.inner.diagnostics())?;
+        self.inner.reset_with_diagnostics().map_err(usage_error)?;
+        self.flushed = false;
+        Ok(previous)
+    }
+
+    /// Undelivered flag bits (provisional before `flush()`).
+    #[getter]
+    fn residual_flags(&self) -> u32 {
+        self.inner.residual_flags().bits()
+    }
+
+    #[staticmethod]
+    fn latency_samples() -> usize {
+        soneflow_core::ZwtvStream::latency_samples()
+    }
+
+    #[staticmethod]
+    fn max_frames_for_chunk(chunk_len: usize) -> usize {
+        soneflow_core::ZwtvStream::max_frames_for_chunk(chunk_len)
+    }
+}
+
+#[pymodule]
+fn soneflow(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(loudness_zwtv, m)?)?;
+    m.add_function(wrap_pyfunction!(loudness_zwst, m)?)?;
+    m.add_function(wrap_pyfunction!(sone2phon, m)?)?;
+    m.add_class::<PyZwtvStream>()?;
+    m.add("N_WARMUP_FRAMES", soneflow_core::N_WARMUP_FRAMES)?;
+    m.add(
+        "FLAG_CLAMPED_120DB",
+        soneflow_core::FrameFlags::CLAMPED_120DB.bits(),
+    )?;
+    m.add(
+        "FLAG_NONFINITE_INPUT",
+        soneflow_core::FrameFlags::NONFINITE_INPUT.bits(),
+    )?;
+    m.add("FLAG_WARMUP", soneflow_core::FrameFlags::WARMUP.bits())?;
+    m.add("QUALITY_FAULT_FALLBACK", 1u32)?;
+    m.add("QUALITY_RECOVERING", 2u32)?;
+    m.add("DIAGNOSTIC_HAS_INCIDENT", 1u32)?;
+    m.add("DIAGNOSTIC_ACTIVE_RECOVERY", 2u32)?;
+    m.add("DIAGNOSTIC_TAIL_PENDING", 4u32)?;
+    m.add("DIAGNOSTIC_COALESCED", 8u32)?;
+    m.add("DIAGNOSTIC_COUNTER_SATURATED", 16u32)?;
+    m.add("DIAGNOSTIC_CREATION_ENV_INVALID", 32u32)?;
+    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
+    Ok(())
+}

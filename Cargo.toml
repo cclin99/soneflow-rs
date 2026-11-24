@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = ["soneflow", "soneflow-ffi", "soneflow-py"]
+# soneflow-py is a cdylib-only pyo3 extension module: `cargo test` cannot link
+# it (no Python symbols at test-link time); it is tested via maturin + pytest.
+default-members = ["soneflow", "soneflow-ffi"]
