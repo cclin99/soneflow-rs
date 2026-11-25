@@ -2,6 +2,11 @@
 //! decaying filter states never hit the subnormal slow path on the audio
 //! thread. The previous MXCSR is restored on drop.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 #[cfg(target_arch = "x86_64")]
 pub(super) struct DenormalGuard {
     saved: u32,

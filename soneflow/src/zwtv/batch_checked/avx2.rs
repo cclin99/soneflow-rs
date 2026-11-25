@@ -1,3 +1,8 @@
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use crate::numeric_guard::DomainFault;
 use crate::zwtv::grid::DEC_FACTOR;
 use crate::zwtv::nonlinear_decay::{NlConsts, NlGroupState, NlInit};

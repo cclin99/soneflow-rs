@@ -37,6 +37,8 @@
 //! The public signal APIs currently accept only 48 kHz input. Signals shorter
 //! than 0.1 s are rejected, and ISO 532-1 low-frequency applicability checks
 //! are surfaced as `SoneflowError`.
+#![warn(clippy::undocumented_unsafe_blocks)]
+
 mod batch_guard;
 pub mod core;
 pub mod dsp;

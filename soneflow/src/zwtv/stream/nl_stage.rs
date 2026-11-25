@@ -1,6 +1,11 @@
 //! Frame-by-frame nonlinear decay of the 21 core bands, scalar or AVX2
 //! (five f64x4 groups plus a scalar tail band). Always starts from zero state.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use crate::zwtv::nonlinear_decay::{nl_coeffs, NlBandState};
 #[cfg(target_arch = "x86_64")]
 use crate::zwtv::nonlinear_decay::{NlConsts, NlGroupState};

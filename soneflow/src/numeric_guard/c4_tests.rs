@@ -1,3 +1,8 @@
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use super::*;
 use std::arch::x86_64::*;
 

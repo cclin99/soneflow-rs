@@ -5,6 +5,11 @@
 //! with immutable bit-copied creation coefficients, fixed 20-entry emission buffer for
 //! up to 480-sample speculative blocks, and single `target_feature(avx2,fma)` AVX2 block loop.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use crate::numeric_guard::DomainFault;
 use crate::zwtv::grid::DEC_FACTOR;
 #[cfg(target_arch = "x86_64")]

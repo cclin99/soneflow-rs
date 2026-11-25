@@ -4,6 +4,11 @@
 //! `params` holds the network constants and the initial-state choice,
 //! `scalar` and `avx2` the two kernels; this module only picks the backend.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 #[cfg(target_arch = "x86_64")]
 mod avx2;
 mod params;

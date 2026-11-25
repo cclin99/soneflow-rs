@@ -1,6 +1,11 @@
 //! AVX2+FMA nonlinear-decay kernel: 21 bands as five f64x4 groups plus a
 //! scalar tail band.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use super::params::{nl_coeffs, NlInit, NL_EPS, NL_SUBSTEPS};
 use super::scalar::nl_loudness_band_scalar;
 use crate::zwtv::par::{chunks_dispatch, ParMode};

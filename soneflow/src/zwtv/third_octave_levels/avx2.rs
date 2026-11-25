@@ -1,5 +1,10 @@
 //! AVX2+FMA filter-bank kernel: 28 bands as 7 independent f64x4 groups.
 
+#![expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
+
 use super::coeffs::{feedback_coeffs, intensity_to_db, smoothing_coeff};
 use crate::tables::{N_TOB_BANDS, TOB_GAIN};
 use crate::zwtv::grid::DEC_FACTOR;

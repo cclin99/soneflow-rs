@@ -1115,6 +1115,10 @@ fn push_checked_range_with_hooks(
 mod containment_tests;
 
 #[cfg(test)]
+#[expect(
+    clippy::undocumented_unsafe_blocks,
+    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+)]
 mod tests {
     use super::*;
 
