@@ -249,7 +249,7 @@ Rust 的時間是 Criterion 中位數。批次吞吐量不等於 callback 延遲
 | 路徑與 fixture | 總響度 | 比響度 |
 |---|---|---|
 | ZWST，4 個合成 fixture（正弦、白雜訊） | 最大 4.7e-4 sone（相對最大 6.2e-5） | 最大 1.5e-4 sone/Bark |
-| ZWTV，3 個合成 fixture（正弦、音調脈衝、60→80 dB 階躍），初始狀態與 MoSQITo 相同（`nl_init="mosqito_tail"`） | 最大 1.8e-4 sone，階躍例外，為 3.9e-3 | 最大 2.2e-2 sone/Bark |
+| ZWTV，3 個合成 fixture（正弦、音調脈衝、60→80 dB 階躍），初始狀態與 MoSQITo 相同（`nl_init="mosqito_tail"`） | 最大 1.7e-4 sone，階躍例外，為 3.9e-3 | 最大 2.2e-2 sone/Bark |
 | ZWTV，3 秒測試訊號，預設零狀態，Python binding | 5.8e-3 sone | 3.2e-2 sone/Bark |
 
 比響度的差異是預期的：斜率在 0.1 Bark 格內結束時，本 crate 寫入主響度，MoSQITo 則延伸斜率。用預設的零初始狀態時，訊號開頭的差異會更大（階躍 fixture 最多 5.6e-2 sone），因為 MoSQITo 用訊號最後一幀當非線性衰減的初值。三個響度表 `ZUP`、`RNS`、`USL` 與 MoSQITo 完全相同（`tools/compare_mosqito.py --check-tables`）。

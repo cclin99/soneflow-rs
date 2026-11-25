@@ -64,7 +64,7 @@ jobs:
   # Architecture gate (layers, cycles, CRAP, file size, forbidden patterns),
   # as in the R7 / R7a / R7b acceptance. Coverage comes from the data-free
   # tests above, so CRAP is computed on the same evidence CI has; measured
-  # locally on that set, the highest CRAP is 7.0 (limit 30).
+  # locally on that set at 0.1.0, the highest CRAP is 25.6 (limit 30).
   arch:
     runs-on: ubuntu-latest
     env:

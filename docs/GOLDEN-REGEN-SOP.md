@@ -8,9 +8,9 @@
 
 Prerequisite: `mosqito-1.2.1.tar.gz` in the repo root (sha256 in the header of `tools/requirements.lock`).
 
-    bash tools/setup_env.sh                                   # 建 .venv(從 requirements.lock 安裝)+ 檢查 data/annexb
-                                                              # (Annex B 檔從你自己取得授權的副本放入)
-    .venv/Scripts/python.exe tools/gen_golden.py              # 重生 data/golden(約 5–15 分鐘)
+    bash tools/setup_env.sh                                   # create .venv from requirements.lock + check data/annexb
+                                                              # (put the Annex B files there from your own licensed copy)
+    .venv/Scripts/python.exe tools/gen_golden.py              # regenerate data/golden (about 5–15 minutes)
     .venv/Scripts/python.exe tools/golden_manifest.py --verify
     cd soneflow && cargo test --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
 

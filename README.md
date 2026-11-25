@@ -249,7 +249,7 @@ The test suite includes checks against ISO 532-1 Annex B. The Annex B test signa
 | Path and fixtures | Total loudness | Specific loudness |
 |---|---|---|
 | ZWST, 4 synthetic fixtures (sines, white noise) | max 4.7e-4 sone (relative max 6.2e-5) | max 1.5e-4 sone/Bark |
-| ZWTV, 3 synthetic fixtures (sine, tone pulse, 60→80 dB step), same initial state as MoSQITo (`nl_init="mosqito_tail"`) | max 1.8e-4 sone, except 3.9e-3 on the step | max 2.2e-2 sone/Bark |
+| ZWTV, 3 synthetic fixtures (sine, tone pulse, 60→80 dB step), same initial state as MoSQITo (`nl_init="mosqito_tail"`) | max 1.7e-4 sone, except 3.9e-3 on the step | max 2.2e-2 sone/Bark |
 | ZWTV, 3 s test signal, default zero state, Python binding | 5.8e-3 sone | 3.2e-2 sone/Bark |
 
 The specific-loudness differences are expected: where a slope ends inside a 0.1 Bark cell, this crate writes the core loudness and MoSQITo extrapolates the slope. With the default zero initial state the first part of a signal differs further (on the step fixture up to 5.6e-2 sone), because MoSQITo seeds the nonlinear decay from the last frame of the signal. The three loudness tables `ZUP`, `RNS` and `USL` are identical to MoSQITo's (`tools/compare_mosqito.py --check-tables`).

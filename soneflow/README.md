@@ -10,7 +10,7 @@ Rust implementation of ISO 532-1:2017 Zwicker loudness for calibrated pressure s
 - Output units: total loudness in sone and specific loudness in sone/Bark
 - SIMD: AVX2+FMA dispatch for the time-varying filter bank and nonlinear decay kernels when supported by the host CPU
 
-The implementation is validated against mosqito-generated golden data and ISO 532-1 Annex B reference checks in the repository tests.
+The repository tests compare the implementation with MoSQITo-generated golden data. The ISO 532-1 Annex B checks run only with your own licensed copy of the Annex B files; the repository does not carry them.
 
 ## Usage
 
@@ -39,10 +39,10 @@ println!("{} time samples", loudness.n.len());
 ## CLI Example
 
 ```powershell
-cargo run --example cli -- "../data/annexb/Test signal 5 (pinknoise 60 dB).wav" --calib 2.8284271247461903
+cargo run --example cli -- path/to/recording.wav --calib 2.8284271247461903
 ```
 
-Expected output is about `10.418 sone` for that WAV/calibration path.
+The example reads a 48 kHz WAV (several channels are averaged), multiplies the full-scale samples by `--calib` (pascals at digital full scale; default 1.0) and prints the stationary loudness `N` in sone.
 
 ## Validation
 

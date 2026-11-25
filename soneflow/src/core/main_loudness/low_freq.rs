@@ -6,15 +6,15 @@ use crate::tables::{DLL, RAP};
 /// Third-octave bands below 300 Hz (25 Hz .. 250 Hz).
 pub(super) const N_LOW_BANDS: usize = 11;
 
-/// ISO 532-1 Annex A DLL row selection: the first
+/// DLL row selection: the first
 /// RAP range whose threshold `RAP[j] - DLL[j][band]` the level does not exceed,
 /// saturating at the last row. The comparison is strict, so a level exactly on
 /// a threshold stays in the lower row.
 ///
 /// MoSQITo 1.2.1 vectorises this loop as `arange(1, 7)` and does not reach the
 /// last row, which leaves a 0 dB correction above the seventh threshold (for
-/// example > 118 dB on the 25 Hz band). This crate follows ISO 532-1 Annex A,
-/// which both projects cite, and reaches the last row.
+/// example > 118 dB on the 25 Hz band). This crate scans every row and reaches
+/// the last one.
 #[inline]
 fn low_freq_dll_row(level: f64, band: usize) -> usize {
     let last = DLL.len() - 1;
@@ -65,7 +65,8 @@ mod tests {
 
     #[test]
     fn low_freq_thresholds_are_strictly_increasing_per_band() {
-        // Annex A's while loop assumes the ranges are ordered; pin the table.
+        // low_freq_dll_row scans rows in order and assumes the thresholds
+        // increase; pin the table.
         for band in 0..11 {
             for row in 1..DLL.len() {
                 assert!(

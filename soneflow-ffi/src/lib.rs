@@ -48,9 +48,9 @@ pub const SNF_ERR_INVALID_FIELD_TYPE: i32 = -3;
 /// An internal invariant was broken. Stream push/flush also use this code to
 /// reject an insufficient out_cap without writing a partial result.
 pub const SNF_ERR_INTERNAL: i32 = -4;
-/// field_type 合法值：自由場。
+/// Valid `field_type` value: free field.
 pub const SNF_FIELD_FREE: i32 = 0;
-/// field_type 合法值：擴散場。
+/// Valid `field_type` value: diffuse field.
 pub const SNF_FIELD_DIFFUSE: i32 = 1;
 pub const SNF_STREAM_FLAG_CLAMPED_120DB: u32 = 1;
 pub const SNF_STREAM_FLAG_NONFINITE_INPUT: u32 = 2;

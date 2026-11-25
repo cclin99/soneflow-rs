@@ -90,12 +90,12 @@
 #define SNF_ERR_INTERNAL -4
 
 /**
- * field_type 合法值：自由場。
+ * Valid `field_type` value: free field.
  */
 #define SNF_FIELD_FREE 0
 
 /**
- * field_type 合法值：擴散場。
+ * Valid `field_type` value: diffuse field.
  */
 #define SNF_FIELD_DIFFUSE 1
 
