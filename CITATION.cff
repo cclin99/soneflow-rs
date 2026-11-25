@@ -5,6 +5,7 @@ type: software
 authors:
   - name: "cclin99"
 version: 0.1.0
+date-released: 2026-11-25
 url: "https://github.com/cclin99/soneflow-rs"
 repository-code: "https://github.com/cclin99/soneflow-rs"
 license: Apache-2.0

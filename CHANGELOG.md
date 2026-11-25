@@ -6,7 +6,7 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
-## 0.1.0 - unreleased
+## 0.1.0 - 2026-11-25
 
 First public release.
 
