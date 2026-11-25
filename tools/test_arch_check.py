@@ -284,12 +284,21 @@ def run_control(control):
         crap = None
         if metrics is not None:
             crap = base / "crap.json"
-            data = [dict(function="probe", file=str(src / "core.rs"), line=1, crap=2.0, cyclomatic=1, coverage=1.0)]
+            # One low probe per CRAP scope of the repository rules (core first),
+            # so a valid control is not rejected for an empty scope.
+            rules = arch_check.tomllib.loads((TOOLS / "arch_rules.toml").read_text(encoding="utf-8"))
+            scopes = [s["path"] for s in rules["crap"].get("scope", [])]
+            assert scopes and scopes[0] == "core", scopes
+            data = [
+                dict(function="probe", file=str(src / f"{scope}.rs"), line=1, crap=2.0, cyclomatic=1, coverage=1.0)
+                for scope in scopes
+            ]
             if metrics == "empty":
                 data = []
             if metrics == "outside":
-                data[0]["file"] = str(base / "elsewhere.rs")
-                data[0]["crap"] = 999.0
+                for i, d in enumerate(data):
+                    d["file"] = str(base / f"elsewhere{i}.rs")
+                    d["crap"] = 999.0
             if metrics == "high":
                 data[0].update(crap=100.0, cyclomatic=9)
             crap.write_text(json.dumps(data), encoding="utf-8")
