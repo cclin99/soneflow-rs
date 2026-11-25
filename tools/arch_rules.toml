@@ -114,9 +114,20 @@ max = 30.0              # cargo-crap default threshold, whole crate
 path = "core"
 cc_max = 8
 
+# zwtv: frozen at the 0.1.0 maxima (nonlinear in batch_checked/avx2.rs,
+# zwtv/batch_checked.rs) so it cannot get worse; tightened when the 0.2.0
+# refactor lands. CC here is cargo-crap's value.
+[[crap.scope]]
+path = "zwtv"
+cc_max = 25
+
 [[size]]
 path = "core"
 code_lines_max = 200
+
+[[size]]
+path = "zwtv"
+code_lines_max = 810
 
 # Token rules, after removing comments and string literals (any whitespace).
 [[forbid]]
