@@ -1,0 +1,1 @@
+{"total_count":1,"workflow_runs":[{"conclusion":"success","created_at":"2026-11-24T15:17:21Z","event":"push","head_sha":"fe786a0e40cff532968204da70c7187ae2d5bc99","html_url":"https://github.com/cclin99/soneflow-rs/actions/runs/45423756240","id":45423756240,"name":"CI","run_attempt":1,"status":"completed","updated_at":"2026-11-24T15:20:55Z"}]}

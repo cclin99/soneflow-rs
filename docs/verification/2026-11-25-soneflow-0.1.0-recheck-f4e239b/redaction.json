@@ -1,0 +1,14 @@
+[
+  {
+    "mode": "write",
+    "exit": 0,
+    "stdout": "<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\commands.jsonl: 1 replaced\n<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\logs\\core-lib.txt: 1 replaced\n<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\logs\\doctest.txt: 1 replaced\n<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\logs\\ffi.txt: 2 replaced\n<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\logs\\integrations.txt: 1 replaced\n<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\logs\\validator.txt: 1 replaced\n6 file(s) changed\n",
+    "stderr": ""
+  },
+  {
+    "mode": "check",
+    "exit": 0,
+    "stdout": "clean\n",
+    "stderr": ""
+  }
+]

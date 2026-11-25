@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "soneflow",
+    "--test",
+    "hash_gate"
+  ],
+  "REQUIRE_AVX2": "1",
+  "HASH_GATE_DUMP_ONLY": "0",
+  "exit": 0
+}

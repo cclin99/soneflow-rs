@@ -1,0 +1,6 @@
+setup exit: 1
+data exists after setup: 
+False
+local MoSQITo tarball existed during setup: false
+Annex B missing guidance reached: false
+Reason: setup required untracked local third-party tarball first

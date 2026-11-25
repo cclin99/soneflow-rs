@@ -1,0 +1,18 @@
+COMMAND: cargo test --offline --release --test mosqito_stats_synthetic -- --nocapture
+     Locking 13 packages to highest compatible versions
+   Compiling crossbeam-utils v0.8.23
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling crossbeam-epoch v0.9.21
+   Compiling crossbeam-deque v0.8.8
+   Compiling rayon-core v1.13.0
+   Compiling thiserror v1.0.69
+   Compiling either v1.19.0
+   Compiling syn v2.0.119
+   Compiling rayon v1.12.0
+   Compiling thiserror-impl v1.0.69
+   Compiling soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow)
+   Compiling iso532-private-tests v0.0.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\private\tests-crate)
+    Finished `release` profile [optimized] target(s) in 1m 43s
+     Running tests\mosqito_stats_synthetic.rs (target\release\deps\mosqito_stats_synthetic-a253315a33c96578.exe)

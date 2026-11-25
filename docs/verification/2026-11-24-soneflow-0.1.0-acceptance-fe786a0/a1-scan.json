@@ -1,0 +1,495 @@
+{
+  "tracked_files": 159,
+  "hits": [
+    {
+      "file": ".github/workflows/ci.yml",
+      "pattern": "official_mentions",
+      "lines": [
+        40,
+        42,
+        43,
+        44,
+        62,
+        96
+      ]
+    },
+    {
+      "file": "CHANGELOG.md",
+      "pattern": "official_mentions",
+      "lines": [
+        45,
+        57
+      ]
+    },
+    {
+      "file": "CODE_OF_CONDUCT.md",
+      "pattern": "official_mentions",
+      "lines": [
+        31
+      ]
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "pattern": "official_mentions",
+      "lines": [
+        14,
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "file": "README.md",
+      "pattern": "official_mentions",
+      "lines": [
+        243,
+        245,
+        278
+      ]
+    },
+    {
+      "file": "README.zh-TW.md",
+      "pattern": "official_mentions",
+      "lines": [
+        243,
+        245,
+        278,
+        291
+      ]
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.md",
+      "pattern": "official_mentions",
+      "lines": [
+        22,
+        26,
+        27,
+        32
+      ]
+    },
+    {
+      "file": "docs/DOCUMENTATION-LANGUAGE-POLICY.md",
+      "pattern": "official_mentions",
+      "lines": [
+        70,
+        73,
+        75
+      ]
+    },
+    {
+      "file": "docs/DOCUMENTATION-LANGUAGE-POLICY.zh-TW.md",
+      "pattern": "official_mentions",
+      "lines": [
+        70,
+        73,
+        75
+      ]
+    },
+    {
+      "file": "docs/GOLDEN-REGEN-SOP.md",
+      "pattern": "official_mentions",
+      "lines": [
+        11,
+        12,
+        15,
+        23,
+        35
+      ]
+    },
+    {
+      "file": "docs/GOLDEN-REGEN-SOP.zh-TW.md",
+      "pattern": "official_mentions",
+      "lines": [
+        12,
+        13,
+        16,
+        25,
+        38
+      ]
+    },
+    {
+      "file": "docs/RELEASE-CHECKLIST.md",
+      "pattern": "official_mentions",
+      "lines": [
+        16
+      ]
+    },
+    {
+      "file": "docs/RELEASE-CHECKLIST.zh-TW.md",
+      "pattern": "official_mentions",
+      "lines": [
+        16
+      ]
+    },
+    {
+      "file": "soneflow-py/src/lib.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        168
+      ]
+    },
+    {
+      "file": "soneflow-py/tests/test_parity_mosqito.py",
+      "pattern": "official_mentions",
+      "lines": [
+        3,
+        8,
+        35,
+        37,
+        38,
+        49,
+        50,
+        51,
+        113
+      ]
+    },
+    {
+      "file": "soneflow/README.md",
+      "pattern": "official_mentions",
+      "lines": [
+        13,
+        42
+      ]
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/core_band.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        21
+      ]
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/low_freq.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        9,
+        16,
+        68
+      ]
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/mod.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        12
+      ]
+    },
+    {
+      "file": "soneflow/src/lib.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        5
+      ]
+    },
+    {
+      "file": "soneflow/src/tables.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        2
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/mod.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/params.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        5,
+        13,
+        31
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/scalar.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        40
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/processor.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        31
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/coeffs.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/mod.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "file": "soneflow/tests/annexb.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        2,
+        6,
+        9,
+        10,
+        13,
+        18,
+        19,
+        20,
+        23,
+        25,
+        29,
+        30,
+        31,
+        34,
+        36,
+        40,
+        41,
+        42,
+        43,
+        44,
+        47,
+        49,
+        64,
+        66
+      ]
+    },
+    {
+      "file": "soneflow/tests/annexb_validator.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        6,
+        7,
+        44,
+        60,
+        61,
+        62,
+        70,
+        71,
+        72,
+        77,
+        78,
+        79,
+        81,
+        86,
+        87,
+        89,
+        94,
+        96,
+        99,
+        113,
+        132,
+        136,
+        140,
+        148,
+        156,
+        163,
+        174,
+        183,
+        194,
+        202,
+        203,
+        219,
+        220,
+        237,
+        245,
+        253,
+        261,
+        272,
+        274,
+        280
+      ]
+    },
+    {
+      "file": "soneflow/tests/common/annexb_check.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        10,
+        26,
+        54,
+        55,
+        59,
+        60,
+        89,
+        112,
+        114,
+        118,
+        121,
+        126,
+        144,
+        155,
+        157,
+        158
+      ]
+    },
+    {
+      "file": "soneflow/tests/common/mod.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        3
+      ]
+    },
+    {
+      "file": "soneflow/tests/core_characterization.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        3,
+        124,
+        128
+      ]
+    },
+    {
+      "file": "soneflow/tests/fixtures/l4_owned/owned-oracle-270.bin",
+      "binary_bytes": 1086492,
+      "inspection": "owned synthetic fixture per adjacent provenance"
+    },
+    {
+      "file": "soneflow/tests/golden_core.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        51
+      ]
+    },
+    {
+      "file": "soneflow/tests/golden_zwst.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        2,
+        104,
+        105
+      ]
+    },
+    {
+      "file": "soneflow/tests/golden_zwtv.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        3,
+        22,
+        93,
+        144,
+        169,
+        257,
+        284,
+        343
+      ]
+    },
+    {
+      "file": "soneflow/tests/low_freq_correction.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        27,
+        75
+      ]
+    },
+    {
+      "file": "soneflow/tests/nl_zero_init.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        2
+      ]
+    },
+    {
+      "file": "soneflow/tests/stream.rs",
+      "pattern": "official_mentions",
+      "lines": [
+        161,
+        162,
+        163
+      ]
+    },
+    {
+      "file": "tools/gen_golden.py",
+      "pattern": "official_mentions",
+      "lines": [
+        58,
+        60,
+        61,
+        62,
+        64,
+        66,
+        105,
+        106,
+        108,
+        110,
+        111,
+        165
+      ]
+    },
+    {
+      "file": "tools/golden.sha256",
+      "excluded": "user-only ISO-related checksum manifest"
+    },
+    {
+      "file": "tools/golden_manifest.py",
+      "pattern": "official_mentions",
+      "lines": [
+        1,
+        27
+      ]
+    },
+    {
+      "file": "tools/redact_paths.py",
+      "pattern": "old_name",
+      "lines": [
+        27,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    {
+      "file": "tools/redact_paths.py",
+      "pattern": "workstation",
+      "lines": [
+        46,
+        47
+      ]
+    },
+    {
+      "file": "tools/setup_env.sh",
+      "pattern": "official_mentions",
+      "lines": [
+        3,
+        61,
+        63,
+        64,
+        65,
+        67,
+        68,
+        69,
+        71
+      ]
+    },
+    {
+      "file": "tools/test_redact_paths.py",
+      "pattern": "old_name",
+      "lines": [
+        16,
+        47,
+        53,
+        58,
+        92,
+        93
+      ]
+    }
+  ]
+}

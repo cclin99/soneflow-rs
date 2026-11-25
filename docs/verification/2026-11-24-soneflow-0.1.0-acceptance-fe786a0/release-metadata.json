@@ -1,0 +1,16 @@
+{
+  "soneflow": "0.1.0",
+  "soneflow-ffi": "0.1.0",
+  "soneflow-py": "0.1.0",
+  "Cargo.lock": {
+    "soneflow": "0.1.0",
+    "soneflow-ffi": "0.1.0",
+    "soneflow-py": "0.1.0"
+  },
+  "CITATION.cff": "0.1.0",
+  "cbindgen": "cbindgen 0.29.4",
+  "header_equal_after_newline_normalization": true,
+  "snapshot": "fe786a0e40cff532968204da70c7187ae2d5bc99",
+  "tree": "e02b3e42b1658c0500c2fdc329b27a1b7a6c134d",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+}

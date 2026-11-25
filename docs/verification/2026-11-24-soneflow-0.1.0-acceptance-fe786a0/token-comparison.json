@@ -1,0 +1,403 @@
+{
+  "files": 66,
+  "strict_normalized_equal": 64,
+  "test_only_message_files": 2,
+  "results": [
+    {
+      "file": "soneflow-ffi/src/lib.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow-py/src/lib.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/batch_guard.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/bark_axis.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/checked.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/checked_tests.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/model.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/positions.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/product.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/analytic.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/area_domain.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/cut_clamp.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/extremes.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/pieces.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/policy.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/targeted.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/tests/terminal_slice.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/calc_slopes/walk.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/c_constants.rs",
+      "equal": false,
+      "classification": "only one cfg(test) assertion message changed",
+      "non_equivalent_token_groups": 1
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/core_band.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/low_freq.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/main_loudness/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/core/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/dsp/checked.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/dsp/filtfilt.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/dsp/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/dsp/sos.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/error.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/lib.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/numeric_guard.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/numeric_guard/c4_tests.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/simd/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/sone2phon.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/tables.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/tables_noct.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/types.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwst/checked.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwst/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/batch_checked.rs",
+      "equal": false,
+      "classification": "only one cfg(test) assertion message changed",
+      "non_equivalent_token_groups": 1
+    },
+    {
+      "file": "soneflow/src/zwtv/batch_checked/avx2.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/grid.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/avx2.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/params.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/nonlinear_decay/scalar.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/par.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/processor.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/slopes.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/containment_tests.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/denormal.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/diagnostics.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/diagnostics/coverage.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/emitter.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/frame.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/nl_stage.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/reference.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/stream/tol_stage.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/temporal_weighting.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/avx2.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/coeffs.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/mod.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    },
+    {
+      "file": "soneflow/src/zwtv/third_octave_levels/scalar.rs",
+      "equal": true,
+      "classification": "renaming, import sorting, whitespace and comments only",
+      "non_equivalent_token_groups": 0
+    }
+  ]
+}

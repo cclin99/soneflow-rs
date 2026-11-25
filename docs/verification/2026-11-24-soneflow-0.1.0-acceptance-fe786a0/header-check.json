@@ -1,0 +1,23 @@
+{
+  "raw_equal": false,
+  "generated_sha256": "db3eb7a6cda105499a9b309950ca606477fd48090134cf4d11a74e713c47ed8d",
+  "tracked_worktree_sha256": "2b7787f6219df36c33ffef9b57ba42e196de2dc9aa8155d111370d5ce39e8b56",
+  "generated_equals_git_blob_bytes": false,
+  "git_blob_sha256": "e97f400fb73f7eb7f3e123a59940174308358fd8c9cc2c8db7f07b19e06dc10e",
+  "eol_counts": {
+    "generated": {
+      "CRLF": 2,
+      "LF": 371
+    },
+    "worktree": {
+      "CRLF": 371,
+      "LF": 371
+    },
+    "git_blob": {
+      "CRLF": 0,
+      "LF": 371
+    }
+  },
+  "normalized_git_blob_equal": true,
+  "lf_config_generated_equals_git_blob_bytes": true
+}

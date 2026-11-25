@@ -1,0 +1,14 @@
+Processing .\mosqito-1.2.1.tar.gz
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × installing build dependencies did not run successfully.
+  │ exit code: 1
+  ╰─> [2 lines of output]
+      ERROR: Could not find a version that satisfies the requirement setuptools>=40.8.0 (from versions: none)
+      ERROR: No matching distribution found for setuptools>=40.8.0
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+ERROR: Failed to build 'file:///<USER_HOME>/AppData/Local/Temp/soneflow-acceptance-20261124-231957/mosqito-1.2.1.tar.gz' when installing build dependencies

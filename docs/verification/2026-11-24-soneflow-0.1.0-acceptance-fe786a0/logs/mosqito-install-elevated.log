@@ -1,0 +1,15 @@
+Processing .\mosqito-1.2.1.tar.gz
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: mosqito
+  Building wheel for mosqito (pyproject.toml): started
+  Building wheel for mosqito (pyproject.toml): finished with status 'done'
+  Created wheel for mosqito: filename=mosqito-1.2.1-py3-none-any.whl size=143105 sha256=db5a63fa839046d72a3de0cd451c4b3f12aa6916f266114998b43e2adcba39b9
+  Stored in directory: <USER_HOME>\appdata\local\pip\cache\wheels\51\ea\6b\8331a2de2e0fdbde4282e0720feab9ddef8129abb35b291136
+Successfully built mosqito
+Installing collected packages: mosqito
+Successfully installed mosqito-1.2.1

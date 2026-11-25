@@ -1,0 +1,72 @@
+{
+  "all_shared_versions_match": true,
+  "dependencies": [
+    {
+      "package": "crossbeam-deque",
+      "version": "0.8.7",
+      "snapshot_version": "0.8.7"
+    },
+    {
+      "package": "crossbeam-epoch",
+      "version": "0.9.20",
+      "snapshot_version": "0.9.20"
+    },
+    {
+      "package": "crossbeam-utils",
+      "version": "0.8.22",
+      "snapshot_version": "0.8.22"
+    },
+    {
+      "package": "either",
+      "version": "1.16.0",
+      "snapshot_version": "1.16.0"
+    },
+    {
+      "package": "proc-macro2",
+      "version": "1.0.106",
+      "snapshot_version": "1.0.106"
+    },
+    {
+      "package": "quote",
+      "version": "1.0.46",
+      "snapshot_version": "1.0.46"
+    },
+    {
+      "package": "rayon",
+      "version": "1.12.0",
+      "snapshot_version": "1.12.0"
+    },
+    {
+      "package": "rayon-core",
+      "version": "1.13.0",
+      "snapshot_version": "1.13.0"
+    },
+    {
+      "package": "soneflow",
+      "version": "0.1.0",
+      "snapshot_version": "0.1.0"
+    },
+    {
+      "package": "syn",
+      "version": "2.0.119",
+      "snapshot_version": "2.0.119"
+    },
+    {
+      "package": "thiserror",
+      "version": "1.0.69",
+      "snapshot_version": "1.0.69"
+    },
+    {
+      "package": "thiserror-impl",
+      "version": "1.0.69",
+      "snapshot_version": "1.0.69"
+    },
+    {
+      "package": "unicode-ident",
+      "version": "1.0.24",
+      "snapshot_version": "1.0.24"
+    }
+  ],
+  "snapshot_lock_sha256": "067e73964edf8a53ac02d566477ec04b8f27225dc3726da1ef08dd9facb9bb1a",
+  "isolated_harness_lock_sha256": "ebfe08c36df527356ef3c87fc7261177964fb4924febcda656616cc674505d61"
+}

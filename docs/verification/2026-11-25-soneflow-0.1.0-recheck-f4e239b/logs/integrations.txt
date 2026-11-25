@@ -1,0 +1,148 @@
+
+running 10 tests
+test loudness_zwst_rejects_short_signal ... ok
+test loudness_zwtv_rejects_short_signal ... ok
+test loudness_zwst_rejects_unsupported_sample_rate ... ok
+test nonfinite_error_code_is_frozen_at_4 ... ok
+test loudness_zwtv_rejects_unsupported_sample_rate ... ok
+test batch_reports_the_first_offending_sample ... ok
+test sample_rate_and_length_errors_take_precedence_over_finiteness ... ok
+test batch_rejects_nan_and_infinities_at_head_middle_and_tail ... ok
+test stream_still_flags_instead_of_failing ... ok
+test subnormal_zero_and_large_finite_samples_are_not_rejected_as_nonfinite ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+
+running 20 tests
+test a_low_band_above_120_db_is_rejected_and_120_db_is_accepted ... ok
+test band_0_stays_flat_in_the_valid_domain ... ok
+test band_0_starts_from_zero_and_does_not_look_back_at_band_20 ... ok
+test band_0_valid_values_stay_flat_and_negative_values_are_rejected ... ok
+test finite_out_of_domain_input_within_b2_returns_a_finite_non_negative_total ... ok
+test a_negative_band_0_leaves_the_upper_bands_unchanged ... ok
+test equal_core_loudness_gives_a_flat_pattern ... ok
+test levels_far_below_threshold_give_zero_core_loudness ... ok
+test finite_input_beyond_the_bounds_returns_without_panicking ... ok
+test bands_from_the_twelfth_up_are_not_limited_to_120_db ... ok
+test negative_core_is_rejected_without_inventing_walk_back_area ... ok
+test non_finite_input_returns_without_panicking ... ok
+test falling_core_loudness_descends_along_the_upper_slope ... ok
+test rising_core_loudness_jumps_up_at_the_band_edge ... ok
+test total_loudness_is_never_negative ... ok
+test the_valid_domain_is_finite_up_to_b1 ... ok
+test total_only_and_with_pattern_give_bitwise_equal_totals ... ok
+test out_of_domain_input_is_finite_up_to_b2 ... ok
+test raising_one_band_never_lowers_any_core_loudness ... ok
+test core_loudness_is_never_negative ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+
+running 1 test
+test zwtv_output_is_bitwise_deterministic_over_20_runs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.64s
+
+
+running 1 test
+test zwtv_backend_hashes_match_frozen_snapshot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+
+running 6 tests
+test core_diffuse_field_uses_the_same_row_selection ... ok
+test core_band0_118_000001_db_reaches_the_last_dll_row ... ok
+test core_band0_threshold_118_db_is_strict_and_last_row_applies_above_it ... ok
+test zwtv_25hz_119db_sine_max_is_pinned ... ok
+test zwst_25hz_119db_sine_is_pinned ... ok
+test stream_25hz_119db_sine_matches_batch_and_is_not_clamped ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+
+running 6 tests
+test silent_prefix_yields_exactly_zero_loudness_before_the_tone_starts ... ok
+test both_initialisations_agree_when_the_signal_ends_in_silence ... ok
+test processor_reuse_does_not_leak_state_between_calls ... ok
+test mosqito_tail_init_reproduces_the_audited_pre_fix_numbers ... ok
+test batch_prefix_is_invariant_to_the_future_tail ... ok
+test batch_matches_the_causal_stream_bitwise_from_frame_zero ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.20s
+
+
+running 7 tests
+test cli_grids_are_prefixes_of_the_rust_grid ... ok
+test shortest_legal_input_is_4800_samples_and_50_points ... ok
+test time_axis_is_an_exact_2ms_grid_from_zero ... ok
+test frame_count_is_ceil_of_ceil_for_every_field ... ok
+test every_point_is_prefix_determined_under_real_continuation ... ok
+test every_point_is_prefix_determined_under_zero_padding ... ok
+test stream_frame_count_equals_batch_for_any_chunking ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.65s
+
+
+running 2 tests
+test dump_py_bitwise_contract_hashes ... ignored, manual: freeze constants for soneflow-py/tests/test_smoke.py (R3-P3)
+test fnv1a_known_answer_matches_python_testkit ... ok
+
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test force_scalar_overrides_runtime_detection ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test nl_loudness_avx2_matches_scalar ... ok
+test filter_bank_avx2_matches_scalar ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+
+running 1 test
+test push_and_flush_do_not_allocate ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+
+running 1 test
+test stream_does_not_initialize_rayon_pool ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+
+running 1 test
+test forced_scalar_stream_matches_scalar_zerostate_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s
+
+
+running 3 tests
+test flat_core_has_analytic_area_including_frozen_edge_extension ... ok
+test independent_fraction_intervals_preserve_original_one_e_minus_twelve_gate ... ok
+test complete_writes_repeatability_and_three_total_apis_remain_bitwise ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Compiling soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-recheck-20261125\repo\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.55s
+     Running tests\api_errors.rs (target\debug\deps\api_errors-ec40193845fe072c.exe)
+     Running tests\core_characterization.rs (target\debug\deps\core_characterization-570b167906786e2a.exe)
+     Running tests\determinism.rs (target\debug\deps\determinism-496dea85bb75707a.exe)
+     Running tests\hash_gate.rs (target\debug\deps\hash_gate-b56e2ffa9eeb3ca8.exe)
+     Running tests\low_freq_correction.rs (target\debug\deps\low_freq_correction-b473ca03116ffcc2.exe)
+     Running tests\nl_zero_init.rs (target\debug\deps\nl_zero_init-d81168e4e8f40f22.exe)
+     Running tests\output_grid.rs (target\debug\deps\output_grid-800b22e7f2162505.exe)
+     Running tests\py_contract_dump.rs (target\debug\deps\py_contract_dump-646bd2679a42dc7f.exe)
+     Running tests\simd_dispatch.rs (target\debug\deps\simd_dispatch-5270c05205950496.exe)
+     Running tests\simd_parity.rs (target\debug\deps\simd_parity-91261e88f16f7eb9.exe)
+     Running tests\stream_alloc.rs (target\debug\deps\stream_alloc-8d95420e6f4945b6.exe)
+     Running tests\stream_no_rayon.rs (target\debug\deps\stream_no_rayon-846c6deb2d7c9e5d.exe)
+     Running tests\stream_scalar.rs (target\debug\deps\stream_scalar-239911ef0174ce49.exe)
+     Running tests\zup_eps.rs (target\debug\deps\zup_eps-eb2f66fd6e77fe3e.exe)

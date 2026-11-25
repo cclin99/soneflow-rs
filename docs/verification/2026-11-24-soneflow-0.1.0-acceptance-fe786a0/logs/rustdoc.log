@@ -1,0 +1,7 @@
+COMMAND: cargo doc --offline -p soneflow --no-deps
+    Checking either v1.16.0
+    Checking thiserror v1.0.69
+    Checking rayon v1.12.0
+ Documenting soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.39s
+   Generated <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\target\doc\soneflow\index.html

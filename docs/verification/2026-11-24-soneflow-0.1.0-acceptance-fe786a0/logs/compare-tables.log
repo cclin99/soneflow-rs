@@ -1,0 +1,3 @@
+COMMAND: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe tools/compare_mosqito.py --check-tables
+RAYON_NUM_THREADS: None
+{"status": "PASS", "mosqito_version": "1.2.1", "tables": [{"table": "ZUP", "shape": [21], "entries": 21, "equal": true, "different_entries": 0}, {"table": "RNS", "shape": [18], "entries": 18, "equal": true, "different_entries": 0}, {"table": "USL", "shape": [18, 8], "entries": 144, "equal": true, "different_entries": 0}]}

@@ -1,0 +1,4 @@
+{
+  "tools/setup_env.sh": true,
+  "tools/requirements.lock": true
+}

@@ -1,0 +1,4 @@
+COMMAND: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe -m pip install --no-deps <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\audit-wheels\soneflow-0.1.0-cp39-abi3-win_amd64.whl
+Processing .\audit-wheels\soneflow-0.1.0-cp39-abi3-win_amd64.whl
+Installing collected packages: soneflow
+Successfully installed soneflow-0.1.0

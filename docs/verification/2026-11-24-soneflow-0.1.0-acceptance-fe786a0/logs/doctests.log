@@ -1,0 +1,17 @@
+COMMAND: cargo test --offline -p soneflow -p soneflow-ffi --doc
+   Compiling soneflow-ffi v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow-ffi)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.60s
+   Doc-tests soneflow
+
+running 2 tests
+test soneflow\src\lib.rs - (line 11) - compile ... ok
+test soneflow\src\lib.rs - (line 24) - compile ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Doc-tests soneflow_ffi
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

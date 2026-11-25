@@ -1,0 +1,12 @@
+COMMAND: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe tools/compare_mosqito.py --iterations 30
+RAYON_NUM_THREADS: None
+platform: Windows-10-10.0.19045-SP0
+python: 3.11.9; numpy: 2.4.6
+signal: contract_signal(144000), float64 contiguous, 48000 Hz
+iterations per implementation: 30 (after one warm-up)
+soneflow nl_init: zero
+soneflow Rust binding: mean=0.008070 s, sample_sd=0.001151 s, min=0.007364 s, max=0.014038 s, real_time=371.7385x
+MoSQITo: mean=6.584678 s, sample_sd=0.036543 s, min=6.524867 s, max=6.698754 s, real_time=0.4556x
+relative speed from arithmetic means: 815.93x
+max abs N(t) difference: 5.806071e-03 sone
+max abs N_specific(t) difference: 3.245252e-02 sone/Bark

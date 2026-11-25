@@ -1,0 +1,4 @@
+COMMAND: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe -c "import soneflow,sys,importlib.metadata as m;print(sys.version);print('module:',soneflow.__file__);print({n:m.version(n) for n in ['soneflow','numpy','mosqito','pytest']})"
+3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+module: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Lib\site-packages\soneflow\__init__.py
+{'soneflow': '0.1.0', 'numpy': '2.4.6', 'mosqito': '1.2.1', 'pytest': '9.1.1'}

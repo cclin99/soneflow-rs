@@ -1,0 +1,23 @@
+   Compiling syn v2.0.119
+   Compiling thiserror-impl v1.0.69
+   Compiling thiserror v1.0.69
+   Compiling soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow)
+   Compiling iso532-private-tests v0.0.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\private\tests-crate)
+    Finished `release` profile [optimized] target(s) in 17.82s
+     Running tests\mosqito_stats_synthetic.rs (target\release\deps\mosqito_stats_synthetic-98ef60ccbeb0fc36.exe)
+
+running 1 test
+MSTAT|zwst|sine_1k_60|N=4.090252|abs_N=2.518e-4|rel_N=6.156e-5|max_spec=6.204e-5
+MSTAT|zwst|sine_250_80|N=14.900698|abs_N=3.015e-4|rel_N=2.023e-5|max_spec=1.501e-4
+MSTAT|zwst|sine_4k_60|N=6.158729|abs_N=2.710e-4|rel_N=4.401e-5|max_spec=8.205e-5
+MSTAT|zwst|white_60|N=10.201474|abs_N=4.738e-4|rel_N=4.645e-5|max_spec=4.202e-5
+MSTAT|zwtv|sine_1k_60|MosqitoTail|frames=500|max_N=1.528e-4|max_spec=3.582e-3
+MSTAT|zwtv|sine_1k_60|Zero|frames=500|max_N=1.174e-2|max_spec=5.090e-2
+MSTAT|zwtv|pulse_1k_70|MosqitoTail|frames=500|max_N=1.748e-4|max_spec=1.287e-2
+MSTAT|zwtv|pulse_1k_70|Zero|frames=500|max_N=1.748e-4|max_spec=1.287e-2
+MSTAT|zwtv|step_60_80|MosqitoTail|frames=500|max_N=3.941e-3|max_spec=2.209e-2
+MSTAT|zwtv|step_60_80|Zero|frames=500|max_N=5.575e-2|max_spec=1.677e-1
+test print_mosqito_stats_synthetic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+

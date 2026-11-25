@@ -1,0 +1,52 @@
+COMMAND: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe -m pytest soneflow-py/tests/test_smoke.py soneflow-py/tests/test_stream.py -v
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0 -- <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow-py
+configfile: pyproject.toml
+collecting ... collected 42 items
+
+soneflow-py\tests\test_smoke.py::test_zwtv_shapes_and_axes PASSED        [  2%]
+soneflow-py\tests\test_smoke.py::test_zwtv_diffuse_accepted PASSED       [  4%]
+soneflow-py\tests\test_smoke.py::test_zwst_shapes PASSED                 [  7%]
+soneflow-py\tests\test_smoke.py::test_bitwise_contract_n_and_time_axis PASSED [  9%]
+soneflow-py\tests\test_smoke.py::test_bitwise_contract_mosqito_tail_init PASSED [ 11%]
+soneflow-py\tests\test_smoke.py::test_nl_init_rejects_unknown_value PASSED [ 14%]
+soneflow-py\tests\test_smoke.py::test_error_mapping PASSED               [ 16%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[0-nan] PASSED [ 19%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[0-inf] PASSED [ 21%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[0--inf] PASSED [ 23%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[24000-nan] PASSED [ 26%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[24000-inf] PASSED [ 28%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[24000--inf] PASSED [ 30%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[47999-nan] PASSED [ 33%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[47999-inf] PASSED [ 35%]
+soneflow-py\tests\test_smoke.py::test_batch_rejects_nonfinite_input[47999--inf] PASSED [ 38%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4800] PASSED [ 40%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4801] PASSED [ 42%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4823] PASSED [ 45%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4824] PASSED [ 47%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4825] PASSED [ 50%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4895] PASSED [ 52%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4896] PASSED [ 54%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[4897] PASSED [ 57%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[47905] PASSED [ 59%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[47927] PASSED [ 61%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[47928] PASSED [ 64%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[47999] PASSED [ 66%]
+soneflow-py\tests\test_smoke.py::test_zwtv_output_grid_contract[48000] PASSED [ 69%]
+soneflow-py\tests\test_smoke.py::test_strict_input_contract PASSED       [ 71%]
+soneflow-py\tests\test_smoke.py::test_sone2phon_matches_frozen_formula PASSED [ 73%]
+soneflow-py\tests\test_smoke.py::test_sone2phon_rejects_negative_sone PASSED [ 76%]
+soneflow-py\tests\test_smoke.py::test_sone2phon_rejects_nonfinite_sone[nan] PASSED [ 78%]
+soneflow-py\tests\test_smoke.py::test_sone2phon_rejects_nonfinite_sone[inf] PASSED [ 80%]
+soneflow-py\tests\test_stream.py::test_constants_are_frozen PASSED       [ 83%]
+soneflow-py\tests\test_stream.py::test_max_frames_for_chunk_bounds_push_output PASSED [ 85%]
+soneflow-py\tests\test_stream.py::test_chunk_invariance_bitwise PASSED   [ 88%]
+soneflow-py\tests\test_stream.py::test_stream_matches_batch_after_warmup PASSED [ 90%]
+soneflow-py\tests\test_stream.py::test_nan_is_flagged_not_raised PASSED  [ 92%]
+soneflow-py\tests\test_stream.py::test_tail_nan_surfaces_in_residual_flags PASSED [ 95%]
+soneflow-py\tests\test_stream.py::test_push_after_flush_raises_and_reset_recovers PASSED [ 97%]
+soneflow-py\tests\test_stream.py::test_input_validation PASSED           [100%]
+
+============================= 42 passed in 13.43s =============================

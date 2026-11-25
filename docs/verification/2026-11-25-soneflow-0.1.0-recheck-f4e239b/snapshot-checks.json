@@ -1,0 +1,18 @@
+{
+  "changed_files": [
+    ".github/workflows/ci.yml",
+    "README.md",
+    "README.zh-TW.md",
+    "docs/GOLDEN-REGEN-SOP.md",
+    "docs/RELEASE-CHECKLIST.md",
+    "docs/RELEASE-CHECKLIST.zh-TW.md",
+    "soneflow-ffi/include/soneflow.h",
+    "soneflow-ffi/src/lib.rs",
+    "soneflow/README.md",
+    "soneflow/src/core/main_loudness/low_freq.rs"
+  ],
+  "ci_noncomment_lines_identical": true,
+  "data_exists": false,
+  "header_equals_git_blob": true,
+  "unchanged_nonmodified_files_by_git_diff": true
+}

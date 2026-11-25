@@ -1,0 +1,21 @@
+{
+  "reason": "standard tool does not cover renamed source path suffix or every lowercase Users spelling",
+  "changes": [
+    {
+      "file": "commands.jsonl",
+      "replacements": 1
+    },
+    {
+      "file": "logs/mosqito-install-elevated.log",
+      "replacements": 1
+    },
+    {
+      "file": "logs/setup-no-data-with-prerequisite.log",
+      "replacements": 2
+    },
+    {
+      "file": "logs/wheel.log",
+      "replacements": 1
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+@@ -67 +67 @@
++  # locally on that set at 0.1.0, the highest CRAP is 25.6 (limit 30).
+diff --git a/README.md b/README.md
+@@ -252 +252 @@
++| ZWTV, 3 synthetic fixtures (sine, tone pulse, 60→80 dB step), same initial state as MoSQITo (`nl_init="mosqito_tail"`) | max 1.7e-4 sone, except 3.9e-3 on the step | max 2.2e-2 sone/Bark |
+diff --git a/README.zh-TW.md b/README.zh-TW.md
+@@ -252 +252 @@
++| ZWTV，3 個合成 fixture（正弦、音調脈衝、60→80 dB 階躍），初始狀態與 MoSQITo 相同（`nl_init="mosqito_tail"`） | 最大 1.7e-4 sone，階躍例外，為 3.9e-3 | 最大 2.2e-2 sone/Bark |
+diff --git a/docs/GOLDEN-REGEN-SOP.md b/docs/GOLDEN-REGEN-SOP.md
+@@ -11,3 +11,3 @@
++    bash tools/setup_env.sh                                   # create .venv from requirements.lock + check data/annexb
++                                                              # (put the Annex B files there from your own licensed copy)
++    .venv/Scripts/python.exe tools/gen_golden.py              # regenerate data/golden (about 5–15 minutes)
+diff --git a/docs/RELEASE-CHECKLIST.md b/docs/RELEASE-CHECKLIST.md
+@@ -3 +3 @@
++> 對照／Pair: [中文版](RELEASE-CHECKLIST.zh-TW.md) · source: en · synced 2026-11-25
+@@ -7 +7 @@
++- [ ] Confirm that neither `README.md` nor `README.zh-TW.md` carries review-draft wording; no public README may say "not yet announced as a public release" or "尚未對外宣布發布".
+@@ -9 +9 @@
++- [ ] Run the commands under "Measured results (0.1.0)" → "Reproduce" / 「實測結果（0.1.0）」→「重現」 from a locally regenerated golden environment.
+diff --git a/docs/RELEASE-CHECKLIST.zh-TW.md b/docs/RELEASE-CHECKLIST.zh-TW.md
+@@ -3 +3 @@
++> 對照／Pair: [English](RELEASE-CHECKLIST.md) · 來源：en · 同步 2026-11-25
+@@ -7 +7 @@
++- [ ] 確認 `README.md` 與 `README.zh-TW.md` 都沒有審查草稿用語；任何公開的 README 都不得寫「not yet announced as a public release」或「尚未對外宣布發布」。
+@@ -9 +9 @@
++- [ ] 從本機重新產生的 golden 環境執行「Measured results (0.1.0)」→「Reproduce」／「實測結果（0.1.0）」→「重現」下的指令。
+diff --git a/soneflow-ffi/include/soneflow.h b/soneflow-ffi/include/soneflow.h
+@@ -93 +93 @@
++ * Valid `field_type` value: free field.
+@@ -98 +98 @@
++ * Valid `field_type` value: diffuse field.
+diff --git a/soneflow-ffi/src/lib.rs b/soneflow-ffi/src/lib.rs
+@@ -51 +51 @@
++/// Valid `field_type` value: free field.
+@@ -53 +53 @@
++/// Valid `field_type` value: diffuse field.
+diff --git a/soneflow/README.md b/soneflow/README.md
+@@ -13 +13 @@
++The repository tests compare the implementation with MoSQITo-generated golden data. The ISO 532-1 Annex B checks run only with your own licensed copy of the Annex B files; the repository does not carry them.
+@@ -42 +42 @@
++cargo run --example cli -- path/to/recording.wav --calib 2.8284271247461903
+@@ -45 +45 @@
++The example reads a 48 kHz WAV (several channels are averaged), multiplies the full-scale samples by `--calib` (pascals at digital full scale; default 1.0) and prints the stationary loudness `N` in sone.
+diff --git a/soneflow/src/core/main_loudness/low_freq.rs b/soneflow/src/core/main_loudness/low_freq.rs
+@@ -9 +9 @@
++/// DLL row selection: the first
+@@ -16,2 +16,2 @@
++/// example > 118 dB on the 25 Hz band). This crate scans every row and reaches
++/// the last one.
+@@ -68 +68,2 @@
++        // low_freq_dll_row scans rows in order and assumes the thresholds
++        // increase; pin the table.

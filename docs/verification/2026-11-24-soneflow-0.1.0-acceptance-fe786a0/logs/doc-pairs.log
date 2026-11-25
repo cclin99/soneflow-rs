@@ -1,0 +1,2 @@
+COMMAND: python tools/doc_pairs.py --check
+ok

@@ -1,0 +1,11 @@
+{
+  "rules": "case-insensitive private repository name and lowercase-user home paths, including drive/MSYS/escaped forms",
+  "modified_files": [
+    "logs/remote-history.json"
+  ],
+  "remaining": [],
+  "non_utf8": [],
+  "redaction_warnings_reviewed": true,
+  "redaction_skipped": 0,
+  "sid_redacted": true
+}

@@ -1,0 +1,27 @@
+COMMAND: cargo test --offline -p soneflow --test annexb_validator -- --skip csv_
+   Compiling soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-acceptance-20261124-231957\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.82s
+     Running tests\annexb_validator.rs (target\debug\deps\annexb_validator-3e619e6f15bd5ef5.exe)
+
+running 18 tests
+test invalid_empty ... ok
+test invalid_non_finite_got ... ok
+test invalid_negative_reference ... ok
+test invalid_length_mismatch_has_no_common_range_pass ... ok
+test invalid_non_finite_reference ... ok
+test short_curves_are_compared_normally ... ok
+test tolerance_at_the_crossover_reference_2 ... ok
+test tolerance_floor_at_zero_reference ... ok
+test tolerance_is_max_not_additive ... ok
+test tolerance_relative_branch_reference_100 ... ok
+test tolerance_relative_branch_reference_8 ... ok
+test worst_point_is_the_largest_excess ... ok
+test bin_1_byte_panics - should panic ... ok
+test bin_9_bytes_panics - should panic ... ok
+test bin_15_bytes_panics - should panic ... ok
+test bin_17_bytes_panics - should panic ... ok
+test bin_7_bytes_panics - should panic ... ok
+test bin_whole_words_are_read ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.01s
+

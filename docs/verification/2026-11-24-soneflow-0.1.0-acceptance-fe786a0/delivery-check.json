@@ -1,0 +1,15 @@
+{
+  "redactor_write": "PASS; initial 19 files changed, final 0",
+  "redactor_check_strict": "PASS; clean",
+  "skipped_files": 0,
+  "non_utf8_files": 0,
+  "binary_or_archive_delivery_files": 0,
+  "supplemental_path_scan": "PASS; original renamed repo prefix and lowercase Users forms handled separately",
+  "all_json_and_jsonl_parse": "PASS",
+  "delivery_encoding": "UTF-8 without BOM, LF; final derivative text bytes",
+  "diff_review": "all files are new verification artifacts; no source edits; reviewed report, command, log, and manifest classes",
+  "git_diff_warnings": "Only automatic LF/CRLF conversion notices; delivery canonicalized to LF before hashing. Recompute integrity if a later transport/checkout rewrites bytes.",
+  "iso_checker": "USER_ONLY; not read or executed",
+  "procedural_exception": "Existing skill unexpectedly displayed an old ISO-derived hash example; not used, compared or reproduced. No zero-exposure claim.",
+  "integrity_manifest": "integrity.sha256; excludes itself; all listed files verified after generation"
+}

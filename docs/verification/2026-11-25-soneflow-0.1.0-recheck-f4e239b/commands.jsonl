@@ -1,0 +1,10 @@
+{"name": "ci", "argv": ["gh", "run", "view", "45519392033", "--repo", "cclin99/soneflow-rs", "--json", "headSha,status,conclusion,jobs,url"], "exit": 0}
+{"name": "remote", "argv": ["git", "ls-remote", "origin", "refs/heads/main"], "exit": 128}
+{"name": "history", "argv": ["git", "log", "origin/main", "--format=%H %P %ae %ce"], "exit": 0}
+{"name": "cbindgen-version", "argv": ["cbindgen", "--version"], "exit": 0}
+{"name": "header", "argv": ["cbindgen", "--config", "soneflow-ffi/cbindgen.toml", "--crate", "soneflow-ffi", "--output", "<USER_HOME>\\AppData\\Local\\Temp\\soneflow-recheck-20261125\\repo\\docs\\verification\\2026-11-25-soneflow-0.1.0-recheck-f4e239b\\soneflow.generated.h"], "exit": 0}
+{"name": "core-lib", "argv": ["cargo", "test", "-p", "soneflow", "--lib"], "exit": 0}
+{"name": "doctest", "argv": ["cargo", "test", "-p", "soneflow", "--doc"], "exit": 0}
+{"name": "integrations", "argv": ["cargo", "test", "-p", "soneflow", "--test", "api_errors", "--test", "core_characterization", "--test", "determinism", "--test", "hash_gate", "--test", "low_freq_correction", "--test", "nl_zero_init", "--test", "output_grid", "--test", "py_contract_dump", "--test", "simd_dispatch", "--test", "simd_parity", "--test", "stream_alloc", "--test", "stream_no_rayon", "--test", "stream_scalar", "--test", "zup_eps"], "exit": 0}
+{"name": "validator", "argv": ["cargo", "test", "-p", "soneflow", "--test", "annexb_validator", "--", "--skip", "csv_"], "exit": 0}
+{"name": "ffi", "argv": ["cargo", "test", "-p", "soneflow-ffi", "--features", "test-panic"], "exit": 0}

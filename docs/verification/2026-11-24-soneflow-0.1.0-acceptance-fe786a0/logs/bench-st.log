@@ -1,0 +1,21 @@
+COMMAND: cargo bench --offline -p soneflow --bench loudness -- zwtv_10s
+RAYON_NUM_THREADS: 1
+    Finished `bench` profile [optimized] target(s) in 0.13s
+     Running benches\loudness.rs (target\release\deps\loudness-92a8a0c8460a47a1.exe)
+Gnuplot not found, using plotters backend
+Benchmarking zwtv_10s_t1/scalar/480000
+Benchmarking zwtv_10s_t1/scalar/480000: Warming up for 3.0000 s
+
+Warning: Unable to complete 10 samples in 6.0s. You may wish to increase target time to 10.4s or enable flat sampling.
+Benchmarking zwtv_10s_t1/scalar/480000: Collecting 10 samples in estimated 10.447 s (55 iterations)
+Benchmarking zwtv_10s_t1/scalar/480000: Analyzing
+zwtv_10s_t1/scalar/480000
+                        time:   [188.00 ms 189.06 ms 190.19 ms]
+                        thrpt:  [2.5238 Melem/s 2.5389 Melem/s 2.5532 Melem/s]
+Benchmarking zwtv_10s_t1/avx2/480000
+Benchmarking zwtv_10s_t1/avx2/480000: Warming up for 3.0000 s
+Benchmarking zwtv_10s_t1/avx2/480000: Collecting 10 samples in estimated 10.780 s (110 iterations)
+Benchmarking zwtv_10s_t1/avx2/480000: Analyzing
+zwtv_10s_t1/avx2/480000 time:   [97.856 ms 98.127 ms 98.470 ms]
+                        thrpt:  [4.8746 Melem/s 4.8916 Melem/s 4.9051 Melem/s]
+

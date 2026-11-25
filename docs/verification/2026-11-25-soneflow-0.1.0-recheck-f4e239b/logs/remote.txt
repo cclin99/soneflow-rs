@@ -1,0 +1,5 @@
+      0 [main] sh (40592) C:\Program Files\Git\usr\bin\sh.exe: *** fatal error - CreateFileMapping <WINDOWS_SID>.1, Win32 error 5.  Terminating.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.

@@ -1,0 +1,12 @@
+{
+  "source_round": "2026-11-24-soneflow-0.1.0-acceptance-fe786a0",
+  "setup_log_sha256": "7eaa38e1d20b46d96dfd6f1b384e6423998b757bb4ff8dc6019e58b284148be8",
+  "report_sha256": "c16948053548b79c0b9bea04da23c725803c16536f43b2efa58ec97dd92e599b",
+  "setup_reference": "report.en.md:82; logs/setup-no-data-with-prerequisite.log",
+  "synthetic_precision_reference": "report.en.md:50; prior measured non-step maximum 1.748e-4",
+  "not_rerun": [
+    "setup",
+    "synthetic parity",
+    "timings"
+  ]
+}

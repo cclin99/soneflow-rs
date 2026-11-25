@@ -1,0 +1,30 @@
+[
+  {
+    "gate": "A1",
+    "file": "soneflow/src/core/main_loudness/low_freq.rs",
+    "line": 68,
+    "classification": "comment on behavior of the official Annex A program; text intentionally not reproduced"
+  },
+  {
+    "gate": "A1",
+    "file": "soneflow/README.md",
+    "line": 45,
+    "classification": "expected numerical output tied to a licensed Annex B input; value intentionally not reproduced or analyzed"
+  },
+  {
+    "gate": "A3",
+    "file": "README.md / README.zh-TW.md",
+    "line": 252,
+    "classification": "non-step synthetic tail-initialized maximum: observed 1.748e-4, stated 1.8e-4; conventional two-significant-digit rounding gives 1.7e-4"
+  },
+  {
+    "gate": "A4",
+    "file": "tools/setup_env.sh",
+    "lines": [
+      36,
+      37,
+      58
+    ],
+    "classification": "ordinary dependency installation uses network-enabled pip; literal zero-download requirement is not implemented; no ISO attachment download operation found"
+  }
+]

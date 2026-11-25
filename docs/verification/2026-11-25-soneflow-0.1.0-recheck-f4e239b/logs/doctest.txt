@@ -1,0 +1,10 @@
+
+running 2 tests
+test soneflow\src\lib.rs - (line 24) - compile ... ok
+test soneflow\src\lib.rs - (line 11) - compile ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Compiling soneflow v0.1.0 (<USER_HOME>\AppData\Local\Temp\soneflow-recheck-20261125\repo\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.81s
+   Doc-tests soneflow

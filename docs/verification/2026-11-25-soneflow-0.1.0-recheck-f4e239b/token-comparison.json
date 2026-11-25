@@ -1,0 +1,20 @@
+[
+  {
+    "file": "soneflow-ffi/include/soneflow.h",
+    "equal_without_comments": true,
+    "old_tokens": 643,
+    "new_tokens": 643
+  },
+  {
+    "file": "soneflow-ffi/src/lib.rs",
+    "equal_without_comments": true,
+    "old_tokens": 3527,
+    "new_tokens": 3527
+  },
+  {
+    "file": "soneflow/src/core/main_loudness/low_freq.rs",
+    "equal_without_comments": true,
+    "old_tokens": 1175,
+    "new_tokens": 1175
+  }
+]
