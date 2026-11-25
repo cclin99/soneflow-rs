@@ -83,3 +83,55 @@ fn read_wav_mono(path: PathBuf, calib: f64) -> Result<(Vec<f64>, u32), Box<dyn E
 
     Ok((mono, spec.sample_rate))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::parse_args;
+    use std::path::PathBuf;
+
+    fn args(list: &[&str]) -> Vec<String> {
+        list.iter().map(|s| s.to_string()).collect()
+    }
+
+    fn err(list: &[&str]) -> String {
+        parse_args(&args(list)).unwrap_err().to_string()
+    }
+
+    #[test]
+    fn path_alone_uses_unit_calibration() {
+        let (path, calib) = parse_args(&args(&["a.wav"])).unwrap();
+        assert_eq!(path, PathBuf::from("a.wav"));
+        assert_eq!(calib, 1.0);
+    }
+
+    #[test]
+    fn calib_value_is_parsed_and_last_one_wins() {
+        let (_, calib) = parse_args(&args(&["a.wav", "--calib", "0.5"])).unwrap();
+        assert_eq!(calib, 0.5);
+        let (_, calib) = parse_args(&args(&["a.wav", "--calib", "2", "--calib", "-3e-1"])).unwrap();
+        assert_eq!(calib, -0.3);
+    }
+
+    #[test]
+    fn missing_path_prints_usage() {
+        assert!(err(&[]).starts_with("usage: cli <wav-path>"));
+    }
+
+    #[test]
+    fn calib_without_value_is_rejected() {
+        assert_eq!(err(&["a.wav", "--calib"]), "--calib requires a value");
+    }
+
+    #[test]
+    fn calib_must_parse_and_be_finite() {
+        assert!(parse_args(&args(&["a.wav", "--calib", "x"])).is_err());
+        for bad in ["inf", "-inf", "NaN"] {
+            assert_eq!(err(&["a.wav", "--calib", bad]), "--calib must be finite");
+        }
+    }
+
+    #[test]
+    fn unknown_argument_is_rejected() {
+        assert_eq!(err(&["a.wav", "--gain", "2"]), "unknown argument: --gain");
+    }
+}

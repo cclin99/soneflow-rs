@@ -125,7 +125,32 @@ impl SoneflowError {
 
 #[cfg(test)]
 mod tests {
-    use super::SoneflowError;
+    use super::{SoneflowError, StreamUsageError};
+
+    /// Mirrors the negative C ABI codes in `soneflow.h` (`SNF_ERR_LIFECYCLE`
+    /// = -6 … `SNF_ERR_UNSUPPORTED_ENVIRONMENT` = -12; both capacity errors
+    /// map to -4, which the C ABI returns for an insufficient output buffer).
+    /// The `creation` payload does not change the code.
+    #[test]
+    fn stream_usage_error_codes_are_frozen() {
+        use StreamUsageError::*;
+        let table = [
+            (AfterFlush, -6),
+            (OutputCapacity, -4),
+            (QualityCapacity, -4),
+            (TimelineExhausted, -7),
+            (SessionExhausted, -8),
+            (StaleSequence, -9),
+            (CounterSaturated, -10),
+            (UnsupportedRoundingMode { creation: false }, -11),
+            (UnsupportedRoundingMode { creation: true }, -11),
+            (UnsupportedEnvironment { creation: false }, -12),
+            (UnsupportedEnvironment { creation: true }, -12),
+        ];
+        for (err, code) in table {
+            assert_eq!(err.code(), code, "{err:?}");
+        }
+    }
 
     #[test]
     fn error_codes_are_frozen() {
