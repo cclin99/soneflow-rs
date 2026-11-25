@@ -155,9 +155,9 @@ mod test_stream_hooks {
     }
 }
 
-/// Test-only Order 5 stream hook scheduler (Design r3 §6, §8, §9.3).
-/// Completely absent from default product builds (`#[cfg(test)]`); exposed to external
-/// verification drivers solely via the candidate-side overlay `instrument_stream_c9.py`.
+/// Test-only stream hook scheduler.
+/// Completely absent from default product builds (`#[cfg(test)]`). The `// c9_*` comments
+/// mark the hook sites for out-of-tree verification instrumentation.
 #[cfg(test)] // c9_stream_hook
 pub mod stream_hooks {
     use std::cell::RefCell;
@@ -338,7 +338,7 @@ pub mod stream_hooks {
     }
 }
 
-/// Local entry-validation expiry flags per public call (Design r3 §2.3, §6; Orders 4–6 rules a, b, c).
+/// Entry-validation due flags, local to one public call (rules a–c: see `crate::numeric_guard`).
 #[cfg(target_arch = "x86_64")]
 #[derive(Clone, Copy)]
 struct Due {
@@ -544,7 +544,7 @@ impl ZwtvStream {
             ..
         } = self;
 
-        // Design r3 §8: creation != KnownRn -> entire public call runs R checked on kernel.
+        // Stream created outside round-to-nearest -> the entire public call runs R on kernel.
         if creation_env != RoundingEnvironment::KnownRn {
             #[cfg(test)]
             test_stream_hooks::record_env_fallback();
@@ -574,7 +574,7 @@ impl ZwtvStream {
             return written;
         }
 
-        // First block MXCSR read inside DenormalGuard simultaneously checks qualification (§8).
+        // The first block's MXCSR read inside DenormalGuard also checks qualification.
         let first_mxcsr = crate::numeric_guard::read_unit_mxcsr();
         let Some(mut block_entry_mxcsr) =
             first_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
@@ -638,7 +638,7 @@ impl ZwtvStream {
 
         #[cfg(target_arch = "x86_64")]
         {
-            // Order 4 expiry rule a: all due flags start true at every public push entry.
+            // Due rule a: all due flags start true at every public push entry.
             let mut due = Due::all_true();
             let mut pos = 0usize;
             let mut have_block_mxcsr = true;
@@ -671,7 +671,7 @@ impl ZwtvStream {
                 }
                 have_block_mxcsr = false;
 
-                // Design r3 §5 line 123 & §6: when due.tol is true, validate kernel before
+                // When due.tol is true, validate kernel before
                 // reading raw PCM, modifying pending, or touching shadow.
                 if due.tol {
                     if kernel.validate_numeric().is_err() {
@@ -695,7 +695,7 @@ impl ZwtvStream {
                             &mut quality,
                             &mut written,
                         );
-                        // Order 4 expiry rule b: cold path end sets all due flags true.
+                        // Due rule b: cold path end sets all due flags true.
                         due = Due::all_true();
                         pos = end;
                         continue;
@@ -722,7 +722,7 @@ impl ZwtvStream {
 
                 if !outcome.ok {
                     // D1/D2 failure: do NOT swap; restore block entry MXCSR and replay R checked
-                    // directly on kernel. Cold interface hard rule (§4): shadow is NOT passed.
+                    // directly on kernel. Cold-path rule: shadow is NOT passed.
                     #[cfg(test)] // c9_stream_hook
                     assert!(
                         hook_cursor.peek_sample().is_none_or(|s| s >= end),
@@ -742,7 +742,7 @@ impl ZwtvStream {
                         &mut quality,
                         &mut written,
                     );
-                    // Order 4 expiry rule b: cold replay end sets all due flags true.
+                    // Due rule b: cold replay end sets all due flags true.
                     due = Due::all_true();
                     pos = end;
                     continue;
@@ -754,7 +754,7 @@ impl ZwtvStream {
                 #[cfg(test)]
                 test_stream_hooks::record_swap();
 
-                // Deliver buffered emissions in order (Design r3 §5).
+                // Deliver buffered emissions in order.
                 let mut restarted_at: Option<usize> = None;
                 for emission in &emissions[..outcome.emission_count] {
                     if emission.nonfinite_since_prev {
@@ -772,7 +772,7 @@ impl ZwtvStream {
                         quality.as_deref_mut().map(|q| &mut q[written..]),
                     );
                     if transaction {
-                        // Order 4 (Design r3 §5): downstream fault -> discard all subsequent
+                        // Downstream fault -> discard all subsequent
                         // speculative TOL/emission/nonfinite records, zero BOTH kernel and shadow,
                         // set phase = (0 + 1) % DEC_FACTOR = 1, consumed = e.ordinal + 1,
                         // and restart a new block from the next sample.
@@ -789,7 +789,7 @@ impl ZwtvStream {
                 }
 
                 if let Some(next_pos) = restarted_at {
-                    // All-zero reset TOL does not require TOL entry validation (Design r3 §5).
+                    // All-zero reset TOL does not require TOL entry validation .
                     due.tol = false;
                     pos = next_pos;
                 } else {
@@ -896,7 +896,7 @@ fn filter_fault_on_kernel(
 }
 
 /// Cold/fallback R per-sample checked controller operating strictly on `kernel` alone.
-/// Never receives `&mut ZwtvStream`, `&mut TolStage`, or any reference to `shadow` (Design r3 §4).
+/// Never receives `&mut ZwtvStream`, `&mut TolStage`, or any reference to `shadow`.
 #[cold]
 #[inline(never)]
 #[allow(clippy::too_many_arguments)]
@@ -964,7 +964,7 @@ fn push_checked_range_on_kernel(
 }
 
 /// Cold replay after D1/D2 failure: restores block-entry MXCSR before the first FP op of replay,
-/// then runs R's checked controller on `kernel`. Never receives `shadow` (Design r3 §4, §8).
+/// then runs R's checked controller on `kernel`. Never receives `shadow`.
 #[cfg(target_arch = "x86_64")]
 #[cold]
 #[inline(never)]
@@ -1352,9 +1352,9 @@ mod tests {
         };
 
         for &avx2 in backends {
-            // 1. All six Design §10.2 c downstream Core NonFinite cases (plus guaranteed-finite-suffix
+            // 1. All six downstream Core NonFinite cases (plus guaranteed-finite-suffix
             // first/diffuse/interleaved shapes that stay below TOL overflow through block end so
-            // they exercise Order 4's speculative downstream restart path directly) must match
+            // they exercise the speculative downstream restart path directly) must match
             // 1-sample chunking bit-for-bit.
             #[allow(clippy::type_complexity)]
             let cases: Vec<(&str, FieldType, &[f64], Vec<usize>, bool)> = vec![
@@ -1689,7 +1689,7 @@ mod tests {
             let mut out = vec![StreamFrame::default(); ZwtvStream::max_frames_for_chunk(240)];
             let mut q = vec![FrameQualityV1::default(); out.len()];
 
-            // 1. Expiry rule c sets ONLY the written stage's due flag after block 0 clears all four.
+            // 1. Due rule c sets ONLY the written stage's due flag after block 0 clears all four.
             //    Block 0 = [0, 25) has emissions at 0 and 24 -> clears tol, held, nl, tw!
             //    Hook at s=25 writes NL only -> due must be {tol: false, held: false, nl: true, tw: false}.
             stream_hooks::install_schedule(vec![StreamHookEvent {

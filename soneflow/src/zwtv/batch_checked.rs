@@ -13,9 +13,9 @@ use rayon::prelude::*;
 
 type Fault = (usize, usize, DomainFault);
 
-/// Test-only Order 5 batch hook scheduler & due-rule tracker (Design r3 §6, §4, §8).
-/// Completely absent from default product builds (`#[cfg(test)]`); exposed to external
-/// verification drivers solely via candidate overlay `instrument_batch_c9.py`.
+/// Test-only batch hook scheduler and due-rule tracker (due rules: see `crate::numeric_guard`).
+/// Completely absent from default product builds (`#[cfg(test)]`). The `// c9_*` comments
+/// mark the hook sites for out-of-tree verification instrumentation.
 #[cfg(test)] // c9_batch_hook
 #[allow(dead_code)]
 pub mod batch_hooks {
@@ -662,9 +662,10 @@ pub(super) fn validate_slopes(total: &[f64], specific: &[f64]) -> Result<(), Son
         .map_or(Ok(()), |(_, _, e)| Err(e))
 }
 
-/// Order 6 (Design r3 §3, §8): validate ONLY the outputs produced by unqualified slopes
-/// tasks in exact R `(frame, band)` order (`total` has `band = usize::MAX`).
-/// Qualified tasks' outputs are guaranteed in `[0, T)` and `[0, M]` by D0 Addendum §B.
+/// Validate ONLY the outputs produced by unqualified slopes tasks, in R's exact
+/// `(frame, band)` order (`total` has `band = usize::MAX`). Qualified tasks skip this:
+/// with round-to-nearest arithmetic and validated core input, `calc_slopes` totals stay in
+/// `[0, TW_INPUT_MAX)` and samples in `[0, CORE_MAX]` (see `core::calc_slopes`).
 pub(super) fn validate_slopes_chunks(
     total: &[f64],
     specific: &[f64],
@@ -935,18 +936,18 @@ fn levels_scalar_fast_with_hooks(
                 ctx.record_executed_write();
                 h_idx += 1;
             }
-            // Expiry rule c: hook makes TOL due.
+            // Due rule c: a hook wrote TOL state.
             due_tol = true;
             ctx.record_due(1, band, pos, due_tol);
             // Post-hook snapshot preserves all 9 numeric values, all 18 construction coeff bits,
-            // phase, and original sample / emission indices (Design r3 §4, §6).
+            // phase, and original sample / emission indices.
             hook_snap = Some(BatchTolScalarSnapshot {
                 state: state.copy_exact(),
                 start_sample: pos,
                 phase,
                 emission_idx,
             });
-            // Design r3 §8: capture block entry MXCSR once per hook-delimited block.
+            // Capture the block entry MXCSR once per hook-delimited block.
             block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(entry_mxcsr);
         }
 
@@ -1185,7 +1186,7 @@ fn nl_band(
     #[cfg(test)] // c9_batch_hook
     hook_ctx: &batch_hooks::StageHookContext,
 ) -> Result<(), Fault> {
-    // Design r3 §8: read worker MXCSR once before seed & frame computation.
+    // Read the worker MXCSR once before seed and frame computation.
     let worker_qualified = crate::numeric_guard::read_unit_mxcsr()
         .is_some_and(crate::numeric_guard::is_mxcsr_qualified);
     let qualified = caller_qualified && worker_qualified;
@@ -1193,7 +1194,7 @@ fn nl_band(
     test_counters::record_nl_scalar(qualified);
 
     let mut state = NlBandState::seed(init, row[row.len() - 1]);
-    // Expiry rule d: NL state seeded from input (`MosqitoTail`) is due before first use.
+    // Due rule d: NL state seeded from input (`MosqitoTail`) is due before first use.
     let mut due_nl = matches!(init, NlInit::MosqitoTail);
     #[cfg(test)] // c9_batch_hook
     let band_hooks = hook_ctx.for_range(band, band + 1);
@@ -1250,7 +1251,7 @@ fn nl_band(
             while h_idx < band_hooks.len() && band_hooks[h_idx].sample == t {
                 state.inject_raw_bits(band_hooks[h_idx].field, band_hooks[h_idx].raw_u64);
                 hook_ctx.record_executed_write();
-                // Expiry rule c: hook makes NL due.
+                // Due rule c: a hook wrote NL state.
                 due_nl = true;
                 h_idx += 1;
             }
@@ -1293,7 +1294,7 @@ fn nonlinear_with_backend(
     if n == 0 {
         return Ok(out);
     }
-    // Design r3 §8: caller reads unit qualification before constructing `nl_coeffs()`.
+    // The caller reads unit qualification before constructing `nl_coeffs()`.
     let caller_qualified = crate::numeric_guard::read_unit_mxcsr()
         .is_some_and(crate::numeric_guard::is_mxcsr_qualified);
     let b = nl_coeffs();
@@ -1363,7 +1364,7 @@ pub(super) fn nonlinear(
 }
 
 /// Called by `ZwtvProcessor::process_with` immediately after `validate_core(&self.core, n_time)?`
-/// on immutable `&self.core`, enabling §3A / §7 per-frame `row`/`next` deduplication.
+/// on immutable `&self.core`, so the per-frame `row`/`next` validation can be skipped.
 pub(super) fn nonlinear_validated_core(
     core: &[f64],
     n: usize,
@@ -1423,7 +1424,7 @@ fn temporal_checked_loop(
 pub(super) fn temporal(values: &[f64]) -> Result<Vec<f64>, SoneflowError> {
     #[cfg(test)] // c9_batch_hook
     let hook_ctx = batch_hooks::snapshot_stage(5, values.len());
-    // Design r3 §8: caller reads MXCSR once before `TwState::new()` coefficient construction.
+    // The caller reads MXCSR once before `TwState::new()` coefficient construction.
     let qualified = crate::numeric_guard::read_unit_mxcsr()
         .is_some_and(crate::numeric_guard::is_mxcsr_qualified);
     #[cfg(test)]
@@ -1456,7 +1457,7 @@ pub(super) fn temporal(values: &[f64]) -> Result<Vec<f64>, SoneflowError> {
             while h_idx < tw_hooks.len() && tw_hooks[h_idx].sample == i {
                 state.inject_raw_bits(tw_hooks[h_idx].field, tw_hooks[h_idx].raw_u64);
                 hook_ctx.record_executed_write();
-                // Expiry rule c: hook makes TW due.
+                // Due rule c: a hook wrote TW state.
                 due_tw = true;
                 h_idx += 1;
             }
@@ -1688,7 +1689,7 @@ mod tests {
             }
 
             // 3. Mixed worker pool (2 threads: thread 0 qualified 0x1f80, thread 1 unqualified 0x9f80).
-            // O12-C1: bind each worker thread to its own Sink, guarantee both workers execute units,
+            // Bind each worker thread to its own Sink, guarantee both workers execute units,
             // and assert worker 0 runs fast path exclusively while worker 1 runs R's checked loop.
             {
                 let sink_q = Arc::new(test_counters::Sink::default());
@@ -2048,7 +2049,7 @@ mod tests {
                 "multi-hook overwrite avx2={use_avx2}: got {res_m:?}"
             );
 
-            // 3. Expiry rule c under DAZ (0x9fc0): neg min subnormal in sm[0] MUST be caught at s
+            // 3. Due rule c under DAZ (0x9fc0): neg min subnormal in sm[0] MUST be caught at s
             let pool_daz = rayon::ThreadPoolBuilder::new()
                 .num_threads(1)
                 .start_handler(|_| MxcsrGuard::set(0x9fc0))
@@ -2081,7 +2082,7 @@ mod tests {
                 );
             }
 
-            // 4. IE Case 1 (Amendment r8 §2.4): scalar R stops at sec 0 with IE=0; cold replay must restore MXCSR!
+            // 4. IE case 1: scalar R stops at sec 0 with IE=0; cold replay must restore MXCSR!
             if !use_avx2 {
                 for init_csr in [0x1f80u32, 0x1f84, 0x9fc0, 0x9fc4] {
                     let pool_ie = rayon::ThreadPoolBuilder::new()
@@ -2122,7 +2123,7 @@ mod tests {
                 }
             }
 
-            // 5. Expiry rule d (batch NL MosqitoTail due at t=0, cleared at t>=1; Zero not due unless hooked)
+            // 5. Due rule d (batch NL MosqitoTail due at t=0, cleared at t>=1; Zero not due unless hooked)
             let core_ok = vec![0.25f64; 21 * 8];
             let run_nl = |init: NlInit| {
                 let b = nl_coeffs();
@@ -2218,7 +2219,7 @@ mod tests {
                 "Rule c: NL hook at t=3 band=0 must set due_nl ONLY at (band=0, t=3) (avx2={use_avx2})"
             );
 
-            // 6. Expiry rule c for TW + invalid s = N rejection for TOL, NL, TW + NA stage rejection
+            // 6. Due rule c for TW + invalid s = N rejection for TOL, NL, TW + NA stage rejection
             let tw_vals = vec![0.5f64; 8];
             let tw_log = pool1.install(|| {
                 batch_hooks::install_thread_schedule(vec![hev(4, 5, 0, 0, 1.0_f64.to_bits())]);

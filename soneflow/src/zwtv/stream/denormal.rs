@@ -44,7 +44,7 @@ pub(super) struct DenormalGuard;
 #[cfg(not(target_arch = "x86_64"))]
 impl DenormalGuard {
     pub(super) fn new() -> Self {
-        // TODO(R7): use the aarch64 FPCR FZ bit.
+        // TODO(aarch64): use the FPCR FZ bit.
         Self
     }
 }

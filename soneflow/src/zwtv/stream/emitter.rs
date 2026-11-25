@@ -219,8 +219,9 @@ impl FrameEmitter {
         }
     }
 
-    /// Order 6 (Design r3 §3, §5, §7, §8): qualified `push` / `push_with_quality` emission path.
-    /// - Deduplicates `levels` non-finite rescan (proven finite by TOL D2 on the exact same bits).
+    /// Qualified (D0) `push` / `push_with_quality` emission path (terms: see `crate::numeric_guard`).
+    /// - Deduplicates `levels` non-finite rescan (proven finite by the TOL stage's D2 check on the
+    ///   exact same bits).
     /// - Retains `main_loudness_clamped` and its `validate_core(&core)` output check.
     /// - Checks due persistent states (`held`, `nl`, `tw`) ONLY after `main_loudness` validation.
     /// - Omits NL/TW substeps, NL `validate_core`, stream total bound, and the extra `sone2phon`

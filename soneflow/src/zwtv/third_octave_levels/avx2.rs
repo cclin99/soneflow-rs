@@ -372,7 +372,8 @@ pub unsafe fn third_octave_levels_avx2(sig: &[f64], mode: ParMode) -> (Vec<f64>,
 mod checked_tests {
     use super::*;
     use crate::numeric_guard::DomainFault;
-    // Fixed C4 scan for floating-environment regression comparison only.
+    // Fixed copy of the lane check (`lanes_valid`), for floating-environment regression
+    // comparison only.
     // Result expectations below are independently decoded from raw bits.
     #[target_feature(enable = "avx2,fma")]
     unsafe fn c4_check_lanes_reference(

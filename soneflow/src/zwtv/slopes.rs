@@ -15,10 +15,10 @@ const N_BARK: usize = 240;
 /// `(n_out, 240)`. Both buffers are resized in place, so their capacity is
 /// reused across calls.
 ///
-/// Order 6 (Design r3 §3, §7, §8): each Rayon frame task reads its own MXCSR
-/// once before its first `calc_slopes_into` walk; qualified tasks omit output
-/// domain validation under D0, while unqualified tasks record their `out_idx`
-/// so the caller validates them in exact R `(frame, band)` order.
+/// Each Rayon frame task reads its own MXCSR once before its first
+/// `calc_slopes_into` walk; qualified tasks omit output domain validation (D0),
+/// while unqualified tasks record their `out_idx` so the caller validates them
+/// in R's exact `(frame, band)` order (terms: see `crate::numeric_guard`).
 pub(crate) fn slopes_into_d0(
     nl: &[f64],
     n_time: usize,

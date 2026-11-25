@@ -3,7 +3,7 @@
 use rayon::prelude::*;
 
 /// 頻帶平行階段的排程模式。離線批次走 `Rayon`;
-/// R5 串流路徑必須選 `Sequential`(音訊路徑不得觸發 thread pool)。
+/// 串流路徑必須選 `Sequential`(音訊路徑不得觸發 thread pool)。
 /// 注意:scalar 後備路徑在 `Rayon` 模式下的暫態配置隨執行緒數放大
 /// (10 s 訊號 @12 緒:tol ~46 MB、nl ~138 MB),僅限離線批次使用。
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

@@ -1,7 +1,7 @@
 //! Stream front end: the 28-band filter bank advanced sample by sample, with
 //! the decimation phase that picks one 2 kHz frame every `DEC_FACTOR` samples.
 //!
-//! Order 3 (Design r3 §3, §4, §5, §12): dual-buffered TOL storage (`kernel` + `shadow`)
+//! Dual-buffered TOL storage (`kernel` + `shadow`)
 //! with immutable bit-copied creation coefficients, fixed 20-entry emission buffer for
 //! up to 480-sample speculative blocks, and single `target_feature(avx2,fma)` AVX2 block loop.
 

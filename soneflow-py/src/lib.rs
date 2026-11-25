@@ -219,7 +219,7 @@ fn loudness_zwst<'py>(
     ))
 }
 
-/// Convert loudness in sone to loudness level in phon using the frozen R5 formula.
+/// Convert loudness in sone to loudness level in phon (same frozen formula as `soneflow::sone2phon`).
 #[pyfunction]
 fn sone2phon(n: f64) -> PyResult<f64> {
     if !n.is_finite() || n < 0.0 {

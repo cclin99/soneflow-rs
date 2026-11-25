@@ -1,5 +1,27 @@
 //! Internal domain checks; callers supply fixed finite, nonnegative bounds.
 //! These checks neither normalize values nor change the floating-point mode.
+//!
+//! Terms used in the checked time-varying stages (`zwtv::batch_checked`,
+//! `zwtv::stream`):
+//!
+//! - **R**: the reference checked path. It validates every value at every
+//!   step and decides the exact fault coordinate, reason and state.
+//! - **Execution unit**: a stream block or a batch worker task. Each unit
+//!   reads MXCSR once (`read_unit_mxcsr`); the unit is **qualified** when that
+//!   word passes `is_mxcsr_qualified`. Only qualified units take a fast path.
+//! - **D0**: the qualified fast path. Its entry predicate checks the stored
+//!   state with integer operations only (`is_nonnegative_bounded`); if that
+//!   fails, the unit goes to R before anything is speculated.
+//! - **D1, D2**: the checks after a speculative block. D1 validates the state
+//!   (`validate_numeric`); D2 tests the block's non-finiteness accumulator
+//!   (`nonfinite_mask_bit`). If either fails, the block is replayed on R from
+//!   its entry state with the entry MXCSR restored.
+//! - **Due flags**: a stage's stored state is *due* when it must be validated
+//!   before its next use. Rule a: every public push call starts with all flags
+//!   due. Rule b: the end of an R replay sets all flags due. Rule c (tests
+//!   only): a hook that writes a stage's state makes that stage due. Rule d
+//!   (batch nonlinear decay): state seeded from the input
+//!   (`NlInit::MosqitoTail`) is due before its first use.
 #[cfg(all(test, target_arch = "x86_64"))]
 mod c4_tests;
 pub(crate) const CORE_MAX: f64 = 1e306;
@@ -102,7 +124,7 @@ pub(crate) fn read_rounding_environment() -> RoundingEnvironment {
     }
 }
 
-/// Single-read MXCSR capture for a C9 execution unit (Design r3 §8, Amendment r8 §2.5).
+/// Single-read MXCSR capture for one execution unit (see the module docs).
 /// Returns `Some(mxcsr)` on x86_64 and `None` on non-x86_64 targets.
 #[inline(always)]
 pub(crate) fn read_unit_mxcsr() -> Option<u32> {
@@ -116,7 +138,7 @@ pub(crate) fn read_unit_mxcsr() -> Option<u32> {
     }
 }
 
-/// Pure integer qualification predicate on a captured MXCSR word (Amendment r8 §2.5, Design r3 §8):
+/// Pure integer qualification predicate on a captured MXCSR word:
 /// RN rounding (`bits 13..=14 == 0`), all six exception masks set (`bits 7..=12 == 0x3f`),
 /// and `(FTZ, DAZ)` in `{(0, 0), (1, 1)}` (`bit 15 == bit 6`).
 #[inline(always)]
@@ -125,8 +147,7 @@ pub(crate) const fn is_mxcsr_qualified(mxcsr: u32) -> bool {
 }
 
 /// Restore a previously captured MXCSR word on x86_64 (cold replay path only).
-/// Must NOT declare `preserves_flags`: Rust treats MXCSR exception flags as flags
-/// (Design r3 §8, Amendment r8 §6.6).
+/// Must NOT declare `preserves_flags`: Rust treats MXCSR exception flags as flags.
 #[cfg(target_arch = "x86_64")]
 #[inline(always)]
 pub(crate) fn restore_mxcsr(mxcsr: u32) {

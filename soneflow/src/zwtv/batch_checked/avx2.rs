@@ -269,18 +269,18 @@ unsafe fn levels_fast_with_hooks(
                 ctx.record_executed_write();
                 h_idx += 1;
             }
-            // Expiry rule c: hook makes TOL due.
+            // Due rule c: a hook wrote TOL state.
             due_tol = true;
             ctx.record_due(1, group * 4, pos, due_tol);
             // Post-hook snapshot preserves all 36 numeric values, all 36 construction coeff bits,
-            // phase, and original sample / emission indices (Design r3 §4, §6).
+            // phase, and original sample / emission indices.
             hook_snap = Some(BatchTolAvx2Snapshot {
                 state: unsafe { state.copy_exact() },
                 start_sample: pos,
                 phase,
                 emission_idx,
             });
-            // Design r3 §8: capture block entry MXCSR once per hook-delimited block.
+            // Capture the block entry MXCSR once per hook-delimited block.
             block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(entry_mxcsr);
         }
 
@@ -514,7 +514,7 @@ pub(super) unsafe fn nonlinear(
     #[cfg(test)] // c9_batch_hook
     hook_ctx: &super::batch_hooks::StageHookContext,
 ) -> Result<(), (usize, usize, DomainFault)> {
-    // Design r3 §8: read worker MXCSR once before seed & frame computation.
+    // Read the worker MXCSR once before seed and frame computation.
     let worker_qualified = crate::numeric_guard::read_unit_mxcsr()
         .is_some_and(crate::numeric_guard::is_mxcsr_qualified);
     let qualified = caller_qualified && worker_qualified;
@@ -523,7 +523,7 @@ pub(super) unsafe fn nonlinear(
 
     let c = unsafe { NlConsts::new(b) };
     let mut state = unsafe { NlGroupState::seed(init, load(core, n, band, n - 1), &c) };
-    // Expiry rule d: NL state seeded from input (`MosqitoTail`) is due before first use.
+    // Due rule d: NL state seeded from input (`MosqitoTail`) is due before first use.
     let mut due_nl = matches!(init, NlInit::MosqitoTail);
     #[cfg(test)] // c9_batch_hook
     let group_hooks = hook_ctx.for_range(band, band + 4);
@@ -602,7 +602,7 @@ pub(super) unsafe fn nonlinear(
                 let ev = group_hooks[h_idx];
                 state.inject_raw_bits(ev.band - band, ev.field, ev.raw_u64);
                 hook_ctx.record_executed_write();
-                // Expiry rule c: hook makes NL due.
+                // Due rule c: a hook wrote NL state.
                 due_nl = true;
                 h_idx += 1;
             }
