@@ -6,7 +6,11 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
-## Unreleased (0.2.0)
+## 0.2.0 - 2026-11-26
+
+Output is bit for bit that of 0.1.0 (frozen hashes, Python contract hashes and
+scalar/AVX2 parity unchanged), and the measured batch and stream timings are
+within 3% of 0.1.0.
 
 ### Changed (breaking)
 
@@ -29,6 +33,16 @@ happened in a private repository and is not published.
   `internals::dsp::filtfilt::decimate_with_sos(sections, x, q)`: the filter
   for `q` is chosen by the caller (`internals::tables_noct::CHEBY_SOS`)
   rather than looked up inside the filter module. Results are unchanged.
+
+### Changed
+
+- Internal restructuring for maintainability: the stream push path, the
+  batch stages (one file per stage, one control flow for the scalar and AVX2
+  nonlinear decay) and the stream filter bank's fast blocks were split or
+  merged, and test-only code paths go through hook traits instead of
+  `cfg(test)` parameters (except in the batch third-octave stage). No product
+  function exceeds cyclomatic complexity 15 or 80 code lines.
+- CI can be started by hand on any branch (`workflow_dispatch`).
 
 ### Added
 
