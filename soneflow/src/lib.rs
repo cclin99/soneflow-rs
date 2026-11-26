@@ -8,7 +8,7 @@
 //!
 //! # Stationary example
 //!
-//! ```no_run
+//! ```
 //! use soneflow::{loudness_zwst, FieldType};
 //!
 //! # fn main() -> Result<(), soneflow::SoneflowError> {
@@ -21,7 +21,7 @@
 //!
 //! # Time-varying example
 //!
-//! ```no_run
+//! ```
 //! use soneflow::{loudness_zwtv, FieldType};
 //!
 //! # fn main() -> Result<(), soneflow::SoneflowError> {
@@ -31,6 +31,10 @@
 //! # Ok(())
 //! # }
 //! ```
+//!
+//! The examples here and on the functions, `ZwtvProcessor`, `ZwtvStream` and
+//! the error types run as doctests. `docs/BEHAVIOUR-CONTRACTS.md` lists the
+//! promises of the API and the tests that guard them.
 //!
 //! # Limitations
 //!

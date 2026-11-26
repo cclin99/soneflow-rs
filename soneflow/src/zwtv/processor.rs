@@ -14,6 +14,24 @@ use crate::types::{FieldType, LoudnessTimeVarying};
 const N_TOB: usize = 28;
 const N_CORE: usize = 21;
 
+/// Batch time-varying loudness that keeps its scratch buffers between calls.
+///
+/// A reused processor gives the same result as a new one and as
+/// [`loudness_zwtv`]; it only saves the allocations.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::{loudness_zwtv, FieldType, ZwtvProcessor};
+///
+/// let signal: Vec<f64> = (0..9_600).map(|i| 0.02 * (i as f64 * 0.13).sin()).collect();
+/// let mut processor = ZwtvProcessor::new();
+/// let first = processor.process(&signal, 48_000.0, FieldType::Free)?;
+/// let again = processor.process(&signal, 48_000.0, FieldType::Free)?;
+/// assert_eq!(first.n, again.n);
+/// assert_eq!(first.n, loudness_zwtv(&signal, 48_000.0, FieldType::Free)?.n);
+/// # Ok::<(), soneflow::SoneflowError>(())
+/// ```
 #[derive(Debug, Default)]
 pub struct ZwtvProcessor {
     third_octave_frames: Vec<f64>,
@@ -108,6 +126,25 @@ impl ZwtvProcessor {
 /// frozen output-grid contract). Input contract: `fs == 48000.0`, at least 4800
 /// samples, every sample finite; otherwise `UnsupportedSampleRate`,
 /// `SignalTooShort` or `NonFiniteInput` is returned and nothing is computed.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::{loudness_zwtv, zwtv_out_frames, FieldType, SoneflowError};
+///
+/// let silence = vec![0.0; 9_600]; // 0.2 s
+/// let result = loudness_zwtv(&silence, 48_000.0, FieldType::Free)?;
+/// assert_eq!(result.n.len(), zwtv_out_frames(silence.len())); // 100 points
+/// assert_eq!(result.time_axis[1], 0.002); // the 2 ms grid starts at 0 s
+/// assert!(result.n.iter().all(|&n| n == 0.0));
+///
+/// // The input contract is checked before any work.
+/// assert_eq!(
+///     loudness_zwtv(&silence, 44_100.0, FieldType::Free).unwrap_err(),
+///     SoneflowError::UnsupportedSampleRate(44_100.0)
+/// );
+/// # Ok::<(), SoneflowError>(())
+/// ```
 pub fn loudness_zwtv(
     signal: &[f64],
     fs: f64,

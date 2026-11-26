@@ -36,6 +36,14 @@ happened in a private repository and is not published.
   CI by `tools/public_api.py`.
 - Documentation for `soneflow::simd` and for the conditions under which the
   legacy `ZwtvStream::push`, `flush` and `reset` panic (`# Panics`).
+- Runnable examples (doctests) for `loudness_zwst`, `loudness_zwtv`,
+  `zwtv_out_frames`, `ZwtvProcessor`, the `ZwtvStream` lifecycle (push, flush,
+  reset, quality records, diagnostics), `sone2phon`, `SoneflowError` and
+  `StreamUsageError`; the two crate-level examples now run instead of only
+  compiling.
+- `docs/BEHAVIOUR-CONTRACTS.md` (and the Chinese version): each promise of the
+  library with the tests that guard it, checked in CI by
+  `tools/contract_tests.py`.
 
 ## 0.1.0 - 2026-11-25
 

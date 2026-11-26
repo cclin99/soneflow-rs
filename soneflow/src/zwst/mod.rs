@@ -41,6 +41,30 @@ pub fn spec_to_db(spec: &[f64]) -> Vec<f64> {
         .collect()
 }
 
+/// Stationary loudness (ISO 532-1 Zwicker, ZWST) of a 48 kHz pressure signal in Pa.
+///
+/// Input contract: `fs == 48000.0`, at least 4800 samples, every sample
+/// finite; otherwise `UnsupportedSampleRate`, `SignalTooShort` or
+/// `NonFiniteInput` is returned and nothing is computed. A third-octave level
+/// above 120 dB below 300 Hz is `LevelExceeds120dB`.
+///
+/// # Examples
+///
+/// A 1 kHz tone at 40 dB SPL in a free field is close to 1 sone (40 phon):
+///
+/// ```
+/// use soneflow::{loudness_zwst, FieldType};
+/// use std::f64::consts::{PI, SQRT_2};
+///
+/// let amplitude = 2e-5 * 100.0 * SQRT_2; // 40 dB SPL re 20 µPa, as a sine peak
+/// let signal: Vec<f64> = (0..24_000)
+///     .map(|i| amplitude * (2.0 * PI * 1000.0 * i as f64 / 48_000.0).sin())
+///     .collect();
+/// let result = loudness_zwst(&signal, 48_000.0, FieldType::Free)?;
+/// assert!((result.n - 1.0).abs() < 0.1, "N = {} sone", result.n);
+/// assert_eq!(result.n_specific.len(), 240); // 0.1 to 24 Bark
+/// # Ok::<(), soneflow::SoneflowError>(())
+/// ```
 pub fn loudness_zwst(
     signal: &[f64],
     fs: f64,

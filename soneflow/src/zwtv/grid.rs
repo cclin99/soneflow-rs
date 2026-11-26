@@ -23,6 +23,16 @@ pub(crate) const OUT_DECIM: usize = 4;
 /// depends only on samples `<= 96j`. The batch and the stream produce the same count.
 /// A caller that needs a shorter grid with the same step takes a prefix
 /// (`n[..len]`); the values of the prefix do not change.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::zwtv_out_frames;
+///
+/// assert_eq!(zwtv_out_frames(4_800), 50); // the shortest legal input
+/// assert_eq!(zwtv_out_frames(4_801), 51); // a started frame adds a point
+/// assert_eq!(zwtv_out_frames(48_000), 500); // 1 s
+/// ```
 pub fn zwtv_out_frames(signal_len: usize) -> usize {
     signal_len.div_ceil(DEC_FACTOR).div_ceil(OUT_DECIM)
 }

@@ -22,6 +22,24 @@ pub enum NumericFaultReason {
     UnsupportedEnvironment = 16,
 }
 
+/// Usage errors that the checked stream calls (`push_with_quality`,
+/// `flush_with_quality`, `reset_with_diagnostics`, `ack_diagnostics`) return
+/// instead of panicking. `code` is the number the C ABI returns for each.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::{FieldType, FrameQualityV1, StreamFrame, StreamUsageError, ZwtvStream};
+///
+/// let mut stream = ZwtvStream::new(FieldType::Free);
+/// let mut out = [StreamFrame::default(); 4];
+/// let mut quality = [FrameQualityV1::default(); 4];
+/// stream.flush_with_quality(&mut out, &mut quality)?;
+/// let err = stream.push_with_quality(&[0.0; 24], &mut out, &mut quality).unwrap_err();
+/// assert_eq!(err, StreamUsageError::AfterFlush);
+/// assert_eq!(err.code(), -6);
+/// # Ok::<(), StreamUsageError>(())
+/// ```
 #[derive(Clone, Copy, Debug, Error, PartialEq, Eq)]
 pub enum StreamUsageError {
     #[error("push after flush requires reset")]
@@ -59,6 +77,24 @@ impl StreamUsageError {
     }
 }
 
+/// Errors of the batch functions (`loudness_zwst`, `loudness_zwtv`,
+/// `ZwtvProcessor`). `code` is the number the C ABI returns for each.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::{loudness_zwst, FieldType, SoneflowError};
+///
+/// let mut signal = vec![0.0; 4_800];
+/// assert_eq!(
+///     loudness_zwst(&signal[..100], 48_000.0, FieldType::Free).unwrap_err(),
+///     SoneflowError::SignalTooShort { got: 100, need: 4_800 }
+/// );
+/// signal[7] = f64::NAN;
+/// let err = loudness_zwst(&signal, 48_000.0, FieldType::Free).unwrap_err();
+/// assert_eq!(err, SoneflowError::NonFiniteInput { idx: 7 });
+/// assert_eq!(err.code(), 4);
+/// ```
 #[derive(Debug, Error, PartialEq)]
 pub enum SoneflowError {
     #[error("1/3 octave band level exceeds 120 dB below 300 Hz; Zwicker method not applicable")]

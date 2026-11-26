@@ -1,6 +1,15 @@
 //! Sone to phon conversion.
 
 /// Convert non-negative loudness in sone to loudness level in phon.
+///
+/// # Examples
+///
+/// ```
+/// use soneflow::sone2phon;
+///
+/// assert_eq!(sone2phon(1.0), 40.0);
+/// assert_eq!(sone2phon(2.0), 50.0); // twice as loud is 10 phon more
+/// ```
 pub fn sone2phon(n: f64) -> f64 {
     if n >= 1.0 {
         40.0 + 10.0 * n.log2()

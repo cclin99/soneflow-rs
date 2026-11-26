@@ -390,6 +390,53 @@ impl FrameSink<'_> {
 /// targets. Legacy callers must inspect sticky diagnostics: finite fallback
 /// values are not valid loudness measurements, statistics, or AGC inputs.
 ///
+/// # Examples
+///
+/// Push chunks of any size, flush at the end; the frames are the batch
+/// result, bit for bit:
+///
+/// ```
+/// use soneflow::{loudness_zwtv, FieldType, FrameFlags, StreamFrame, ZwtvStream};
+///
+/// let signal: Vec<f64> = (0..9_600).map(|i| 0.02 * (i as f64 * 0.13).sin()).collect();
+/// let mut stream = ZwtvStream::new(FieldType::Free);
+/// let mut out = vec![StreamFrame::default(); ZwtvStream::max_frames_for_chunk(480)];
+/// let mut frames = Vec::new();
+/// for chunk in signal.chunks(480) {
+///     let written = stream.push(chunk, &mut out);
+///     frames.extend_from_slice(&out[..written]);
+/// }
+/// let written = stream.flush(&mut out);
+/// frames.extend_from_slice(&out[..written]);
+///
+/// let batch = loudness_zwtv(&signal, 48_000.0, FieldType::Free)?;
+/// assert_eq!(frames.len(), batch.n.len());
+/// assert!(frames.iter().zip(&batch.n).all(|(f, n)| f.n.to_bits() == n.to_bits()));
+/// assert!(frames[0].flags.contains(FrameFlags::WARMUP)); // the first 580 frames
+///
+/// stream.reset(); // start a new time line, as a new stream would
+/// # Ok::<(), soneflow::SoneflowError>(())
+/// ```
+///
+/// With per-frame quality records and the diagnostic snapshot:
+///
+/// ```
+/// use soneflow::{FieldType, FrameQualityV1, StreamFrame, ZwtvStream};
+///
+/// let mut stream = ZwtvStream::new(FieldType::Free);
+/// let chunk = [0.0; 480];
+/// let capacity = ZwtvStream::max_frames_for_chunk(chunk.len());
+/// let mut out = vec![StreamFrame::default(); capacity];
+/// let mut quality = vec![FrameQualityV1::default(); capacity];
+/// let written = stream.push_with_quality(&chunk, &mut out, &mut quality)?;
+/// assert!(quality[..written].iter().all(|q| q.quality_bits == 0)); // no fault
+///
+/// let snapshot = stream.diagnostics();
+/// assert_eq!(snapshot.incident_count, 0);
+/// stream.ack_diagnostics(snapshot.sequence)?;
+/// # Ok::<(), soneflow::StreamUsageError>(())
+/// ```
+///
 /// # Panics
 ///
 /// The legacy `push`, `flush` and `reset` panic on usage errors (see each
