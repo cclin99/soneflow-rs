@@ -6,7 +6,7 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
-## 0.2.0 - 2026-11-26
+## 0.2.0 - 2026-11-27
 
 Output is bit for bit that of 0.1.0 (frozen hashes, Python contract hashes and
 scalar/AVX2 parity unchanged), and the measured batch and stream timings are
