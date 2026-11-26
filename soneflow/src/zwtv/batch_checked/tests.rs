@@ -6,6 +6,7 @@ use super::levels::{levels_band, levels_with_backend};
 use super::nl_unit::{CtxNlHooks, NoNlHooks};
 use super::nonlinear::{nl_band, nonlinear_with_backend};
 use super::shared::StageCtx;
+use super::temporal::{temporal_with, CtxTwHooks, NoTwHooks};
 use super::tol_unit::{CtxTolHooks, NoTolHooks};
 use super::*;
 use crate::error::{NumericFaultStage as Stage, SoneflowError};
@@ -20,6 +21,21 @@ const UNVALIDATED: StageCtx = StageCtx {
 };
 fn bits(x: &[f64]) -> Vec<u64> {
     x.iter().map(|v| v.to_bits()).collect()
+}
+
+/// The product hooks and the test hooks with nothing scheduled take the same
+/// path in the temporal weighting stage: same output bits.
+#[test]
+fn product_tw_hooks_match_an_empty_hook_schedule() {
+    let mut values: Vec<f64> = (0..997).map(|i| ((i * 13) % 29) as f64 * 0.5).collect();
+    values[400] = -1.0; // out of range: the entry fallback reports it
+    let hook_ctx = batch_hooks::StageHookContext::empty();
+    let product = temporal_with(&values[..400], NoTwHooks).unwrap();
+    let hooked = temporal_with(&values[..400], CtxTwHooks::new(&hook_ctx)).unwrap();
+    assert_eq!(bits(&product), bits(&hooked));
+    let product = temporal_with(&values, NoTwHooks).unwrap_err();
+    let hooked = temporal_with(&values, CtxTwHooks::new(&hook_ctx)).unwrap_err();
+    assert_eq!(format!("{product:?}"), format!("{hooked:?}"));
 }
 
 /// The product hooks and the test hooks with nothing scheduled take the same
