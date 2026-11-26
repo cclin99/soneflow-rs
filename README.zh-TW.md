@@ -225,19 +225,19 @@ cargo bench -p soneflow --features internals --bench core -- filter_bank
 
 比較工具量測目前設定的本機 Rust／Python 環境。比較版本時應交錯執行，並一併回報分布與數值差異。效能結果須對應實際受測的版本與環境。
 
-## 實測結果（0.1.0）
+## 實測結果（0.2.0）
 
-2026-11-24 以原始碼 `6d48bf1`（0.1.0 的產品程式碼，量測時專案尚未改名為 soneflow；改名沒有改動任何計算）量測：Windows 10（build 19045）、AMD Zen 2 CPU（family 23 model 113，12 個邏輯核心）、rustc 1.99.1、Python 3.11.9、NumPy 2.4.6、MoSQITo 1.2.1。換一台機器時間會不同；重現指令列在表格下方。
+2026-11-26 以原始碼 `c0b7748`（0.2.0 的產品程式碼）量測：Windows 10（build 19045）、AMD Zen 2 CPU（family 23 model 113，12 個邏輯核心）、rustc 1.99.1、Python 3.11.9、NumPy 2.4.6、MoSQITo 1.2.1。換一台機器時間會不同；重現指令列在表格下方。0.2.0 的計算結果與 0.1.0 逐位元相同；在這台機器上與 0.1.0 交錯量測時，單執行緒批次與串流的時間相差在 0.3% 以內。不同天量的時間差得比這多：沒有改動的 MoSQITo 這次是 7.17 s，2026-11-24 是 6.59 s。
 
 ### 速度
 
 | 量測 | 結果 |
 |---|---|
-| ZWTV，3 秒測試訊號，Python binding 對 MoSQITo 1.2.1（各 30 次，先暖機一次） | soneflow 8.10 ms（標準差 0.39 ms），MoSQITo 6.587 s（標準差 0.025 s）：約快 810 倍；即時倍率 370 倍對 0.46 倍 |
-| ZWTV，10 秒訊號，Rust 批次，12 執行緒 | scalar 41.9 ms，AVX2 30.1 ms |
-| ZWTV，10 秒訊號，Rust 批次，單執行緒（`RAYON_NUM_THREADS=1`） | scalar 192.0 ms，AVX2 100.1 ms |
-| 三分之一倍頻程濾波器組，10 秒訊號，12 執行緒 | scalar 14.4 ms，AVX2 5.57 ms |
-| 串流，10 秒訊號以 480 樣本（10 ms）一塊推入，單執行緒 | scalar 184.2 ms，AVX2 83.1 ms（平均每 10 ms 區塊約 83 µs） |
+| ZWTV，3 秒測試訊號，Python binding 對 MoSQITo 1.2.1（各 30 次，先暖機一次） | soneflow 9.25 ms（標準差 0.57 ms），MoSQITo 7.168 s（標準差 0.315 s）：約快 775 倍；即時倍率 324 倍對 0.42 倍 |
+| ZWTV，10 秒訊號，Rust 批次，12 執行緒 | scalar 44.1 ms，AVX2 30.6 ms |
+| ZWTV，10 秒訊號，Rust 批次，單執行緒（`RAYON_NUM_THREADS=1`） | scalar 195.3 ms，AVX2 101.1 ms |
+| 三分之一倍頻程濾波器組，10 秒訊號，12 執行緒 | scalar 13.7 ms，AVX2 5.58 ms |
+| 串流，10 秒訊號以 480 樣本（10 ms）一塊推入，單執行緒 | scalar 187.5 ms，AVX2 84.5 ms（平均每 10 ms 區塊約 85 µs） |
 
 Rust 的時間是 Criterion 中位數。批次吞吐量不等於 callback 延遲；要放進音訊 callback 前，請在目標主機上量串流。
 
@@ -253,7 +253,7 @@ Rust 的時間是 Criterion 中位數。批次吞吐量不等於 callback 延遲
 | ZWTV，3 個合成 fixture（正弦、音調脈衝、60→80 dB 階躍），初始狀態與 MoSQITo 相同（`nl_init="mosqito_tail"`） | 最大 1.7e-4 sone，階躍例外，為 3.9e-3 | 最大 2.2e-2 sone/Bark |
 | ZWTV，3 秒測試訊號，預設零狀態，Python binding | 5.8e-3 sone | 3.2e-2 sone/Bark |
 
-比響度的差異是預期的：斜率在 0.1 Bark 格內結束時，本 crate 寫入主響度，MoSQITo 則延伸斜率。用預設的零初始狀態時，訊號開頭的差異會更大（階躍 fixture 最多 5.6e-2 sone），因為 MoSQITo 用訊號最後一幀當非線性衰減的初值。三個響度表 `ZUP`、`RNS`、`USL` 與 MoSQITo 完全相同（`tools/compare_mosqito.py --check-tables`）。
+比響度的差異是預期的：斜率在 0.1 Bark 格內結束時，本 crate 寫入主響度，MoSQITo 則延伸斜率。用預設的零初始狀態時，訊號開頭的差異會更大（階躍 fixture 最多 5.6e-2 sone），因為 MoSQITo 用訊號最後一幀當非線性衰減的初值。三個響度表 `ZUP`、`RNS`、`USL` 與 MoSQITo 完全相同（`tools/compare_mosqito.py --check-tables`）。fixture 各列來自 MoSQITo golden 測試，因為輸出逐位元相同，數值與 0.1.0 一樣；3 秒那一列為 0.2.0 重新量過。
 
 ### 重現
 
