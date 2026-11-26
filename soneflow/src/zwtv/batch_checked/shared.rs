@@ -5,6 +5,23 @@ use rayon::prelude::*;
 
 pub(super) type Fault = (usize, usize, DomainFault);
 
+/// What every band worker of one stage call shares.
+#[derive(Clone, Copy)]
+pub(super) struct StageCtx {
+    /// The caller's MXCSR qualified when the stage started.
+    pub(super) qualified: bool,
+    /// The input was validated before the stage (per-frame input checks skipped).
+    pub(super) validated: bool,
+    /// Run the AVX2 kernels.
+    pub(super) avx2: bool,
+}
+
+/// The current unit's MXCSR qualifies for the unchecked path (see `crate::numeric_guard`).
+#[inline(always)]
+pub(super) fn mxcsr_qualified() -> bool {
+    crate::numeric_guard::read_unit_mxcsr().is_some_and(crate::numeric_guard::is_mxcsr_qualified)
+}
+
 pub(super) fn dispatch<F>(out: &mut [f64], chunk: usize, mode: ParMode, f: F) -> Result<(), Fault>
 where
     F: Fn(usize, &mut [f64]) -> Result<(), Fault> + Sync,

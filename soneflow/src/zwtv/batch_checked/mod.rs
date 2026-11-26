@@ -10,6 +10,7 @@ mod avx2;
 #[allow(dead_code)]
 pub mod batch_hooks;
 mod levels;
+mod nl_unit;
 mod nonlinear;
 mod shared;
 mod temporal;

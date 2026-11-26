@@ -3,6 +3,8 @@
     reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
 )]
 
+use super::nl_unit::{run_unit, NlHooks, NlUnit};
+use super::shared::{mxcsr_qualified, Fault, StageCtx};
 use crate::numeric_guard::DomainFault;
 use crate::zwtv::grid::DEC_FACTOR;
 use crate::zwtv::nonlinear_decay::{NlConsts, NlGroupState, NlInit};
@@ -420,6 +422,7 @@ pub(super) unsafe fn levels(
 }
 
 #[target_feature(enable = "avx2,fma")]
+#[inline]
 unsafe fn load(core: &[f64], n: usize, band: usize, t: usize) -> __m256d {
     _mm256_set_pd(
         core[(band + 3) * n + t],
@@ -427,6 +430,33 @@ unsafe fn load(core: &[f64], n: usize, band: usize, t: usize) -> __m256d {
         core[(band + 1) * n + t],
         core[band * n + t],
     )
+}
+
+/// Core values of frame `t` and of the next frame (zero after the last), four lanes.
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn load_frame(core: &[f64], n: usize, band: usize, t: usize) -> (__m256d, __m256d) {
+    // SAFETY: this function's own target features are enabled.
+    let row = unsafe { load(core, n, band, t) };
+    let next = if t + 1 < n {
+        // SAFETY: as above.
+        unsafe { load(core, n, band, t + 1) }
+    } else {
+        _mm256_setzero_pd()
+    };
+    (row, next)
+}
+
+/// Write the four lanes of frame `t` to the band-major output.
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn store_frame(out: &mut [f64], n: usize, t: usize, value: __m256d) {
+    let mut lanes = [0.0; 4];
+    // SAFETY: `lanes` holds four f64; unaligned store.
+    unsafe { _mm256_storeu_pd(lanes.as_mut_ptr(), value) };
+    for lane in 0..4 {
+        out[lane * n + t] = lanes[lane];
+    }
 }
 
 #[cold]
@@ -439,200 +469,146 @@ unsafe fn nonlinear_entry_fallback(
     c: &NlConsts,
     t: usize,
     band: usize,
-) -> Result<__m256d, (usize, usize, DomainFault)> {
-    #[cfg(test)]
-    super::test_counters::record_nl_avx2_entry_fallback();
+) -> Result<__m256d, Fault> {
     // D0 entry failure: no speculation occurred, no MXCSR restore; delegate frame `t` to R.
+    // SAFETY: this function's own target features are enabled.
     unsafe { state.advance_frame_checked(row, next, c) }.map_err(|(lane, r)| (t, band + lane, r))
 }
 
-#[inline(never)]
+/// Unchecked steps of frames `start..n`; the slices and constants are
+/// arguments so the loop keeps them in registers.
 #[target_feature(enable = "avx2,fma")]
 #[allow(clippy::too_many_arguments)]
-unsafe fn nonlinear_checked_loop(
+unsafe fn advance_group<F: Fn()>(
     state: &mut NlGroupState,
     core: &[f64],
     out: &mut [f64],
     n: usize,
     band: usize,
     c: &NlConsts,
-    #[cfg(test)] // c9_batch_hook
-    group_hooks: &[super::batch_hooks::BatchHookEvent],
-    #[cfg(test)] // c9_batch_hook
-    mut due_nl: bool,
-    #[cfg(test)] // c9_batch_hook
-    hook_ctx: &super::batch_hooks::StageHookContext,
-) -> Result<(), (usize, usize, DomainFault)> {
-    #[cfg(test)] // c9_batch_hook
-    let mut h_idx = 0usize;
-    for t in 0..n {
-        #[cfg(test)] // c9_batch_hook
-        {
-            while h_idx < group_hooks.len() && group_hooks[h_idx].sample == t {
-                let ev = group_hooks[h_idx];
-                state.inject_raw_bits(ev.band - band, ev.field, ev.raw_u64);
-                hook_ctx.record_executed_write();
-                due_nl = true;
-                h_idx += 1;
-            }
-            hook_ctx.record_due(3, band, t, due_nl);
-        }
-        let row = unsafe { load(core, n, band, t) };
-        let next = if t + 1 < n {
-            unsafe { load(core, n, band, t + 1) }
-        } else {
-            _mm256_setzero_pd()
-        };
-        let value = unsafe { state.advance_frame_checked(row, next, c) }
-            .map_err(|(lane, r)| (t, band + lane, r))?;
-        #[cfg(test)] // c9_batch_hook
-        {
-            due_nl = false;
-        }
-        let mut lanes = [0.0; 4];
-        unsafe {
-            _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-        }
-        for lane in 0..4 {
-            out[lane * n + t] = lanes[lane];
-        }
+    start: usize,
+    each: F,
+) {
+    for t in start..n {
+        each();
+        // SAFETY: this function's own target features are enabled.
+        let (row, next) = unsafe { load_frame(core, n, band, t) };
+        // SAFETY: as above.
+        let value = unsafe { state.advance_frame(row, next, c) };
+        // SAFETY: as above.
+        unsafe { store_frame(out, n, t, value) };
     }
-    Ok(())
 }
 
+/// A group of four bands starting at `band`, read from the band-major core.
+/// Built only by [`nonlinear`], which requires AVX2 and FMA; every `unsafe`
+/// call below relies on that.
+struct Avx2Group<'a> {
+    state: NlGroupState,
+    c: NlConsts,
+    core: &'a [f64],
+    out: &'a mut [f64],
+    n: usize,
+    band: usize,
+}
+
+impl NlUnit for Avx2Group<'_> {
+    fn frames(&self) -> usize {
+        self.n
+    }
+    fn is_entry_valid(&self) -> bool {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe { self.state.is_entry_valid() }
+    }
+    fn inputs_ok(&self, t: usize) -> bool {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe {
+            let (row, next) = load_frame(self.core, self.n, self.band, t);
+            NlGroupState::core_lanes_valid(row) && NlGroupState::core_lanes_valid(next)
+        }
+    }
+    fn advance(&mut self, t: usize) {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe {
+            let (row, next) = load_frame(self.core, self.n, self.band, t);
+            let value = self.state.advance_frame(row, next, &self.c);
+            store_frame(self.out, self.n, t, value);
+        }
+    }
+    fn advance_from<F: Fn()>(&mut self, start: usize, each: F) {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe {
+            advance_group(
+                &mut self.state,
+                self.core,
+                self.out,
+                self.n,
+                self.band,
+                &self.c,
+                start,
+                each,
+            );
+        }
+    }
+    fn advance_checked(&mut self, t: usize) -> Result<(), Fault> {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe {
+            let (row, next) = load_frame(self.core, self.n, self.band, t);
+            let value = self
+                .state
+                .advance_frame_checked(row, next, &self.c)
+                .map_err(|(lane, r)| (t, self.band + lane, r))?;
+            store_frame(self.out, self.n, t, value);
+        }
+        Ok(())
+    }
+    fn entry_fallback(&mut self, t: usize) -> Result<(), Fault> {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Group`).
+        unsafe {
+            let (row, next) = load_frame(self.core, self.n, self.band, t);
+            let value =
+                nonlinear_entry_fallback(&mut self.state, row, next, &self.c, t, self.band)?;
+            store_frame(self.out, self.n, t, value);
+        }
+        Ok(())
+    }
+    #[cfg(test)]
+    fn inject(&mut self, band: usize, field: usize, raw: u64) {
+        self.state.inject_raw_bits(band - self.band, field, raw);
+    }
+}
+
+/// One group of four bands of the NL stage (terms: see `crate::numeric_guard`).
 #[target_feature(enable = "avx2,fma")]
 #[allow(clippy::too_many_arguments)]
-pub(super) unsafe fn nonlinear(
+pub(super) unsafe fn nonlinear<H: NlHooks>(
     core: &[f64],
     out: &mut [f64],
     n: usize,
     band: usize,
     b: [f64; 6],
     init: NlInit,
-    caller_qualified: bool,
-    core_validated: bool,
-    #[cfg(test)] // c9_batch_hook
-    hook_ctx: &super::batch_hooks::StageHookContext,
-) -> Result<(), (usize, usize, DomainFault)> {
+    ctx: StageCtx,
+    hooks: H,
+) -> Result<(), Fault> {
     // Read the worker MXCSR once before seed and frame computation.
-    let worker_qualified = crate::numeric_guard::read_unit_mxcsr()
-        .is_some_and(crate::numeric_guard::is_mxcsr_qualified);
-    let qualified = caller_qualified && worker_qualified;
-    #[cfg(test)]
-    super::test_counters::record_nl_avx2(qualified);
-
-    let c = unsafe { NlConsts::new(b) };
-    let mut state = unsafe { NlGroupState::seed(init, load(core, n, band, n - 1), &c) };
+    let qualified = ctx.qualified && mxcsr_qualified();
+    hooks.on_unit(qualified);
+    // SAFETY: this function's own target features are enabled.
+    let (c, state) = unsafe {
+        let c = NlConsts::new(b);
+        let state = NlGroupState::seed(init, load(core, n, band, n - 1), &c);
+        (c, state)
+    };
+    let mut unit = Avx2Group {
+        state,
+        c,
+        core,
+        out,
+        n,
+        band,
+    };
     // Due rule d: NL state seeded from input (`MosqitoTail`) is due before first use.
-    let mut due_nl = matches!(init, NlInit::MosqitoTail);
-    #[cfg(test)] // c9_batch_hook
-    let group_hooks = hook_ctx.for_range(band, band + 4);
-
-    if !qualified {
-        return unsafe {
-            nonlinear_checked_loop(
-                &mut state,
-                core,
-                out,
-                n,
-                band,
-                &c,
-                #[cfg(test)] // c9_batch_hook
-                &group_hooks,
-                #[cfg(test)] // c9_batch_hook
-                due_nl,
-                #[cfg(test)] // c9_batch_hook
-                hook_ctx,
-            )
-        };
-    }
-
-    #[cfg(test)] // c9_batch_hook
-    let need_hook_loop = !group_hooks.is_empty() || hook_ctx.has_due_log();
-    #[cfg(not(test))] // c9_batch_hook_else
-    let need_hook_loop = false;
-
-    if core_validated && !need_hook_loop {
-        let start = if due_nl && !unsafe { state.is_entry_valid() } {
-            let row0 = unsafe { load(core, n, band, 0) };
-            let next0 = if 1 < n {
-                unsafe { load(core, n, band, 1) }
-            } else {
-                _mm256_setzero_pd()
-            };
-            let value = unsafe { nonlinear_entry_fallback(&mut state, row0, next0, &c, 0, band) }?;
-            let mut lanes = [0.0; 4];
-            unsafe {
-                _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-            }
-            for lane in 0..4 {
-                out[lane * n] = lanes[lane];
-            }
-            1
-        } else {
-            0
-        };
-        for t in start..n {
-            #[cfg(test)]
-            super::test_counters::record_nl_avx2_fast_frame();
-            let row = unsafe { load(core, n, band, t) };
-            let next = if t + 1 < n {
-                unsafe { load(core, n, band, t + 1) }
-            } else {
-                _mm256_setzero_pd()
-            };
-            let value = unsafe { state.advance_frame(row, next, &c) };
-            let mut lanes = [0.0; 4];
-            unsafe {
-                _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-            }
-            for lane in 0..4 {
-                out[lane * n + t] = lanes[lane];
-            }
-        }
-        return Ok(());
-    }
-
-    #[cfg(test)] // c9_batch_hook
-    let mut h_idx = 0usize;
-    for t in 0..n {
-        #[cfg(test)] // c9_batch_hook
-        {
-            while h_idx < group_hooks.len() && group_hooks[h_idx].sample == t {
-                let ev = group_hooks[h_idx];
-                state.inject_raw_bits(ev.band - band, ev.field, ev.raw_u64);
-                hook_ctx.record_executed_write();
-                // Due rule c: a hook wrote NL state.
-                due_nl = true;
-                h_idx += 1;
-            }
-            hook_ctx.record_due(3, band, t, due_nl);
-        }
-        let row = unsafe { load(core, n, band, t) };
-        let next = if t + 1 < n {
-            unsafe { load(core, n, band, t + 1) }
-        } else {
-            _mm256_setzero_pd()
-        };
-        let state_ok = !due_nl || unsafe { state.is_entry_valid() };
-        let input_ok = core_validated
-            || (unsafe { NlGroupState::core_lanes_valid(row) }
-                && unsafe { NlGroupState::core_lanes_valid(next) });
-        let value = if !(state_ok && input_ok) {
-            unsafe { nonlinear_entry_fallback(&mut state, row, next, &c, t, band) }?
-        } else {
-            due_nl = false;
-            #[cfg(test)]
-            super::test_counters::record_nl_avx2_fast_frame();
-            unsafe { state.advance_frame(row, next, &c) }
-        };
-        let mut lanes = [0.0; 4];
-        unsafe {
-            _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-        }
-        for lane in 0..4 {
-            out[lane * n + t] = lanes[lane];
-        }
-    }
-    Ok(())
+    let due = matches!(init, NlInit::MosqitoTail);
+    run_unit(&mut unit, qualified, ctx.validated, due, hooks)
 }

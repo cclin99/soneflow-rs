@@ -3,13 +3,65 @@
     reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
 )]
 use super::levels::levels_with_backend;
+use super::nl_unit::{CtxNlHooks, NoNlHooks};
 use super::nonlinear::{nl_band, nonlinear_with_backend};
+use super::shared::StageCtx;
 use super::*;
 use crate::error::{NumericFaultStage as Stage, SoneflowError};
 use crate::zwtv::nonlinear_decay::{nl_coeffs, NlInit};
 use crate::zwtv::par::ParMode;
+
+/// Caller MXCSR qualified, core not validated (the per-frame checks run).
+const UNVALIDATED: StageCtx = StageCtx {
+    qualified: true,
+    validated: false,
+    avx2: false,
+};
 fn bits(x: &[f64]) -> Vec<u64> {
     x.iter().map(|v| v.to_bits()).collect()
+}
+
+/// The product hooks and the test hooks with nothing scheduled take the same
+/// path in both NL units: same output bits.
+#[test]
+fn product_nl_hooks_match_an_empty_hook_schedule() {
+    const N: usize = 64;
+    let core: Vec<f64> = (0..21 * N)
+        .map(|i| ((i * 37) % 101) as f64 * 0.01)
+        .collect();
+    let b = nl_coeffs();
+    let hook_ctx = batch_hooks::StageHookContext::empty();
+    for init in [NlInit::Zero, NlInit::MosqitoTail] {
+        for validated in [false, true] {
+            let ctx = StageCtx {
+                qualified: true,
+                validated,
+                avx2: false,
+            };
+            for band in 0..21 {
+                let row = &core[band * N..(band + 1) * N];
+                let (mut product, mut hooked) = (vec![0.0; N], vec![0.0; N]);
+                nl_band(row, &mut product, &b, init, band, ctx, NoNlHooks).unwrap();
+                let hooks = CtxNlHooks::new(&hook_ctx, band, 1, false);
+                nl_band(row, &mut hooked, &b, init, band, ctx, hooks).unwrap();
+                assert_eq!(bits(&product), bits(&hooked), "scalar band {band}");
+            }
+            #[cfg(target_arch = "x86_64")]
+            if crate::simd::use_avx2() {
+                for band in (0..20).step_by(4) {
+                    let (mut product, mut hooked) = (vec![0.0; 4 * N], vec![0.0; 4 * N]);
+                    let hooks = CtxNlHooks::new(&hook_ctx, band, 4, true);
+                    // SAFETY: AVX2 and FMA checked just above.
+                    unsafe {
+                        avx2::nonlinear(&core, &mut product, N, band, b, init, ctx, NoNlHooks)
+                            .unwrap();
+                        avx2::nonlinear(&core, &mut hooked, N, band, b, init, ctx, hooks).unwrap();
+                    }
+                    assert_eq!(bits(&product), bits(&hooked), "avx2 group {band}");
+                }
+            }
+        }
+    }
 }
 
 #[test]
@@ -655,9 +707,8 @@ fn order5_batch_hooks_snapshots_due_cd_and_ie_case1() {
                             band,
                             b,
                             init,
-                            true,
-                            false,
-                            &hook_ctx,
+                            UNVALIDATED,
+                            CtxNlHooks::new(&hook_ctx, band, 4, true),
                         )
                         .unwrap();
                     }
@@ -668,9 +719,8 @@ fn order5_batch_hooks_snapshots_due_cd_and_ie_case1() {
                     &b,
                     init,
                     20,
-                    true,
-                    false,
-                    &hook_ctx,
+                    UNVALIDATED,
+                    CtxNlHooks::new(&hook_ctx, 20, 1, false),
                 )
                 .unwrap();
             } else {
@@ -681,9 +731,8 @@ fn order5_batch_hooks_snapshots_due_cd_and_ie_case1() {
                         &b,
                         init,
                         band,
-                        true,
-                        false,
-                        &hook_ctx,
+                        UNVALIDATED,
+                        CtxNlHooks::new(&hook_ctx, band, 1, false),
                     )
                     .unwrap();
                 }
@@ -886,9 +935,8 @@ fn order5_batch_avx2_lane_isolation_tol_and_nl() {
                     0,
                     b_coeffs,
                     NlInit::Zero,
-                    true,
-                    false,
-                    &hook_ctx,
+                    UNVALIDATED,
+                    CtxNlHooks::new(&hook_ctx, 0, 4, true),
                 )
                 .unwrap();
             }
