@@ -16,12 +16,6 @@ pub(super) struct StageCtx {
     pub(super) avx2: bool,
 }
 
-/// The current unit's MXCSR, when it qualifies for the unchecked path (see `crate::numeric_guard`).
-#[inline(always)]
-pub(super) fn qualified_mxcsr() -> Option<u32> {
-    crate::numeric_guard::read_unit_mxcsr().filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
-}
-
 /// The current unit's MXCSR qualifies for the unchecked path (see `crate::numeric_guard`).
 #[inline(always)]
 pub(super) fn mxcsr_qualified() -> bool {

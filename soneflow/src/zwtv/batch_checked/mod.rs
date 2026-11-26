@@ -16,7 +16,6 @@ mod shared;
 mod temporal;
 #[cfg(test)]
 pub(super) mod test_counters;
-mod tol_unit;
 mod validate;
 
 pub(super) use levels::levels;
