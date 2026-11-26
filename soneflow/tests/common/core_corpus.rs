@@ -2,7 +2,7 @@
 //! Shared by `tests/core_characterization.rs`, `tests/golden_core.rs` and
 //! `benches/core.rs` (included there with `#[path]`).
 
-use soneflow::tables::{DLL, RAP, RNS};
+use soneflow::internals::tables::{DLL, RAP, RNS};
 
 fn lcg(seed: &mut u64) -> f64 {
     *seed = seed

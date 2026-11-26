@@ -13,7 +13,7 @@
                                                               # (Annex B 檔從你自己取得授權的副本放入)
     .venv/Scripts/python.exe tools/gen_golden.py              # 重生 data/golden(約 5–15 分鐘)
     .venv/Scripts/python.exe tools/golden_manifest.py --verify
-    cd soneflow && cargo test --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
+    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
 
 四步全過 = 鏈健在。`--verify` 失敗 ⇒ 環境已漂移(檢查 Python 小版本、
 requirements.lock 是否被動過、mosqito tarball sha256)。
@@ -22,7 +22,7 @@ requirements.lock 是否被動過、mosqito tarball sha256)。
 
 1. 跑 A 的前兩步。
 2. `--verify` **預期失敗**(libm 不同)。此時改跑 golden 測試:
-   `cargo test --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
+   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
 3. 測試全綠 ⇒ 新環境的 golden 有效。重新凍結契約:
    `.venv/Scripts/python.exe tools/golden_manifest.py --generate`
    commit `tools/golden.sha256`,commit 訊息記錄新環境(OS/CPU)。

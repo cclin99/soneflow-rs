@@ -39,18 +39,69 @@
 //! are surfaced as `SoneflowError`.
 #![warn(clippy::undocumented_unsafe_blocks)]
 
+/// The internal modules are not part of the public API; tests and benches
+/// reach them through `soneflow::internals` (feature `internals`).
+///
+/// ```
+/// use soneflow::simd::{avx2_available, set_force_scalar, use_avx2};
+/// use soneflow::{loudness_zwst, loudness_zwtv, ZwtvStream};
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::core;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::dsp;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::error;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::tables;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::tables_noct;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::zwst;
+/// ```
+///
+/// ```compile_fail
+/// use soneflow::zwtv;
+/// ```
+#[cfg_attr(
+    not(feature = "internals"),
+    doc = "```compile_fail
+use soneflow::internals;
+```"
+)]
+#[cfg_attr(
+    feature = "internals",
+    doc = "```
+use soneflow::internals::zwtv::ParMode;
+```"
+)]
+mod api_boundary {}
+
 mod batch_guard;
-pub mod core;
-pub mod dsp;
-pub mod error;
+mod core;
+mod dsp;
+mod error;
+#[cfg(feature = "internals")]
+pub mod internals;
 mod numeric_guard;
 pub mod simd;
 mod sone2phon;
-pub mod tables;
-pub mod tables_noct;
+mod tables;
+mod tables_noct;
 mod types;
-pub mod zwst;
-pub mod zwtv;
+mod zwst;
+mod zwtv;
 
 pub use error::{NumericFaultReason, NumericFaultStage, SoneflowError, StreamUsageError};
 pub use sone2phon::sone2phon;

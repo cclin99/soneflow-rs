@@ -10,11 +10,13 @@ mod diagnostics;
 mod emitter;
 mod frame;
 mod nl_stage;
+#[cfg(feature = "internals")]
 mod reference;
 mod tol_stage;
 
 pub use diagnostics::{DiagnosticSnapshotV1, FrameQualityV1};
 pub use frame::{FrameFlags, StreamFrame, N_WARMUP_FRAMES};
+#[cfg(feature = "internals")]
 pub use reference::zwtv_reference_zerostate;
 
 use crate::error::StreamUsageError;
@@ -369,6 +371,13 @@ impl Due {
 /// and processing. Checked quality APIs verify that environment on supported
 /// targets. Legacy callers must inspect sticky diagnostics: finite fallback
 /// values are not valid loudness measurements, statistics, or AGC inputs.
+///
+/// # Panics
+///
+/// The legacy `push`, `flush` and `reset` panic on usage errors (see each
+/// method). `push_with_quality`, `flush_with_quality` and
+/// `reset_with_diagnostics` return the same conditions as
+/// [`StreamUsageError`](crate::StreamUsageError) instead.
 pub struct ZwtvStream {
     tol: TolStage,
     emitter: FrameEmitter,
@@ -407,6 +416,13 @@ impl ZwtvStream {
         }
     }
 
+    /// Begin a new time/session epoch, as `reset_with_diagnostics` without
+    /// returning the old snapshot.
+    ///
+    /// # Panics
+    ///
+    /// If the session identity is exhausted
+    /// ([`StreamUsageError::SessionExhausted`](crate::StreamUsageError::SessionExhausted)).
     pub fn reset(&mut self) {
         self.reset_with_diagnostics()
             .expect("session identity exhausted");
@@ -442,14 +458,26 @@ impl ZwtvStream {
             .map_err(map_diagnostic_error)
     }
 
+    /// Output latency in input samples (one internal frame).
     pub const fn latency_samples() -> usize {
         DEC_FACTOR
     }
 
+    /// Output capacity a `push` of `chunk_len` samples needs.
     pub const fn max_frames_for_chunk(chunk_len: usize) -> usize {
         chunk_len / (DEC_FACTOR * OUT_DECIM) + 2
     }
 
+    /// Process `chunk` and write the finished frames to `out`; returns how many
+    /// were written.
+    ///
+    /// # Panics
+    ///
+    /// - after `flush` without a `reset` in between;
+    /// - if the chunk would run past the end of the stream timeline;
+    /// - if `out` is shorter than [`max_frames_for_chunk`](Self::max_frames_for_chunk)`(chunk.len())`.
+    ///
+    /// `push_with_quality` returns these as errors instead.
     pub fn push(&mut self, chunk: &[f64], out: &mut [StreamFrame]) -> usize {
         #[cfg(test)] // c9_stream_hook
         stream_hooks::begin_public_call();
@@ -809,6 +837,15 @@ impl ZwtvStream {
         }
     }
 
+    /// Finish the held slot (see `flush_with_quality`); returns the number of
+    /// frames written to `out`.
+    ///
+    /// # Panics
+    ///
+    /// - if `out` is empty;
+    /// - if the stream timeline is exhausted.
+    ///
+    /// `flush_with_quality` returns these as errors instead.
     pub fn flush(&mut self, out: &mut [StreamFrame]) -> usize {
         #[cfg(test)] // c9_stream_hook
         stream_hooks::begin_public_call();

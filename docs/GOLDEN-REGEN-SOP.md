@@ -12,7 +12,7 @@ Prerequisite: `mosqito-1.2.1.tar.gz` in the repo root (sha256 in the header of `
                                                               # (put the Annex B files there from your own licensed copy)
     .venv/Scripts/python.exe tools/gen_golden.py              # regenerate data/golden (about 5–15 minutes)
     .venv/Scripts/python.exe tools/golden_manifest.py --verify
-    cd soneflow && cargo test --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
+    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
 
 All four steps passing = the chain is intact. A `--verify` failure means the environment has drifted (check the Python minor version, whether `requirements.lock` was modified, and the mosqito tarball sha256).
 
@@ -20,7 +20,7 @@ All four steps passing = the chain is intact. A `--verify` failure means the env
 
 1. Run the first two steps of A.
 2. `--verify` is **expected to fail** (different libm). Run the golden tests instead:
-   `cargo test --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
+   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
 3. All tests green ⇒ the golden data of the new environment is valid. Re-freeze the contract:
    `.venv/Scripts/python.exe tools/golden_manifest.py --generate`
    commit `tools/golden.sha256`; record the new environment (OS/CPU) in the commit message.

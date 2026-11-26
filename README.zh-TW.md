@@ -219,6 +219,7 @@ cargo run -p soneflow --example cli -- path\to\mono-48k.wav --calib 0.632455532
 
 ```powershell
 cargo bench -p soneflow --bench loudness
+cargo bench -p soneflow --features internals --bench core -- filter_bank
 .venv\Scripts\python.exe tools\compare_mosqito.py
 ```
 
@@ -259,10 +260,11 @@ Rust 的時間是 Criterion 中位數。批次吞吐量不等於 callback 延遲
 ```powershell
 cargo bench -p soneflow --bench loudness
 $env:RAYON_NUM_THREADS = 1; cargo bench -p soneflow --bench loudness -- zwtv_10s
+cargo bench -p soneflow --features internals --bench core -- filter_bank
 .venv\Scripts\python.exe tools\compare_mosqito.py --iterations 30
 .venv\Scripts\python.exe tools\compare_mosqito.py --iterations 5 --nl-init mosqito_tail
 .venv\Scripts\python.exe tools\compare_mosqito.py --check-tables
-cargo test --release --test golden_zwst --test golden_zwtv -- --nocapture
+cargo test --release --features internals --test golden_zwst --test golden_zwtv -- --nocapture
 ```
 
 MoSQITo golden 測試需要 `data/`（見 [`docs/GOLDEN-REGEN-SOP.md`](docs/GOLDEN-REGEN-SOP.md)）。上面的數字只來自合成 fixture。

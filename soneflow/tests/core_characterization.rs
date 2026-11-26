@@ -9,11 +9,11 @@
 #[path = "common/core_corpus.rs"]
 mod core_corpus;
 
-use soneflow::core::calc_slopes::{
+use soneflow::internals::core::calc_slopes::{
     calc_slopes_into, calc_slopes_n_only, try_calc_slopes_into, SlopeInputError,
 };
-use soneflow::core::main_loudness::main_loudness;
-use soneflow::tables::ZUP;
+use soneflow::internals::core::main_loudness::main_loudness;
+use soneflow::internals::tables::ZUP;
 use soneflow::{FieldType, SoneflowError};
 
 /// Band-edge extension of the slope stage (0.0001, Zwicker et al. 1991; held in
@@ -123,7 +123,7 @@ fn total_loudness_is_never_negative() {
 //
 // Valid domain: all 21 core loudness values >= 0 and finite (Annex A). The
 // normal pipelines are designed to produce only such input; the low-level
-// `soneflow::core::calc_slopes` entry points accept anything. Four layers:
+// `soneflow::internals::core::calc_slopes` entry points accept anything. Four layers:
 //
 // 1. Valid domain values and Annex A rules (locked).
 // 2. Algorithm rule: band 0 never continues a slope (any finite input).

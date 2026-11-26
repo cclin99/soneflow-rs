@@ -4,9 +4,12 @@
 //! `params` holds the network constants and the initial-state choice,
 //! `scalar` and `avx2` the two kernels; this module only picks the backend.
 
-#![expect(
-    clippy::undocumented_unsafe_blocks,
-    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+#![cfg_attr(
+    any(test, feature = "internals"),
+    expect(
+        clippy::undocumented_unsafe_blocks,
+        reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
+    )
 )]
 
 #[cfg(target_arch = "x86_64")]
@@ -15,15 +18,19 @@ mod params;
 mod scalar;
 
 #[cfg(target_arch = "x86_64")]
+#[cfg(any(test, feature = "internals"))]
 pub use avx2::nl_loudness_avx2;
 #[cfg(target_arch = "x86_64")]
 pub(crate) use avx2::{NlConsts, NlGroupState};
 pub use params::{nl_coeffs, NlInit};
 pub(crate) use scalar::NlBandState;
+#[cfg(any(test, feature = "internals"))]
 pub use scalar::{nl_loudness_scalar, nl_loudness_scalar_with};
 
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::par::ParMode;
 
+#[cfg(any(test, feature = "internals"))]
 pub fn nl_loudness_with(core: &[f64], n_time: usize, mode: ParMode, init: NlInit) -> Vec<f64> {
     #[cfg(target_arch = "x86_64")]
     {
@@ -34,10 +41,12 @@ pub fn nl_loudness_with(core: &[f64], n_time: usize, mode: ParMode, init: NlInit
     scalar::nl_loudness_scalar_impl(core, n_time, mode, init)
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub fn nl_loudness_with_mode(core: &[f64], n_time: usize, mode: ParMode) -> Vec<f64> {
     nl_loudness_with(core, n_time, mode, NlInit::Zero)
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub fn nl_loudness(core: &[f64], n_time: usize) -> Vec<f64> {
     nl_loudness_with_mode(core, n_time, ParMode::Rayon)
 }

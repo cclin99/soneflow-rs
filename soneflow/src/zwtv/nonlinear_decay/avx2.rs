@@ -6,8 +6,12 @@
     reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
 )]
 
-use super::params::{nl_coeffs, NlInit, NL_EPS, NL_SUBSTEPS};
+#[cfg(any(test, feature = "internals"))]
+use super::params::nl_coeffs;
+use super::params::{NlInit, NL_EPS, NL_SUBSTEPS};
+#[cfg(any(test, feature = "internals"))]
 use super::scalar::nl_loudness_band_scalar;
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::par::{chunks_dispatch, ParMode};
 use std::arch::x86_64::__m256d;
 
@@ -15,6 +19,7 @@ use std::arch::x86_64::__m256d;
 ///
 /// # Safety
 /// Caller must ensure AVX2 and FMA are available before calling.
+#[cfg(any(test, feature = "internals"))]
 pub unsafe fn nl_loudness_avx2(
     core: &[f64],
     n_time: usize,
@@ -47,6 +52,7 @@ pub unsafe fn nl_loudness_avx2(
 ///
 /// # Safety
 /// Caller must ensure AVX2 and FMA are available before calling.
+#[cfg(any(test, feature = "internals"))]
 unsafe fn nl_group_avx2(
     core: &[f64],
     group: &mut [f64],
@@ -68,6 +74,7 @@ unsafe fn nl_group_avx2(
 
 #[inline]
 #[target_feature(enable = "avx2,fma")]
+#[cfg(any(test, feature = "internals"))]
 unsafe fn nl_loudness_load4(core: &[f64], n_time: usize, band: usize, t: usize) -> __m256d {
     use std::arch::x86_64::*;
 
@@ -364,6 +371,7 @@ impl NlGroupState {
 }
 
 #[target_feature(enable = "avx2,fma")]
+#[cfg(any(test, feature = "internals"))]
 unsafe fn nl_loudness_process4(
     core: &[f64],
     out_group: &mut [f64],

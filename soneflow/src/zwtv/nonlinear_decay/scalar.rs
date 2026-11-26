@@ -1,16 +1,22 @@
 //! Scalar nonlinear-decay kernel: one band at a time.
 
-use super::params::{nl_coeffs, NlInit, NL_EPS, NL_SUBSTEPS};
+#[cfg(any(test, feature = "internals"))]
+use super::params::nl_coeffs;
+use super::params::{NlInit, NL_EPS, NL_SUBSTEPS};
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::par::{chunks_dispatch, ParMode};
 
+#[cfg(any(test, feature = "internals"))]
 pub fn nl_loudness_scalar(core: &[f64], n_time: usize) -> Vec<f64> {
     nl_loudness_scalar_with(core, n_time, NlInit::Zero)
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub fn nl_loudness_scalar_with(core: &[f64], n_time: usize, init: NlInit) -> Vec<f64> {
     nl_loudness_scalar_impl(core, n_time, ParMode::Sequential, init)
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub(super) fn nl_loudness_scalar_impl(
     core: &[f64],
     n_time: usize,
@@ -186,6 +192,7 @@ impl NlBandState {
     }
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub(super) fn nl_loudness_band_scalar(row: &[f64], out: &mut [f64], b: &[f64; 6], init: NlInit) {
     let n_time = row.len();
     assert_eq!(out.len(), n_time);

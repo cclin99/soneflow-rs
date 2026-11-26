@@ -1,9 +1,9 @@
 #[allow(dead_code)]
 mod common;
 
-use soneflow::zwtv::nonlinear_decay::nl_loudness_with_mode;
-use soneflow::zwtv::third_octave_levels::third_octave_levels_with_mode;
-use soneflow::zwtv::ParMode;
+use soneflow::internals::zwtv::nonlinear_decay::nl_loudness_with_mode;
+use soneflow::internals::zwtv::third_octave_levels::third_octave_levels_with_mode;
+use soneflow::internals::zwtv::ParMode;
 use soneflow::{loudness_zwtv, simd, FieldType};
 
 const FS: f64 = 48_000.0;

@@ -12,8 +12,8 @@
 #[allow(dead_code)]
 mod common;
 
-use soneflow::core::calc_slopes::calc_slopes;
-use soneflow::core::main_loudness::main_loudness;
+use soneflow::internals::core::calc_slopes::calc_slopes;
+use soneflow::internals::core::main_loudness::main_loudness;
 use soneflow::{loudness_zwst, loudness_zwtv, FieldType, FrameFlags, N_WARMUP_FRAMES};
 
 const FS: f64 = 48_000.0;

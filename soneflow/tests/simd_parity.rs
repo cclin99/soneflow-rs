@@ -2,10 +2,12 @@
 mod common;
 
 use common::assert_close;
-use soneflow::zwtv::nonlinear_decay::{nl_loudness_avx2, nl_loudness_scalar_with};
-use soneflow::zwtv::third_octave_levels::{third_octave_levels_avx2, third_octave_levels_scalar};
-use soneflow::zwtv::NlInit;
-use soneflow::zwtv::ParMode;
+use soneflow::internals::zwtv::nonlinear_decay::{nl_loudness_avx2, nl_loudness_scalar_with};
+use soneflow::internals::zwtv::third_octave_levels::{
+    third_octave_levels_avx2, third_octave_levels_scalar,
+};
+use soneflow::internals::zwtv::ParMode;
+use soneflow::NlInit;
 
 #[test]
 fn filter_bank_avx2_matches_scalar() {

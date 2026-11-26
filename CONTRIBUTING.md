@@ -69,7 +69,7 @@ When numerical behavior could change, also run the bitwise hash dump and compare
 all four recorded lines exactly:
 
 ```powershell
-cargo test -p soneflow --test golden_zwtv dump_zwtv_output_hashes -- --ignored --nocapture
+cargo test -p soneflow --features internals --test golden_zwtv dump_zwtv_output_hashes -- --ignored --nocapture
 ```
 
 ## Benchmarks

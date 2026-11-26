@@ -1,7 +1,6 @@
 //! Fallible stationary filtering with explicit logical sample coordinates.
 use super::filtfilt::odd_ext;
 use super::sos::{sosfilt_zi, Sos};
-use crate::tables_noct::{CHEBY_QS, CHEBY_SOS};
 
 pub(crate) fn sos(sections: &[Sos], x: &mut [f64], zi: &mut [[f64; 2]]) -> Result<(), usize> {
     sos_mapped(sections, x, zi, |i| i)
@@ -61,12 +60,10 @@ fn run_with_seed(
     sos_mapped(sections, ext, &mut zi, coordinate)
 }
 
-pub(crate) fn decimate(x: &[f64], q: usize) -> Result<Vec<f64>, usize> {
-    let index = CHEBY_QS
-        .iter()
-        .position(|&c| c == q)
-        .expect("fixed product decimation");
-    let sections = &CHEBY_SOS[index];
+/// Checked `decimate_with_sos`: zero-phase filtering with `sections`, then
+/// every `q`-th sample. `Err` carries the first logical sample that went
+/// non-finite.
+pub(crate) fn decimate_with_sos(sections: &[Sos], x: &[f64], q: usize) -> Result<Vec<f64>, usize> {
     let nb2 = sections.iter().filter(|s| s.b[2] == 0.0).count();
     let na2 = sections.iter().filter(|s| s.a[1] == 0.0).count();
     let padlen = 3 * (2 * sections.len() + 1 - nb2.min(na2));
@@ -148,20 +145,5 @@ mod tests {
         };
         let mut x = [f64::MAX];
         assert_eq!(sos(&[section], &mut x, &mut [[0.0; 2]]), Err(0));
-    }
-
-    #[test]
-    fn checked_filters_preserve_normal_bits() {
-        let x: Vec<_> = (0..4800)
-            .map(|i| ((i % 71) as f64 - 35.0) * 0.001)
-            .collect();
-        for &q in &CHEBY_QS {
-            let old = super::super::filtfilt::decimate(&x, q);
-            let new = decimate(&x, q).unwrap();
-            assert_eq!(
-                old.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
-                new.iter().map(|v| v.to_bits()).collect::<Vec<_>>()
-            );
-        }
     }
 }

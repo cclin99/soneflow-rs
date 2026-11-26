@@ -9,10 +9,10 @@
 
 mod common;
 use common::*;
-use soneflow::zwtv::nonlinear_decay::{nl_loudness_scalar, nl_loudness_scalar_with};
-use soneflow::zwtv::temporal_weighting::temporal_weighting;
-use soneflow::zwtv::third_octave_levels::third_octave_levels_scalar;
-use soneflow::zwtv::NlInit;
+use soneflow::internals::zwtv::nonlinear_decay::{nl_loudness_scalar, nl_loudness_scalar_with};
+use soneflow::internals::zwtv::temporal_weighting::temporal_weighting;
+use soneflow::internals::zwtv::third_octave_levels::third_octave_levels_scalar;
+use soneflow::NlInit;
 use soneflow::{loudness_zwtv, FieldType, ZwtvProcessor};
 
 // MoSQITo 1.2.1 seeds the nonlinear decay from the last frame; the
@@ -233,7 +233,7 @@ fn zwtv_default_converges_to_golden_once_the_tail_seed_has_decayed() {
 /// `NlInit::Zero`. The two tables agree on the silent-tail fixtures, where the
 /// seed is zero: only the seed differs between them.
 /// Regenerate with
-/// `cargo test --test golden_zwtv dump_zwtv_output_hashes -- --ignored --nocapture`.
+/// `cargo test --features internals --test golden_zwtv dump_zwtv_output_hashes -- --ignored --nocapture`.
 const SNAPSHOT_AVX2_MOSQITO_TAIL: [(&str, u64, u64, u64); 4] = [
     (
         "sine_1k_60",

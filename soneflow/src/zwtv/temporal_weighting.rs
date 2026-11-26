@@ -131,6 +131,7 @@ impl TwState {
 }
 
 /// Duration-dependent loudness perception: 0.47*LP(3.5ms) + 0.53*LP(70ms).
+#[cfg(any(test, feature = "internals"))]
 pub fn temporal_weighting(loudness: &[f64]) -> Vec<f64> {
     let mut state = TwState::new();
     loudness.iter().map(|&l| state.advance(l)).collect()

@@ -1,5 +1,6 @@
 //! Band-parallel scheduling shared by the batch stages.
 
+#[cfg(any(test, feature = "internals"))]
 use rayon::prelude::*;
 
 /// 頻帶平行階段的排程模式。離線批次走 `Rayon`;
@@ -9,11 +10,17 @@ use rayon::prelude::*;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ParMode {
     Rayon,
+    /// Only tests and `internals` select this; the batch product runs `Rayon`.
+    #[cfg_attr(
+        not(any(test, feature = "internals")),
+        expect(dead_code, reason = "selected only by tests and internals")
+    )]
     Sequential,
 }
 
 /// Split `out` into `chunk`-sized pieces and run `f(index, piece)` on each,
 /// on the Rayon pool or in order on the caller's thread.
+#[cfg(any(test, feature = "internals"))]
 pub(crate) fn chunks_dispatch<F>(out: &mut [f64], chunk: usize, mode: ParMode, f: F)
 where
     F: Fn(usize, &mut [f64]) + Sync,

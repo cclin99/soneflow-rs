@@ -1,9 +1,15 @@
 //! Scalar filter-bank kernel: one band at a time.
 
-use super::coeffs::{band_sos, intensity_to_db, smoothing_coeff};
+#[cfg(any(test, feature = "internals"))]
+use super::coeffs::intensity_to_db;
+use super::coeffs::{band_sos, smoothing_coeff};
 use crate::dsp::sos::Sos;
-use crate::tables::{N_TOB_BANDS, TOB_GAIN};
+#[cfg(any(test, feature = "internals"))]
+use crate::tables::N_TOB_BANDS;
+use crate::tables::TOB_GAIN;
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::grid::DEC_FACTOR;
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::par::{chunks_dispatch, ParMode};
 
 /// Filter and smoother state of one band, advanced one 48 kHz sample at a time.
@@ -183,6 +189,7 @@ impl TolBandState {
     }
 }
 
+#[cfg(any(test, feature = "internals"))]
 fn tol_band_scalar(sig: &[f64], band: usize, out_row: &mut [f64]) {
     let mut state = TolBandState::new(band);
     let mut frame = 0;
@@ -195,10 +202,12 @@ fn tol_band_scalar(sig: &[f64], band: usize, out_row: &mut [f64]) {
     }
 }
 
+#[cfg(feature = "internals")]
 pub fn third_octave_levels_scalar(sig: &[f64]) -> (Vec<f64>, usize) {
     third_octave_levels_scalar_impl(sig, ParMode::Sequential)
 }
 
+#[cfg(any(test, feature = "internals"))]
 pub(super) fn third_octave_levels_scalar_impl(sig: &[f64], mode: ParMode) -> (Vec<f64>, usize) {
     let n_time = sig.len().div_ceil(DEC_FACTOR);
     let mut out = vec![0.0; N_TOB_BANDS * n_time];

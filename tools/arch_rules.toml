@@ -36,7 +36,7 @@ allow = ["dsp::sos"]
 
 [[layer]]
 module = "dsp"
-allow = ["tables_noct"]
+allow = []
 
 # Core (R7a criterion 4'): one rule per module, listing what it actually uses.
 # Implied: the two stages (calc_slopes, main_loudness) do not depend on each
@@ -97,6 +97,16 @@ allow = ["tables"]
 [[layer]]
 module = "core::main_loudness::core_band"
 allow = ["core::main_loudness::c_constants", "tables", "types"]
+
+# lib.rs items: the API-boundary doctests (no code) and the `internals`
+# feature, which only re-exports internal modules for tests and benches.
+[[layer]]
+module = "api_boundary"
+allow = []
+
+[[layer]]
+module = "internals"
+allow = ["core", "dsp", "tables", "tables_noct", "zwst", "zwtv"]
 
 # Pipelines: stationary and time-varying do not depend on each other.
 [[layer]]

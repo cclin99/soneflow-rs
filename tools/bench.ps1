@@ -11,6 +11,9 @@ if ($Threads -gt 0) { $env:RAYON_NUM_THREADS = "$Threads" }
 try {
     cargo bench --bench loudness
     if ($LASTEXITCODE -ne 0) { throw "cargo bench failed with exit code $LASTEXITCODE" }
+    # The filter-bank stage bench lives in `core` and needs `internals`.
+    cargo bench --features internals --bench core -- filter_bank
+    if ($LASTEXITCODE -ne 0) { throw "cargo bench failed with exit code $LASTEXITCODE" }
 }
 finally {
     Remove-Item Env:RAYON_NUM_THREADS -ErrorAction SilentlyContinue

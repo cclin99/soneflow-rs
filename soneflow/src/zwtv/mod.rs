@@ -19,5 +19,6 @@ pub mod third_octave_levels;
 
 pub use grid::zwtv_out_frames;
 pub use nonlinear_decay::NlInit;
+#[cfg(feature = "internals")]
 pub use par::ParMode;
 pub use processor::{loudness_zwtv, ZwtvProcessor};

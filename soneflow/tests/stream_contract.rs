@@ -34,7 +34,8 @@ fn assert_frames_bitwise(got: &[StreamFrame], expected: &[StreamFrame], ctx: &st
 fn stream_constants_and_single_push_reference() {
     assert_eq!(ZwtvStream::latency_samples(), 24);
     let signal = common::synth_signal();
-    let reference = soneflow::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
+    let reference =
+        soneflow::internals::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
     let got = run_chunked(&signal, std::iter::once(signal.len()));
     assert_eq!(got.len(), reference.len());
     for (i, (frame, expected)) in got.iter().zip(reference).enumerate() {
@@ -129,7 +130,8 @@ fn batch_zerostate_reference_and_stream_are_bitwise_identical_from_frame_zero() 
     let one_second = common::synth_signal();
     let signal: Vec<f64> = one_second.iter().copied().cycle().take(144_000).collect();
     let batch = soneflow::loudness_zwtv(&signal, 48_000.0, FieldType::Free).unwrap();
-    let zero = soneflow::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
+    let zero =
+        soneflow::internals::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
     let stream = run_chunked(&signal, std::iter::repeat(480));
     assert_eq!(batch.n.len(), zero.len());
     assert_eq!(batch.n.len(), stream.len());

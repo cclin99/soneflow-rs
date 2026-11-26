@@ -14,7 +14,7 @@
 
 mod common;
 
-use soneflow::zwtv::NlInit;
+use soneflow::NlInit;
 use soneflow::{loudness_zwtv, FieldType, ZwtvProcessor, ZwtvStream};
 
 const FS: f64 = 48_000.0;

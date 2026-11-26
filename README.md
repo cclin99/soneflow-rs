@@ -219,6 +219,7 @@ Batch throughput and streaming callback latency answer different questions. Meas
 
 ```powershell
 cargo bench -p soneflow --bench loudness
+cargo bench -p soneflow --features internals --bench core -- filter_bank
 .venv\Scripts\python.exe tools\compare_mosqito.py
 ```
 
@@ -259,10 +260,11 @@ The specific-loudness differences are expected: where a slope ends inside a 0.1 
 ```powershell
 cargo bench -p soneflow --bench loudness
 $env:RAYON_NUM_THREADS = 1; cargo bench -p soneflow --bench loudness -- zwtv_10s
+cargo bench -p soneflow --features internals --bench core -- filter_bank
 .venv\Scripts\python.exe tools\compare_mosqito.py --iterations 30
 .venv\Scripts\python.exe tools\compare_mosqito.py --iterations 5 --nl-init mosqito_tail
 .venv\Scripts\python.exe tools\compare_mosqito.py --check-tables
-cargo test --release --test golden_zwst --test golden_zwtv -- --nocapture
+cargo test --release --features internals --test golden_zwst --test golden_zwtv -- --nocapture
 ```
 
 The MoSQITo golden tests need `data/` (see [`docs/GOLDEN-REGEN-SOP.md`](docs/GOLDEN-REGEN-SOP.md)). The numbers above come from the synthetic fixtures only.

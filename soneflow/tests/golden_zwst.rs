@@ -12,9 +12,9 @@ use common::*;
 
 /// MoSQITo compatibility bound for the total loudness, sone.
 const COMPAT_TOL: f64 = 5e-3;
-use soneflow::core::calc_slopes::calc_slopes;
-use soneflow::core::main_loudness::main_loudness;
-use soneflow::zwst::{noct_spectrum_rms, spec_to_db};
+use soneflow::internals::core::calc_slopes::calc_slopes;
+use soneflow::internals::core::main_loudness::main_loudness;
+use soneflow::internals::zwst::{noct_spectrum_rms, spec_to_db};
 use soneflow::{loudness_zwst, FieldType, SoneflowError};
 
 #[test]

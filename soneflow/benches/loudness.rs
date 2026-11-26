@@ -1,7 +1,6 @@
 use std::time::Duration;
 
 use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
-use soneflow::zwtv::third_octave_levels::third_octave_levels;
 use soneflow::{loudness_zwtv, simd, FieldType, StreamFrame, ZwtvStream};
 
 const FS: f64 = 48_000.0;
@@ -29,34 +28,6 @@ fn auto_dispatch_label() -> &'static str {
 
 fn thread_suffix() -> String {
     format!("t{}", rayon::current_num_threads())
-}
-
-fn bench_third_octave_filter_bank(c: &mut Criterion) {
-    let signal = bench_signal();
-    let mut group = c.benchmark_group(format!("filter_bank_10s_{}", thread_suffix()));
-    group.sample_size(10);
-    group.measurement_time(Duration::from_secs(6));
-    group.throughput(Throughput::Elements(signal.len() as u64));
-
-    group.bench_function(BenchmarkId::new("scalar", signal.len()), |b| {
-        simd::set_force_scalar(true);
-        b.iter(|| {
-            let (levels, n_time) = third_octave_levels(black_box(signal.as_slice()));
-            black_box((levels, n_time));
-        });
-        simd::set_force_scalar(false);
-    });
-
-    group.bench_function(BenchmarkId::new(auto_dispatch_label(), signal.len()), |b| {
-        simd::set_force_scalar(false);
-        b.iter(|| {
-            let (levels, n_time) = third_octave_levels(black_box(signal.as_slice()));
-            black_box((levels, n_time));
-        });
-    });
-
-    simd::set_force_scalar(false);
-    group.finish();
 }
 
 fn bench_zwtv_pipeline(c: &mut Criterion) {
@@ -120,10 +91,5 @@ fn bench_stream_push(c: &mut Criterion) {
     group.finish();
 }
 
-criterion_group!(
-    benches,
-    bench_third_octave_filter_bank,
-    bench_zwtv_pipeline,
-    bench_stream_push
-);
+criterion_group!(benches, bench_zwtv_pipeline, bench_stream_push);
 criterion_main!(benches);

@@ -270,8 +270,11 @@ pub const TOB_GAIN: [f64; 28] = [
     3.91006e-3,
 ];
 
+#[cfg(any(test, feature = "internals"))]
 pub const N_TOB_BANDS: usize = 28;
+#[cfg(feature = "internals")]
 pub const N_CRITICAL_BANDS: usize = 20;
+#[cfg(feature = "internals")]
 pub const N_BARK_STEPS: usize = 240;
 
 #[cfg(test)]

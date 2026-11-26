@@ -10,7 +10,9 @@
 //! checked-input layer is available through the `try_calc_slopes*` APIs below.
 //! Finite cores above `1e306` retain termination and no-panic behavior, without
 //! a finite-output or numerical-accuracy guarantee.
+#[cfg(any(test, feature = "internals"))]
 mod checked;
+#[cfg(any(test, feature = "internals"))]
 pub use checked::{try_calc_slopes, try_calc_slopes_into, try_calc_slopes_n_only, SlopeInputError};
 pub(crate) mod model;
 mod positions;

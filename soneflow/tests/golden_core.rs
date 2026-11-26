@@ -1,7 +1,7 @@
 mod common;
 use common::*;
-use soneflow::core::calc_slopes::calc_slopes;
-use soneflow::core::main_loudness::main_loudness;
+use soneflow::internals::core::calc_slopes::calc_slopes;
+use soneflow::internals::core::main_loudness::main_loudness;
 use soneflow::{FieldType, SoneflowError};
 
 const SIGNALS: [&str; 4] = ["sine_1k_60", "sine_250_80", "sine_4k_60", "white_60"];
@@ -100,7 +100,9 @@ fn dump_core_snapshot() {
         let (n, spec) = calc_slopes(nm);
         totals.push(n);
         specs.extend_from_slice(&spec);
-        n_only.push(soneflow::core::calc_slopes::calc_slopes_n_only(nm));
+        n_only.push(soneflow::internals::core::calc_slopes::calc_slopes_n_only(
+            nm,
+        ));
     }
     println!(
         "calc_slopes: frames={} total={:016x} spec={:016x} n_only={:016x}",

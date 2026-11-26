@@ -1,7 +1,8 @@
 mod common;
 use common::*;
-use soneflow::dsp::filtfilt::{decimate, sosfiltfilt};
-use soneflow::dsp::sos::{sosfilt, Sos};
+use soneflow::internals::dsp::filtfilt::{decimate_with_sos, sosfiltfilt};
+use soneflow::internals::dsp::sos::{sosfilt, Sos};
+use soneflow::internals::tables_noct::{CHEBY_QS, CHEBY_SOS};
 
 fn cheby_sos_from_golden() -> Vec<Sos> {
     let raw = read_bin("_dsp", "dsp_cheby_sos.bin");
@@ -39,6 +40,7 @@ fn sosfiltfilt_matches_scipy() {
 fn decimate_matches_scipy() {
     let x = read_bin("_dsp", "dsp_x.bin");
     let want = read_bin("_dsp", "dsp_decimate_q10.bin");
-    let y = decimate(&x, 10);
+    let q10 = CHEBY_QS.iter().position(|&q| q == 10).unwrap();
+    let y = decimate_with_sos(&CHEBY_SOS[q10], &x, 10);
     assert_close(&y, &want, 1e-9, 1e-12, "decimate q=10");
 }

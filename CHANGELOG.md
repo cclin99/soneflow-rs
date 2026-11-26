@@ -6,6 +6,37 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
+## Unreleased (0.2.0)
+
+### Changed (breaking)
+
+- The public Rust API of `soneflow` is now what the crate root exports, plus
+  `soneflow::simd`. The modules `core`, `dsp`, `error`, `tables`,
+  `tables_noct`, `zwst` and `zwtv` are no longer public. Everything the
+  bindings and the documented workflows use was already re-exported at the
+  root and keeps working unchanged (`loudness_zwst`, `loudness_zwtv`,
+  `ZwtvProcessor`, `ZwtvStream`, `NlInit`, the error and frame types, ...).
+  Code that named an item through its module path, such as
+  `soneflow::zwtv::NlInit` or `soneflow::error::SoneflowError`, uses the root
+  path instead. The C ABI and the Python module do not change.
+- Single pipeline stages (third-octave levels, nonlinear decay, temporal
+  weighting, slopes, main loudness, filters and tables), `ParMode` and the
+  checked slope functions (`try_calc_slopes*`, `SlopeInputError`) moved to
+  `soneflow::internals`, behind the new `internals` feature. It exists for the
+  crate's own tests and benches and for research code; it is not covered by
+  semver and may change in any release.
+- `dsp::filtfilt::decimate(x, q)` became
+  `internals::dsp::filtfilt::decimate_with_sos(sections, x, q)`: the filter
+  for `q` is chosen by the caller (`internals::tables_noct::CHEBY_SOS`)
+  rather than looked up inside the filter module. Results are unchanged.
+
+### Added
+
+- `soneflow/public-api.txt`, the committed list of public items, checked in
+  CI by `tools/public_api.py`.
+- Documentation for `soneflow::simd` and for the conditions under which the
+  legacy `ZwtvStream::push`, `flush` and `reset` panic (`# Panics`).
+
 ## 0.1.0 - 2026-11-25
 
 First public release.

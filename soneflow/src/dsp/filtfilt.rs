@@ -1,5 +1,5 @@
+#[cfg(any(test, feature = "internals"))]
 use super::sos::{sosfilt_zi, sosfilt_zi_run, Sos};
-use crate::tables_noct::{CHEBY_QS, CHEBY_SOS};
 
 /// Odd extension padding as scipy.signal._arraytools.odd_ext.
 pub(super) fn odd_ext(x: &[f64], n: usize) -> Vec<f64> {
@@ -18,6 +18,7 @@ pub(super) fn odd_ext(x: &[f64], n: usize) -> Vec<f64> {
 }
 
 /// scipy.signal.sosfiltfilt with defaults (padtype='odd', padlen=None).
+#[cfg(any(test, feature = "internals"))]
 pub fn sosfiltfilt(sections: &[Sos], x: &[f64]) -> Vec<f64> {
     let nb2 = sections.iter().filter(|s| s.b[2] == 0.0).count();
     let na2 = sections.iter().filter(|s| s.a[1] == 0.0).count();
@@ -37,12 +38,11 @@ pub fn sosfiltfilt(sections: &[Sos], x: &[f64]) -> Vec<f64> {
     ext[padlen..ext.len() - padlen].to_vec()
 }
 
-/// scipy.signal.decimate(x, q) with defaults: Chebyshev-I order 8, zero-phase.
-pub fn decimate(x: &[f64], q: usize) -> Vec<f64> {
-    let idx = CHEBY_QS
-        .iter()
-        .position(|&c| c == q)
-        .unwrap_or_else(|| panic!("no baked Chebyshev SOS for q={q}"));
-    let y = sosfiltfilt(&CHEBY_SOS[idx], x);
+/// Zero-phase decimation by `q` with the given anti-alias filter: as
+/// scipy.signal.decimate(x, q) when `sections` is its default Chebyshev-I
+/// order-8 design for that `q`.
+#[cfg(any(test, feature = "internals"))]
+pub fn decimate_with_sos(sections: &[Sos], x: &[f64], q: usize) -> Vec<f64> {
+    let y = sosfiltfilt(sections, x);
     y.iter().step_by(q).copied().collect()
 }

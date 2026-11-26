@@ -29,7 +29,8 @@ fn nine_golden_signals_match_zerostate_and_batch_bitwise() {
             .cycle()
             .take(one_second.len() * 3)
             .collect();
-        let reference = soneflow::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
+        let reference =
+            soneflow::internals::zwtv::stream::zwtv_reference_zerostate(&signal, FieldType::Free);
         let frames = run_chunked(&signal, std::iter::repeat(480));
         assert_eq!(frames.len(), reference.len(), "{name}");
         for (index, (frame, expected)) in frames.iter().zip(&reference).enumerate() {

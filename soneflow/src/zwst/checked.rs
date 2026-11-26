@@ -1,6 +1,17 @@
 use crate::dsp::checked;
+use crate::dsp::sos::Sos;
 use crate::error::{NumericFaultReason, NumericFaultStage, SoneflowError};
-use crate::tables_noct::{NOCT_DECIM_Q, NOCT_SOS};
+use crate::tables_noct::{CHEBY_QS, CHEBY_SOS, NOCT_DECIM_Q, NOCT_SOS};
+
+/// Anti-alias filter for decimation by `q`: scipy.signal.decimate's default
+/// Chebyshev-I order-8 design, baked for the factors in `NOCT_DECIM_Q`.
+pub(super) fn cheby_sos(q: usize) -> &'static [Sos] {
+    let index = CHEBY_QS
+        .iter()
+        .position(|&c| c == q)
+        .unwrap_or_else(|| panic!("no baked Chebyshev SOS for q={q}"));
+    &CHEBY_SOS[index]
+}
 
 fn fault(index: usize, band: usize) -> SoneflowError {
     SoneflowError::InternalNumericFault {
@@ -14,7 +25,7 @@ fn fault(index: usize, band: usize) -> SoneflowError {
 fn band_rms(signal: &[f64], band: usize) -> Result<f64, usize> {
     let q = NOCT_DECIM_Q[band];
     let mut x = if q > 1 {
-        checked::decimate(signal, q)?
+        checked::decimate_with_sos(cheby_sos(q), signal, q)?
     } else {
         signal.to_vec()
     };
@@ -82,6 +93,23 @@ pub(super) fn levels(spec: &[f64]) -> Result<Vec<f64>, SoneflowError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn checked_decimation_preserves_normal_bits() {
+        let x: Vec<_> = (0..4800)
+            .map(|i| ((i % 71) as f64 - 35.0) * 0.001)
+            .collect();
+        for &q in &CHEBY_QS {
+            let sections = cheby_sos(q);
+            let old = crate::dsp::filtfilt::decimate_with_sos(sections, &x, q);
+            let new = checked::decimate_with_sos(sections, &x, q).unwrap();
+            assert_eq!(
+                old.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                new.iter().map(|v| v.to_bits()).collect::<Vec<_>>()
+            );
+        }
+    }
+
     #[test]
     fn spectrum_and_levels_match_original_bits() {
         for amp in [0.0, 0.00001, 0.02] {

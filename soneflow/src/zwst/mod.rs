@@ -1,21 +1,25 @@
 use crate::core::bark_axis::bark_axis;
 use crate::core::calc_slopes::calc_slopes;
 use crate::core::main_loudness::main_loudness;
-use crate::dsp::filtfilt::decimate;
+#[cfg(any(test, feature = "internals"))]
+use crate::dsp::filtfilt::decimate_with_sos;
+#[cfg(any(test, feature = "internals"))]
 use crate::dsp::sos::sosfilt;
 use crate::error::SoneflowError;
+#[cfg(any(test, feature = "internals"))]
 use crate::tables_noct::{NOCT_DECIM_Q, NOCT_SOS};
 use crate::types::{FieldType, LoudnessStationary};
 mod checked;
 
 /// 1/3-octave band RMS amplitudes, 28 bands (24 Hz..12.6 kHz), fs = 48 kHz.
 /// Mirrors mosqito noct_spectrum for a single-channel stationary signal.
+#[cfg(any(test, feature = "internals"))]
 pub fn noct_spectrum_rms(signal: &[f64]) -> Vec<f64> {
     (0..28)
         .map(|band| {
             let q = NOCT_DECIM_Q[band];
             let mut x = if q > 1 {
-                decimate(signal, q)
+                decimate_with_sos(checked::cheby_sos(q), signal, q)
             } else {
                 signal.to_vec()
             };
@@ -27,6 +31,7 @@ pub fn noct_spectrum_rms(signal: &[f64]) -> Vec<f64> {
 }
 
 /// Convert pressure amplitudes to dB SPL with ref 2e-5, matching mosqito amp2db.
+#[cfg(any(test, feature = "internals"))]
 pub fn spec_to_db(spec: &[f64]) -> Vec<f64> {
     spec.iter()
         .map(|&a| {

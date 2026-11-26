@@ -1,7 +1,7 @@
 #[allow(dead_code)]
 mod common;
 
-use soneflow::zwtv::NlInit;
+use soneflow::NlInit;
 use soneflow::{simd, FieldType, ZwtvProcessor};
 
 const FS: f64 = 48_000.0;

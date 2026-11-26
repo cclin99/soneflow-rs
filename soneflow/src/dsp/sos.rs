@@ -7,6 +7,7 @@ pub struct Sos {
 }
 
 /// Cascade of biquads, direct form II transposed, in place.
+#[cfg(any(test, feature = "internals"))]
 pub fn sosfilt(sections: &[Sos], x: &mut [f64]) {
     for s in sections {
         let (mut z0, mut z1) = (0.0f64, 0.0f64);
@@ -22,6 +23,7 @@ pub fn sosfilt(sections: &[Sos], x: &mut [f64]) {
 
 /// Like sosfilt but with initial state `zi` (per section [z0, z1]),
 /// returning the final state. Needed by sosfiltfilt.
+#[cfg(any(test, feature = "internals"))]
 pub fn sosfilt_zi_run(sections: &[Sos], x: &mut [f64], zi: &mut [[f64; 2]]) {
     for (s, z) in sections.iter().zip(zi.iter_mut()) {
         let (mut z0, mut z1) = (z[0], z[1]);
@@ -52,6 +54,7 @@ pub fn sosfilt_zi(sections: &[Sos]) -> Vec<[f64; 2]> {
 }
 
 /// First-order lowpass `y[n] = b0*x[n] + a1*y[n-1]`, in place.
+#[cfg(any(test, feature = "internals"))]
 pub fn onepole(b0: f64, a1: f64, x: &mut [f64]) {
     let mut y = 0.0f64;
     for v in x.iter_mut() {

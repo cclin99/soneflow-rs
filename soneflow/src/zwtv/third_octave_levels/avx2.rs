@@ -5,9 +5,15 @@
     reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
 )]
 
-use super::coeffs::{feedback_coeffs, intensity_to_db, smoothing_coeff};
-use crate::tables::{N_TOB_BANDS, TOB_GAIN};
+#[cfg(any(test, feature = "internals"))]
+use super::coeffs::intensity_to_db;
+use super::coeffs::{feedback_coeffs, smoothing_coeff};
+#[cfg(any(test, feature = "internals"))]
+use crate::tables::N_TOB_BANDS;
+use crate::tables::TOB_GAIN;
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::grid::DEC_FACTOR;
+#[cfg(any(test, feature = "internals"))]
 use crate::zwtv::par::{chunks_dispatch, ParMode};
 use std::arch::x86_64::__m256d;
 
@@ -329,6 +335,7 @@ impl TolGroupState {
 }
 
 #[target_feature(enable = "avx2,fma")]
+#[cfg(any(test, feature = "internals"))]
 unsafe fn tol_group_avx2(sig: &[f64], v: usize, out_group: &mut [f64], n_time: usize) {
     use std::arch::x86_64::*;
 
@@ -353,6 +360,7 @@ unsafe fn tol_group_avx2(sig: &[f64], v: usize, out_group: &mut [f64], n_time: u
 ///
 /// # Safety
 /// Caller must ensure AVX2 and FMA are available before calling.
+#[cfg(any(test, feature = "internals"))]
 pub unsafe fn third_octave_levels_avx2(sig: &[f64], mode: ParMode) -> (Vec<f64>, usize) {
     let n_time = sig.len().div_ceil(DEC_FACTOR);
     let mut out = vec![0.0; N_TOB_BANDS * n_time];

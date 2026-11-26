@@ -67,10 +67,13 @@ Run those commands from the `soneflow` crate directory or adjust paths from the 
 Run:
 
 ```powershell
-cargo bench
+cargo bench --bench loudness
+cargo bench --features internals --bench core
 ```
 
-The benchmark groups `filter_bank_10s` and `zwtv_10s` compare forced scalar dispatch with automatic AVX2 dispatch. Results depend on the CPU, build settings and thread count; measure on the target machine and record the commit together with the numbers.
+`loudness` uses only the public API; `core` measures single stages and needs
+the `internals` feature. The benchmark groups `filter_bank_10s` (in `core`)
+and `zwtv_10s` compare forced scalar dispatch with automatic AVX2 dispatch. Results depend on the CPU, build settings and thread count; measure on the target machine and record the commit together with the numbers.
 
 ## Non-goals
 
