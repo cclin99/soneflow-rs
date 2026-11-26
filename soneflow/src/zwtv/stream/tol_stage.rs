@@ -73,6 +73,148 @@ unsafe fn validate_avx2_slice(groups: &[TolGroupState; 7]) -> Result<(), (usize,
     Ok(())
 }
 
+/// The 28 filters of one TOL kernel, advanced one sample at a time.
+#[cfg(target_arch = "x86_64")]
+trait FilterBank {
+    /// Advance every band by `sample` and write the 28 levels; returns the OR
+    /// of their non-finite mask bits (`crate::numeric_guard::nonfinite_mask_bit`).
+    fn advance_emit(&mut self, sample: f64, levels: &mut [f64; 28]) -> u64;
+    /// Advance every band by `sample` without reading the levels.
+    fn advance(&mut self, sample: f64);
+}
+
+#[cfg(target_arch = "x86_64")]
+impl FilterBank for [TolBandState; 28] {
+    #[inline(always)]
+    fn advance_emit(&mut self, sample: f64, levels: &mut [f64; 28]) -> u64 {
+        let mut nonfinite = 0u64;
+        for (slot, state) in levels.iter_mut().zip(self.iter_mut()) {
+            let level = intensity_to_db(state.advance(sample));
+            nonfinite |= crate::numeric_guard::nonfinite_mask_bit(level);
+            *slot = level;
+        }
+        nonfinite
+    }
+
+    #[inline(always)]
+    fn advance(&mut self, sample: f64) {
+        for state in self.iter_mut() {
+            let _ = state.advance(sample);
+        }
+    }
+}
+
+/// The seven AVX2 groups of one kernel. Built only inside
+/// `run_avx2_fast_block`, which requires AVX2 and FMA; the `unsafe` calls
+/// below rely on that.
+#[cfg(target_arch = "x86_64")]
+struct Avx2Bank<'a>(&'a mut [TolGroupState; 7]);
+
+#[cfg(target_arch = "x86_64")]
+impl FilterBank for Avx2Bank<'_> {
+    #[inline(always)]
+    fn advance_emit(&mut self, sample: f64, levels: &mut [f64; 28]) -> u64 {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Bank`).
+        unsafe { avx2_advance_emit(self.0, sample, levels) }
+    }
+
+    #[inline(always)]
+    fn advance(&mut self, sample: f64) {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Bank`).
+        unsafe { avx2_advance(self.0, sample) }
+    }
+}
+
+#[cfg(target_arch = "x86_64")]
+#[inline]
+#[target_feature(enable = "avx2,fma")]
+unsafe fn avx2_advance_emit(
+    groups: &mut [TolGroupState; 7],
+    sample: f64,
+    levels: &mut [f64; 28],
+) -> u64 {
+    use std::arch::x86_64::_mm256_storeu_pd;
+    let mut nonfinite = 0u64;
+    for (group, state) in groups.iter_mut().enumerate() {
+        // SAFETY: this function's own target features are enabled.
+        let values = unsafe { state.advance(sample) };
+        let mut lanes = [0.0; 4];
+        // SAFETY: `lanes` holds four f64; unaligned store.
+        unsafe { _mm256_storeu_pd(lanes.as_mut_ptr(), values) };
+        let l0 = intensity_to_db(lanes[0]);
+        let l1 = intensity_to_db(lanes[1]);
+        let l2 = intensity_to_db(lanes[2]);
+        let l3 = intensity_to_db(lanes[3]);
+        nonfinite |= crate::numeric_guard::nonfinite_mask_bit(l0)
+            | crate::numeric_guard::nonfinite_mask_bit(l1)
+            | crate::numeric_guard::nonfinite_mask_bit(l2)
+            | crate::numeric_guard::nonfinite_mask_bit(l3);
+        let base = group * 4;
+        levels[base] = l0;
+        levels[base + 1] = l1;
+        levels[base + 2] = l2;
+        levels[base + 3] = l3;
+    }
+    nonfinite
+}
+
+#[cfg(target_arch = "x86_64")]
+#[inline]
+#[target_feature(enable = "avx2,fma")]
+unsafe fn avx2_advance(groups: &mut [TolGroupState; 7], sample: f64) {
+    for state in groups.iter_mut() {
+        // SAFETY: this function's own target features are enabled.
+        let _ = unsafe { state.advance(sample) };
+    }
+}
+
+/// The speculative pass over one block on `shadow` (already synced from
+/// `kernel`): a non-finite sample counts as zero and is remembered for the
+/// next emission; every `DEC_FACTOR`-th sample (phase 0) emits the 28 levels.
+/// `ok` covers the levels only; the caller adds the D1 state check.
+#[cfg(target_arch = "x86_64")]
+#[inline(always)]
+fn scan_block<B: FilterBank>(
+    shadow: &mut B,
+    block: &[f64],
+    entry_phase: usize,
+    entry_ordinal: u64,
+    emissions: &mut [SpecEmission; STREAM_MAX_EMISSIONS],
+) -> FastBlockOutcome {
+    let mut nonfinite_acc = 0u64;
+    let mut emission_count = 0usize;
+    let mut seg_nonfinite = false;
+    let mut phase = entry_phase;
+    for (offset, &raw) in block.iter().enumerate() {
+        let sample = if raw.is_finite() {
+            raw
+        } else {
+            seg_nonfinite = true;
+            0.0
+        };
+        if phase == 0 {
+            let entry = &mut emissions[emission_count];
+            nonfinite_acc |= shadow.advance_emit(sample, &mut entry.levels);
+            entry.sample_ordinal = entry_ordinal + offset as u64;
+            entry.nonfinite_since_prev = seg_nonfinite;
+            emission_count += 1;
+            seg_nonfinite = false;
+        } else {
+            shadow.advance(sample);
+        }
+        phase += 1;
+        if phase == DEC_FACTOR {
+            phase = 0;
+        }
+    }
+    FastBlockOutcome {
+        ok: (nonfinite_acc as i64) >= 0,
+        emission_count,
+        trailing_nonfinite: seg_nonfinite,
+        end_phase: phase,
+    }
+}
+
 #[cfg(target_arch = "x86_64")]
 #[inline(never)]
 fn run_scalar_fast_block(
@@ -86,46 +228,10 @@ fn run_scalar_fast_block(
     for (dst, src) in shadow.iter_mut().zip(kernel.iter()) {
         dst.sync_numeric_from(src);
     }
-    let mut nonfinite_acc = 0u64;
-    let mut emission_count = 0usize;
-    let mut seg_nonfinite = false;
-    let mut phase = entry_phase;
-    for (offset, &raw) in block.iter().enumerate() {
-        let sample = if raw.is_finite() {
-            raw
-        } else {
-            seg_nonfinite = true;
-            0.0
-        };
-        if phase == 0 {
-            let entry = &mut emissions[emission_count];
-            for (slot, state) in entry.levels.iter_mut().zip(shadow.iter_mut()) {
-                let value = state.advance(sample);
-                let level = intensity_to_db(value);
-                nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(level);
-                *slot = level;
-            }
-            entry.sample_ordinal = entry_ordinal + offset as u64;
-            entry.nonfinite_since_prev = seg_nonfinite;
-            emission_count += 1;
-            seg_nonfinite = false;
-        } else {
-            for state in shadow.iter_mut() {
-                let _ = state.advance(sample);
-            }
-        }
-        phase += 1;
-        if phase == DEC_FACTOR {
-            phase = 0;
-        }
-    }
+    let mut outcome = scan_block(shadow, block, entry_phase, entry_ordinal, emissions);
     let d1_ok = validate_scalar_slice(shadow).is_ok();
-    FastBlockOutcome {
-        ok: (nonfinite_acc as i64) >= 0 && d1_ok,
-        emission_count,
-        trailing_nonfinite: seg_nonfinite,
-        end_phase: phase,
-    }
+    outcome.ok &= d1_ok;
+    outcome
 }
 
 #[cfg(target_arch = "x86_64")]
@@ -139,62 +245,21 @@ unsafe fn run_avx2_fast_block(
     entry_ordinal: u64,
     emissions: &mut [SpecEmission; STREAM_MAX_EMISSIONS],
 ) -> FastBlockOutcome {
-    use std::arch::x86_64::_mm256_storeu_pd;
     for (dst, src) in shadow.iter_mut().zip(kernel.iter()) {
+        // SAFETY: this function's own target features are enabled.
         unsafe { dst.sync_numeric_from(src) };
     }
-    let mut nonfinite_acc = 0u64;
-    let mut emission_count = 0usize;
-    let mut seg_nonfinite = false;
-    let mut phase = entry_phase;
-    for (offset, &raw) in block.iter().enumerate() {
-        let sample = if raw.is_finite() {
-            raw
-        } else {
-            seg_nonfinite = true;
-            0.0
-        };
-        if phase == 0 {
-            let entry = &mut emissions[emission_count];
-            for (group, state) in shadow.iter_mut().enumerate() {
-                let values = unsafe { state.advance(sample) };
-                let mut lanes = [0.0; 4];
-                unsafe { _mm256_storeu_pd(lanes.as_mut_ptr(), values) };
-                let l0 = intensity_to_db(lanes[0]);
-                let l1 = intensity_to_db(lanes[1]);
-                let l2 = intensity_to_db(lanes[2]);
-                let l3 = intensity_to_db(lanes[3]);
-                nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(l0)
-                    | crate::numeric_guard::nonfinite_mask_bit(l1)
-                    | crate::numeric_guard::nonfinite_mask_bit(l2)
-                    | crate::numeric_guard::nonfinite_mask_bit(l3);
-                let base = group * 4;
-                entry.levels[base] = l0;
-                entry.levels[base + 1] = l1;
-                entry.levels[base + 2] = l2;
-                entry.levels[base + 3] = l3;
-            }
-            entry.sample_ordinal = entry_ordinal + offset as u64;
-            entry.nonfinite_since_prev = seg_nonfinite;
-            emission_count += 1;
-            seg_nonfinite = false;
-        } else {
-            for state in shadow.iter_mut() {
-                let _ = unsafe { state.advance(sample) };
-            }
-        }
-        phase += 1;
-        if phase == DEC_FACTOR {
-            phase = 0;
-        }
-    }
+    let mut outcome = scan_block(
+        &mut Avx2Bank(shadow),
+        block,
+        entry_phase,
+        entry_ordinal,
+        emissions,
+    );
+    // SAFETY: as above.
     let d1_ok = unsafe { validate_avx2_slice(shadow) }.is_ok();
-    FastBlockOutcome {
-        ok: (nonfinite_acc as i64) >= 0 && d1_ok,
-        emission_count,
-        trailing_nonfinite: seg_nonfinite,
-        end_phase: phase,
-    }
+    outcome.ok &= d1_ok;
+    outcome
 }
 
 #[cfg(target_arch = "x86_64")]
