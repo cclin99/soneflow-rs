@@ -396,28 +396,47 @@ impl PyZwtvStream {
 
 #[pymodule]
 fn soneflow(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    add_api(m)?;
+    add_constants(m)?;
+    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
+    Ok(())
+}
+
+/// The functions and the stream class.
+fn add_api(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(loudness_zwtv, m)?)?;
     m.add_function(wrap_pyfunction!(loudness_zwst, m)?)?;
     m.add_function(wrap_pyfunction!(sone2phon, m)?)?;
     m.add_class::<PyZwtvStream>()?;
-    m.add("N_WARMUP_FRAMES", soneflow_core::N_WARMUP_FRAMES)?;
-    m.add(
-        "FLAG_CLAMPED_120DB",
-        soneflow_core::FrameFlags::CLAMPED_120DB.bits(),
-    )?;
-    m.add(
-        "FLAG_NONFINITE_INPUT",
-        soneflow_core::FrameFlags::NONFINITE_INPUT.bits(),
-    )?;
-    m.add("FLAG_WARMUP", soneflow_core::FrameFlags::WARMUP.bits())?;
-    m.add("QUALITY_FAULT_FALLBACK", 1u32)?;
-    m.add("QUALITY_RECOVERING", 2u32)?;
-    m.add("DIAGNOSTIC_HAS_INCIDENT", 1u32)?;
-    m.add("DIAGNOSTIC_ACTIVE_RECOVERY", 2u32)?;
-    m.add("DIAGNOSTIC_TAIL_PENDING", 4u32)?;
-    m.add("DIAGNOSTIC_COALESCED", 8u32)?;
-    m.add("DIAGNOSTIC_COUNTER_SATURATED", 16u32)?;
-    m.add("DIAGNOSTIC_CREATION_ENV_INVALID", 32u32)?;
-    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
+    Ok(())
+}
+
+/// Integer constants: warm-up length, frame flags, per-frame quality bits
+/// and diagnostic status bits.
+fn add_constants(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    let flags = |f: soneflow_core::FrameFlags| u64::from(f.bits());
+    let constants: [(&str, u64); 12] = [
+        ("N_WARMUP_FRAMES", soneflow_core::N_WARMUP_FRAMES),
+        (
+            "FLAG_CLAMPED_120DB",
+            flags(soneflow_core::FrameFlags::CLAMPED_120DB),
+        ),
+        (
+            "FLAG_NONFINITE_INPUT",
+            flags(soneflow_core::FrameFlags::NONFINITE_INPUT),
+        ),
+        ("FLAG_WARMUP", flags(soneflow_core::FrameFlags::WARMUP)),
+        ("QUALITY_FAULT_FALLBACK", 1),
+        ("QUALITY_RECOVERING", 2),
+        ("DIAGNOSTIC_HAS_INCIDENT", 1),
+        ("DIAGNOSTIC_ACTIVE_RECOVERY", 2),
+        ("DIAGNOSTIC_TAIL_PENDING", 4),
+        ("DIAGNOSTIC_COALESCED", 8),
+        ("DIAGNOSTIC_COUNTER_SATURATED", 16),
+        ("DIAGNOSTIC_CREATION_ENV_INVALID", 32),
+    ];
+    for (name, value) in constants {
+        m.add(name, value)?;
+    }
     Ok(())
 }
