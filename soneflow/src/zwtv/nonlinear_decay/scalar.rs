@@ -66,7 +66,7 @@ impl NlBandState {
             _ => panic!("test field"),
         }
     }
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     pub(crate) fn inject_raw_bits(&mut self, field: usize, bits: u64) {
         match field {
             0 => self.prev_uo = f64::from_bits(bits),

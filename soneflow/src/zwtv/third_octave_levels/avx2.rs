@@ -259,7 +259,7 @@ impl TolGroupState {
         self.z0[0] = unsafe { std::mem::transmute::<[u64; 4], __m256d>(lanes) };
     }
 
-    #[cfg(test)] // c9_stream_hook
+    #[cfg(test)]
     pub(crate) fn inject_raw_bits(&mut self, lane: usize, field: usize, bits: u64) {
         assert!(
             lane < 4 && field < 9,
@@ -502,7 +502,7 @@ mod checked_tests {
                                     assert_eq!(reference, expected);
                                     assert_eq!(
                                         actual, reference_control,
-                                        "complete MXCSR differs from fixed C4 scan"
+                                        "complete MXCSR differs from the reference lane scan"
                                     );
                                     if expected.is_ok() {
                                         assert_eq!(

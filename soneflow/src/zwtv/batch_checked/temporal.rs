@@ -138,7 +138,7 @@ pub(super) fn temporal_with<H: TwHooks>(
 }
 
 pub(crate) fn temporal(values: &[f64]) -> Result<Vec<f64>, SoneflowError> {
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     let hook_ctx = batch_hooks::snapshot_stage(5, values.len());
     #[cfg(test)]
     let hooks = CtxTwHooks::new(&hook_ctx);

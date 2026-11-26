@@ -425,7 +425,7 @@ impl TolKernel {
         }
     }
 
-    #[cfg(test)] // c9_stream_hook
+    #[cfg(test)]
     pub(super) fn inject_raw_bits(&mut self, band: usize, field: usize, bits: u64) {
         assert!(band < 28, "TOL band out of range: {band}");
         match self {

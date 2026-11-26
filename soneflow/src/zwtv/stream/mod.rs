@@ -160,9 +160,8 @@ mod test_stream_hooks {
 }
 
 /// Test-only stream hook scheduler.
-/// Completely absent from default product builds (`#[cfg(test)]`). The `// c9_*` comments
-/// mark the hook sites for out-of-tree verification instrumentation.
-#[cfg(test)] // c9_stream_hook
+/// Completely absent from default product builds (`#[cfg(test)]`).
+#[cfg(test)]
 pub mod stream_hooks {
     use std::cell::RefCell;
 
@@ -544,7 +543,7 @@ impl ZwtvStream {
     ///
     /// `push_with_quality` returns these as errors instead.
     pub fn push(&mut self, chunk: &[f64], out: &mut [StreamFrame]) -> usize {
-        #[cfg(test)] // c9_stream_hook
+        #[cfg(test)]
         stream_hooks::begin_public_call();
         assert!(!self.flushed, "push after flush requires reset");
         self.check_timeline(chunk.len())
@@ -563,7 +562,7 @@ impl ZwtvStream {
         out: &mut [StreamFrame],
         quality: &mut [FrameQualityV1],
     ) -> Result<usize, StreamUsageError> {
-        #[cfg(test)] // c9_stream_hook
+        #[cfg(test)]
         stream_hooks::begin_public_call();
         if self.flushed {
             return Err(StreamUsageError::AfterFlush);
@@ -873,7 +872,7 @@ impl ZwtvStream {
     ///
     /// `flush_with_quality` returns these as errors instead.
     pub fn flush(&mut self, out: &mut [StreamFrame]) -> usize {
-        #[cfg(test)] // c9_stream_hook
+        #[cfg(test)]
         stream_hooks::begin_public_call();
         assert!(!out.is_empty());
         self.check_timeline(0).expect("stream timeline exhausted");
@@ -888,7 +887,7 @@ impl ZwtvStream {
         out: &mut [StreamFrame],
         quality: &mut [FrameQualityV1],
     ) -> Result<usize, StreamUsageError> {
-        #[cfg(test)] // c9_stream_hook
+        #[cfg(test)]
         stream_hooks::begin_public_call();
         self.check_timeline(0)?;
         if out.is_empty() {
@@ -907,7 +906,7 @@ impl ZwtvStream {
         quality: Option<&mut [FrameQualityV1]>,
     ) -> usize {
         let _guard = DenormalGuard::new();
-        #[cfg(test)] // c9_stream_hook
+        #[cfg(test)]
         stream_hooks::assert_no_hooks_for_active_call();
         if self.flushed {
             return 0;
@@ -1049,7 +1048,7 @@ fn map_diagnostic_error(error: diagnostics::DiagnosticError) -> StreamUsageError
     }
 }
 
-#[cfg(test)] // c9_stream_hook
+#[cfg(test)]
 #[allow(clippy::too_many_arguments)]
 fn apply_stream_hooks_at_boundary(
     cursor: &mut stream_hooks::HookCursor,
@@ -1063,7 +1062,6 @@ fn apply_stream_hooks_at_boundary(
 ) {
     let call_id = cursor.call_id();
     let _ = (call_id, sample_phase, consumed_samples);
-    // c9_hook_pre_snap
     for &ev in cursor.drain_at(sample) {
         match ev.stage {
             1 => {
@@ -1111,7 +1109,6 @@ fn apply_stream_hooks_at_boundary(
             },
         );
     }
-    // c9_hook_post_snap
 }
 
 /// Bounds of one speculative block within the call, and the MXCSR read at its entry.

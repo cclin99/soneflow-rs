@@ -1,6 +1,5 @@
 //! Test-only batch hook scheduler and due-rule tracker (due rules: see `crate::numeric_guard`).
-//! Completely absent from default product builds (`#[cfg(test)]`). The `// c9_*` comments
-//! mark the hook sites for out-of-tree verification instrumentation.
+//! Completely absent from default product builds (`#[cfg(test)]`).
 
 use std::cell::RefCell;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};

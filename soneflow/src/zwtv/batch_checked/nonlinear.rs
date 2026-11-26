@@ -141,7 +141,7 @@ pub(super) fn nonlinear_with_backend(
     core_validated: bool,
     use_avx2: bool,
 ) -> Result<Vec<f64>, SoneflowError> {
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     let hook_ctx = batch_hooks::snapshot_stage(3, n);
     let mut out = vec![0.0; core.len()];
     if n == 0 {

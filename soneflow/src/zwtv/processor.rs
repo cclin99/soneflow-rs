@@ -66,7 +66,7 @@ impl ZwtvProcessor {
         field: FieldType,
         nl_init: NlInit,
     ) -> Result<LoudnessTimeVarying, SoneflowError> {
-        #[cfg(test)] // c9_batch_hook
+        #[cfg(test)]
         batch_checked::batch_hooks::begin_public_call();
         SoneflowError::check_batch_input(signal, fs)?;
         crate::batch_guard::environment()?;

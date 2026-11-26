@@ -108,7 +108,7 @@ unsafe fn levels_fast(
     Ok(())
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 struct BatchTolAvx2Snapshot {
     state: TolGroupState,
     start_sample: usize,
@@ -116,7 +116,7 @@ struct BatchTolAvx2Snapshot {
     emission_idx: usize,
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
 unsafe fn levels_checked_with_hooks(
@@ -155,7 +155,7 @@ unsafe fn levels_checked_with_hooks(
     Ok(())
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
 #[allow(clippy::too_many_arguments)]
@@ -195,7 +195,7 @@ unsafe fn levels_checked_from_snapshot(
     Ok(state)
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[cold]
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
@@ -224,7 +224,7 @@ unsafe fn levels_cold_replay_from_snapshot(
     }
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[cold]
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
@@ -242,7 +242,7 @@ unsafe fn levels_cold_replay_reconstruct(
     unsafe { levels_checked_from_snapshot(fresh, 0, 0, 0, signal_slice, group, out, n) }
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
 unsafe fn levels_fast_with_hooks(
@@ -291,7 +291,6 @@ unsafe fn levels_fast_with_hooks(
         let block = &signal[pos..end];
 
         if due_tol {
-            // c9_avx2_hook_due_check
             if unsafe { state.validate_numeric() }.is_err() {
                 assert!(
                     hooks.get(h_idx).is_none_or(|h| h.sample >= end),
@@ -353,7 +352,6 @@ unsafe fn levels_fast_with_hooks(
             }
         }
 
-        // c9_avx2_hook_d1_check
         if (nonfinite_acc as i64) < 0 || unsafe { state.validate_numeric() }.is_err() {
             assert!(
                 hooks.get(h_idx).is_none_or(|h| h.sample >= end),
@@ -391,17 +389,16 @@ pub(super) unsafe fn levels(
     group: usize,
     out: &mut [f64],
     n: usize,
-    #[cfg(test)] // c9_batch_hook
-    hook_ctx: &super::batch_hooks::StageHookContext,
+    #[cfg(test)] hook_ctx: &super::batch_hooks::StageHookContext,
 ) -> Result<(), (usize, usize, DomainFault)> {
     let entry_mxcsr = crate::numeric_guard::read_unit_mxcsr();
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     let group_hooks = hook_ctx.for_range(group * 4, group * 4 + 4);
     if let Some(entry_mxcsr) = entry_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
     {
         #[cfg(test)]
         super::test_counters::record_avx2(true);
-        #[cfg(test)] // c9_batch_hook
+        #[cfg(test)]
         if !group_hooks.is_empty() {
             return unsafe {
                 levels_fast_with_hooks(entry_mxcsr, signal, group, out, n, &group_hooks, hook_ctx)
@@ -411,7 +408,7 @@ pub(super) unsafe fn levels(
     } else {
         #[cfg(test)]
         super::test_counters::record_avx2(false);
-        #[cfg(test)] // c9_batch_hook
+        #[cfg(test)]
         if !group_hooks.is_empty() {
             return unsafe {
                 levels_checked_with_hooks(signal, group, out, n, &group_hooks, hook_ctx)

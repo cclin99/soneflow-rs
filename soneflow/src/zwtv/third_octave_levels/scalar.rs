@@ -144,7 +144,7 @@ impl TolBandState {
         self.z[0][0] = f64::NAN;
     }
 
-    #[cfg(test)] // c9_stream_hook
+    #[cfg(test)]
     pub(crate) fn inject_raw_bits(&mut self, field: usize, bits: u64) {
         assert!(field < 9, "TOL scalar field out of range: {field}");
         let value = f64::from_bits(bits);

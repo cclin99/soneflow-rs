@@ -35,7 +35,7 @@ mod tests {
     #[test]
     fn const_product_matches_validated_r11_constructor() {
         let validated = SlopeModel::new(ZUP, RNS, USL, EXTENSION)
-            .expect("fixed product tables must form a valid R11 model");
+            .expect("fixed product tables must form a valid slope model");
         assert_eq!(
             MODEL.edges.map(f64::to_bits),
             validated.edges.map(f64::to_bits)

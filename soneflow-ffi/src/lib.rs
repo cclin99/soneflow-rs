@@ -7,6 +7,7 @@
 // and cbindgen copies them verbatim into include/soneflow.h, so they are not
 // rustdoc links.
 #![allow(rustdoc::broken_intra_doc_links)]
+#![warn(clippy::undocumented_unsafe_blocks)]
 
 pub const SNF_OK: i32 = 0;
 pub const SNF_ERR_LEVEL_EXCEEDS_120DB: i32 = 1;
@@ -211,6 +212,7 @@ pub unsafe extern "C" fn snf_stream_residual_flags(handle: *const SnfStream) -> 
         if handle.is_null() {
             return 0;
         }
+        // SAFETY: `handle` is non-null (checked above) and, by the # Safety contract, live and not accessed concurrently, so a shared borrow is sound.
         unsafe { (*handle).inner.residual_flags().bits() }
     })
 }
@@ -239,6 +241,7 @@ pub unsafe extern "C" fn snf_stream_push(
         if out_written.is_null() {
             return SNF_ERR_NULL_POINTER;
         }
+        // SAFETY: `out_written` is non-null (checked above) and writable by the # Safety contract.
         unsafe { *out_written = 0 };
         if handle.is_null() || (chunk.is_null() && chunk_len > 0) || out.is_null() {
             return SNF_ERR_NULL_POINTER;
@@ -249,12 +252,17 @@ pub unsafe extern "C" fn snf_stream_push(
         let chunk = if chunk_len == 0 {
             &[]
         } else {
+            // SAFETY: `chunk_len > 0` here, so `chunk` is non-null (checked above) and points to `chunk_len` readable doubles by the # Safety contract.
             unsafe { std::slice::from_raw_parts(chunk, chunk_len) }
         };
+        // SAFETY: `handle` is non-null (checked above), live, and exclusively accessed for this call by the # Safety contract, so the mutable borrow is unique.
         let stream = unsafe { &mut (*handle).inner };
+        // SAFETY: `out` is non-null and holds `out_cap` writable frames by the # Safety contract;
+        // `SnfStreamFrame` has the size, alignment and field offsets of `StreamFrame` (asserted at compile time above).
         let out =
             unsafe { std::slice::from_raw_parts_mut(out.cast::<soneflow::StreamFrame>(), out_cap) };
         let written = stream.push(chunk, out);
+        // SAFETY: `out_written` was checked non-null above and is writable by the # Safety contract.
         unsafe { *out_written = written };
         SNF_OK
     })
@@ -279,6 +287,7 @@ pub unsafe extern "C" fn snf_stream_flush(
         if out_written.is_null() {
             return SNF_ERR_NULL_POINTER;
         }
+        // SAFETY: `out_written` is non-null (checked above) and writable by the # Safety contract.
         unsafe { *out_written = 0 };
         if handle.is_null() || out.is_null() {
             return SNF_ERR_NULL_POINTER;
@@ -286,10 +295,14 @@ pub unsafe extern "C" fn snf_stream_flush(
         if out_cap < 1 {
             return SNF_ERR_INTERNAL;
         }
+        // SAFETY: `handle` is non-null (checked above), live, and exclusively accessed for this call by the # Safety contract, so the mutable borrow is unique.
         let stream = unsafe { &mut (*handle).inner };
+        // SAFETY: `out` is non-null and holds `out_cap` writable frames by the # Safety contract;
+        // `SnfStreamFrame` has the size, alignment and field offsets of `StreamFrame` (asserted at compile time above).
         let out =
             unsafe { std::slice::from_raw_parts_mut(out.cast::<soneflow::StreamFrame>(), out_cap) };
         let written = stream.flush(out);
+        // SAFETY: `out_written` was checked non-null above and is writable by the # Safety contract.
         unsafe { *out_written = written };
         SNF_OK
     })
@@ -322,6 +335,7 @@ pub unsafe extern "C" fn snf_stream_push_with_quality_v1(
         if out_written.is_null() {
             return SNF_ERR_NULL_POINTER;
         }
+        // SAFETY: `out_written` is non-null (checked above) and writable by the # Safety contract.
         unsafe {
             *out_written = 0;
         }
@@ -353,6 +367,7 @@ pub unsafe extern "C" fn snf_stream_push_with_quality_v1(
         };
         match stream.push_with_quality(chunk, out, quality) {
             Ok(written) => {
+                // SAFETY: `out_written` was checked non-null above and is writable by the # Safety contract.
                 unsafe {
                     *out_written = written;
                 }
@@ -384,6 +399,7 @@ pub unsafe extern "C" fn snf_stream_flush_with_quality_v1(
         if out_written.is_null() {
             return SNF_ERR_NULL_POINTER;
         }
+        // SAFETY: `out_written` is non-null (checked above) and writable by the # Safety contract.
         unsafe {
             *out_written = 0;
         }
@@ -406,6 +422,7 @@ pub unsafe extern "C" fn snf_stream_flush_with_quality_v1(
         };
         match stream.flush_with_quality(out, quality) {
             Ok(written) => {
+                // SAFETY: `out_written` was checked non-null above and is writable by the # Safety contract.
                 unsafe {
                     *out_written = written;
                 }
@@ -491,6 +508,8 @@ pub unsafe extern "C" fn snf_stream_reset_with_diagnostics_v1(
         // SAFETY: live exclusive handle; layout correspondence checked at compile time.
         match unsafe { (*handle).inner.reset_with_diagnostics() } {
             Ok(previous) => {
+                // SAFETY: `snapshot` is non-null (checked above) and aligned writable storage disjoint from the handle by the # Safety contract;
+                // `SnfDiagnosticSnapshotV1` has the layout of `DiagnosticSnapshotV1` (check_layout! above).
                 unsafe {
                     snapshot
                         .cast::<soneflow::DiagnosticSnapshotV1>()
@@ -513,6 +532,8 @@ pub unsafe extern "C" fn snf_stream_free(handle: *mut SnfStream) {
     if handle.is_null() {
         return;
     }
+    // SAFETY: `handle` is non-null and, by the # Safety contract, came from `snf_stream_new` (Box::into_raw)
+    // and has not been freed, so the box is reclaimed exactly once.
     guarded_or((), || unsafe {
         drop(Box::from_raw(handle));
     });

@@ -6,7 +6,7 @@
 //! test builds.
 #[cfg(target_arch = "x86_64")]
 mod avx2;
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[allow(dead_code)]
 pub mod batch_hooks;
 mod levels;

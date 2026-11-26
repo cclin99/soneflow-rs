@@ -72,7 +72,7 @@ fn levels_scalar_fast(
     Ok(())
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 struct BatchTolScalarSnapshot {
     state: TolBandState,
     start_sample: usize,
@@ -80,7 +80,7 @@ struct BatchTolScalarSnapshot {
     emission_idx: usize,
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[inline(never)]
 fn levels_scalar_checked_with_hooks(
     signal: &[f64],
@@ -109,7 +109,7 @@ fn levels_scalar_checked_with_hooks(
     Ok(())
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[inline(never)]
 fn levels_scalar_checked_from_snapshot(
     mut state: TolBandState,
@@ -139,7 +139,7 @@ fn levels_scalar_checked_from_snapshot(
     Ok(state)
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[cfg(target_arch = "x86_64")]
 #[cold]
 #[inline(never)]
@@ -164,7 +164,7 @@ fn levels_scalar_cold_replay_from_snapshot(
     )
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[cfg(target_arch = "x86_64")]
 #[cold]
 #[inline(never)]
@@ -181,7 +181,7 @@ fn levels_scalar_cold_replay_reconstruct(
     levels_scalar_checked_from_snapshot(fresh, 0, 0, 0, signal_slice, band, row)
 }
 
-#[cfg(test)] // c9_batch_hook
+#[cfg(test)]
 #[cfg(target_arch = "x86_64")]
 #[inline(never)]
 fn levels_scalar_fast_with_hooks(
@@ -228,7 +228,6 @@ fn levels_scalar_fast_with_hooks(
         let block = &signal[pos..end];
 
         if due_tol {
-            // c9_scalar_hook_due_check
             if state.validate_numeric().is_err() {
                 assert!(
                     hooks.get(h_idx).is_none_or(|h| h.sample >= end),
@@ -274,7 +273,6 @@ fn levels_scalar_fast_with_hooks(
             }
         }
 
-        // c9_scalar_hook_d1_check
         if (nonfinite_acc as i64) < 0 || state.validate_numeric().is_err() {
             assert!(
                 hooks.get(h_idx).is_none_or(|h| h.sample >= end),
@@ -309,7 +307,7 @@ pub(super) fn levels_with_backend(
     mode: ParMode,
     use_avx2: bool,
 ) -> Result<(Vec<f64>, usize), SoneflowError> {
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     let hook_ctx = batch_hooks::snapshot_stage(1, signal.len());
     let n = signal.len().div_ceil(DEC_FACTOR);
     let mut out = vec![0.0; 28 * n];
@@ -324,7 +322,7 @@ pub(super) fn levels_with_backend(
                 g,
                 part,
                 n,
-                #[cfg(test)] // c9_batch_hook
+                #[cfg(test)]
                 &hook_ctx,
             )
         })
@@ -333,7 +331,7 @@ pub(super) fn levels_with_backend(
     }
     dispatch(&mut out, n, mode, |band, row| {
         let entry_mxcsr = crate::numeric_guard::read_unit_mxcsr();
-        #[cfg(test)] // c9_batch_hook
+        #[cfg(test)]
         let band_hooks = hook_ctx.for_range(band, band + 1);
         if let Some(entry_mxcsr) =
             entry_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
@@ -342,7 +340,7 @@ pub(super) fn levels_with_backend(
             test_counters::record_scalar(true);
             #[cfg(target_arch = "x86_64")]
             {
-                #[cfg(test)] // c9_batch_hook
+                #[cfg(test)]
                 if !band_hooks.is_empty() {
                     return levels_scalar_fast_with_hooks(
                         entry_mxcsr,
@@ -358,7 +356,7 @@ pub(super) fn levels_with_backend(
             #[cfg(not(target_arch = "x86_64"))]
             {
                 let _ = entry_mxcsr;
-                #[cfg(test)] // c9_batch_hook
+                #[cfg(test)]
                 if !band_hooks.is_empty() {
                     return levels_scalar_checked_with_hooks(
                         signal,
@@ -373,7 +371,7 @@ pub(super) fn levels_with_backend(
         } else {
             #[cfg(test)]
             test_counters::record_scalar(false);
-            #[cfg(test)] // c9_batch_hook
+            #[cfg(test)]
             if !band_hooks.is_empty() {
                 return levels_scalar_checked_with_hooks(signal, band, row, &band_hooks, &hook_ctx);
             }

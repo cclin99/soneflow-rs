@@ -175,7 +175,7 @@ impl NlGroupState {
         values[lane] = value;
         *vector = unsafe { std::arch::x86_64::_mm256_loadu_pd(values.as_ptr()) };
     }
-    #[cfg(test)] // c9_batch_hook
+    #[cfg(test)]
     pub(crate) fn inject_raw_bits(&mut self, lane: usize, field: usize, bits: u64) {
         assert!(
             lane < 4 && field < 2,
