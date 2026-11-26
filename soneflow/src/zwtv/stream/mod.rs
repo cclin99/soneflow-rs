@@ -24,6 +24,8 @@ use crate::numeric_guard::{read_rounding_environment, DomainFault, RoundingEnvir
 use crate::types::FieldType;
 use crate::zwtv::grid::{DEC_FACTOR, OUT_DECIM};
 use denormal::DenormalGuard;
+#[cfg(target_arch = "x86_64")]
+use emitter::DownstreamDue;
 use emitter::FrameEmitter;
 #[cfg(target_arch = "x86_64")]
 use tol_stage::{SpecEmission, STREAM_BLOCK_LEN, STREAM_MAX_EMISSIONS};
@@ -345,9 +347,7 @@ pub mod stream_hooks {
 #[derive(Clone, Copy)]
 struct Due {
     tol: bool,
-    held: bool,
-    nl: bool,
-    tw: bool,
+    downstream: DownstreamDue,
 }
 
 #[cfg(target_arch = "x86_64")]
@@ -355,10 +355,28 @@ impl Due {
     const fn all_true() -> Self {
         Self {
             tol: true,
-            held: true,
-            nl: true,
-            tw: true,
+            downstream: DownstreamDue::ALL,
         }
+    }
+}
+
+/// The caller's output buffers for one public call, and how many frames are
+/// already written to them.
+struct FrameSink<'a> {
+    out: &'a mut [StreamFrame],
+    quality: Option<&'a mut [FrameQualityV1]>,
+    written: usize,
+}
+
+impl FrameSink<'_> {
+    /// The unwritten tails of both buffers.
+    #[inline(always)]
+    fn rest(&mut self) -> (&mut [StreamFrame], Option<&mut [FrameQualityV1]>) {
+        let written = self.written;
+        (
+            &mut self.out[written..],
+            self.quality.as_deref_mut().map(|q| &mut q[written..]),
+        )
     }
 }
 
@@ -485,7 +503,7 @@ impl ZwtvStream {
         self.check_timeline(chunk.len())
             .expect("stream timeline exhausted");
         assert!(out.len() >= Self::max_frames_for_chunk(chunk.len()));
-        self.push_impl(chunk, out, None)
+        self.push_impl(chunk, out, None, push_hooks(chunk.len()))
     }
 
     /// Process with one quality record per output frame. Quality bits 1 and 2
@@ -512,7 +530,7 @@ impl ZwtvStream {
             return Err(StreamUsageError::QualityCapacity);
         }
         self.check_environment()?;
-        Ok(self.push_impl(chunk, out, Some(quality)))
+        Ok(self.push_impl(chunk, out, Some(quality), push_hooks(chunk.len())))
     }
 
     fn check_timeline(&self, len: usize) -> Result<(), StreamUsageError> {
@@ -545,296 +563,257 @@ impl ZwtvStream {
         Ok(())
     }
 
-    fn push_impl(
+    fn push_impl<H: PushHooks>(
         &mut self,
         chunk: &[f64],
         out: &mut [StreamFrame],
-        mut quality: Option<&mut [FrameQualityV1]>,
+        quality: Option<&mut [FrameQualityV1]>,
+        mut hooks: H,
     ) -> usize {
         let _guard = DenormalGuard::new();
-        let mut written = 0;
-        #[cfg(test)] // c9_stream_hook
-        let mut hook_cursor = stream_hooks::HookCursor::for_call(chunk.len());
         if chunk.is_empty() {
             return 0;
         }
-
-        let creation_env = self.creation_environment;
-        let ZwtvStream {
-            tol:
-                TolStage {
-                    kernel,
-                    shadow,
-                    sample_phase,
-                },
-            emitter,
-            consumed_samples,
-            ..
-        } = self;
-
-        // Stream created outside round-to-nearest -> the entire public call runs R on kernel.
-        if creation_env != RoundingEnvironment::KnownRn {
-            #[cfg(test)]
-            test_stream_hooks::record_env_fallback();
-            #[cfg(test)] // c9_stream_hook
-            push_checked_range_with_hooks(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-                &mut hook_cursor,
-            );
-            #[cfg(not(test))] // c9_stream_hook_else
-            push_checked_range_on_kernel(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-            );
-            return written;
-        }
-
-        // The first block's MXCSR read inside DenormalGuard also checks qualification.
-        let first_mxcsr = crate::numeric_guard::read_unit_mxcsr();
-        let Some(mut block_entry_mxcsr) =
-            first_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
-        else {
-            #[cfg(test)]
-            test_stream_hooks::record_env_fallback();
-            #[cfg(test)] // c9_stream_hook
-            push_checked_range_with_hooks(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-                &mut hook_cursor,
-            );
-            #[cfg(not(test))] // c9_stream_hook_else
-            push_checked_range_on_kernel(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-            );
-            return written;
+        let mut sink = FrameSink {
+            out,
+            quality,
+            written: 0,
         };
-
-        #[cfg(not(target_arch = "x86_64"))]
-        {
-            let _ = (shadow, block_entry_mxcsr);
-            #[cfg(test)] // c9_stream_hook
-            push_checked_range_with_hooks(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-                &mut hook_cursor,
-            );
-            #[cfg(not(test))] // c9_stream_hook_else
-            push_checked_range_on_kernel(
-                kernel,
-                sample_phase,
-                emitter,
-                consumed_samples,
-                chunk,
-                out,
-                &mut quality,
-                &mut written,
-            );
-            return written;
-        }
-
-        #[cfg(target_arch = "x86_64")]
-        {
-            // Due rule a: all due flags start true at every public push entry.
-            let mut due = Due::all_true();
-            let mut pos = 0usize;
-            let mut have_block_mxcsr = true;
-            let mut emissions = [SpecEmission::ZERO; STREAM_MAX_EMISSIONS];
-
-            while pos < chunk.len() {
-                #[cfg(test)] // c9_stream_hook
-                if hook_cursor.peek_sample() == Some(pos) {
-                    apply_stream_hooks_at_boundary(
-                        &mut hook_cursor,
-                        pos,
-                        kernel,
-                        *sample_phase,
-                        emitter,
-                        *consumed_samples,
-                        Some(&mut due),
-                    );
-                }
-
-                #[cfg(test)] // c9_stream_hook
-                let end = (pos + STREAM_BLOCK_LEN)
-                    .min(chunk.len())
-                    .min(hook_cursor.peek_sample().unwrap_or(chunk.len()));
-                #[cfg(not(test))] // c9_stream_hook_else
-                let end = (pos + STREAM_BLOCK_LEN).min(chunk.len());
-                let block = &chunk[pos..end];
-
-                if !have_block_mxcsr {
-                    block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(0);
-                }
-                have_block_mxcsr = false;
-
-                // When due.tol is true, validate kernel before
-                // reading raw PCM, modifying pending, or touching shadow.
-                if due.tol {
-                    if kernel.validate_numeric().is_err() {
-                        #[cfg(test)]
-                        test_stream_hooks::record_entry_due_replay();
-                        #[cfg(test)] // c9_stream_hook
-                        assert!(
-                            hook_cursor.peek_sample().is_none_or(|s| s >= end),
-                            "STOP CONDITION: hook at {:?} fell inside entry-due replay interval [{}..{})",
-                            hook_cursor.peek_sample(),
-                            pos,
-                            end
-                        );
-                        push_checked_range_on_kernel(
-                            kernel,
-                            sample_phase,
-                            emitter,
-                            consumed_samples,
-                            block,
-                            out,
-                            &mut quality,
-                            &mut written,
-                        );
-                        // Due rule b: cold path end sets all due flags true.
-                        due = Due::all_true();
-                        pos = end;
-                        continue;
-                    }
-                    #[cfg(test)]
-                    test_stream_hooks::record_entry_due_passed();
-                    due.tol = false;
-                }
-
-                let entry_ordinal = *consumed_samples;
-                let entry_phase = *sample_phase;
-
-                #[cfg(test)]
-                test_stream_hooks::record_spec_block();
-
-                let outcome = tol_stage::advance_block_spec(
-                    kernel,
-                    shadow,
-                    block,
-                    entry_phase,
-                    entry_ordinal,
-                    &mut emissions,
-                );
-
-                if !outcome.ok {
-                    // D1/D2 failure: do NOT swap; restore block entry MXCSR and replay R checked
-                    // directly on kernel. Cold-path rule: shadow is NOT passed.
-                    #[cfg(test)] // c9_stream_hook
-                    assert!(
-                        hook_cursor.peek_sample().is_none_or(|s| s >= end),
-                        "STOP CONDITION: hook at {:?} fell inside cold replay interval [{}..{})",
-                        hook_cursor.peek_sample(),
-                        pos,
-                        end
-                    );
-                    push_cold_replay_with_mxcsr_restore(
-                        block_entry_mxcsr,
-                        kernel,
-                        sample_phase,
-                        emitter,
-                        consumed_samples,
-                        block,
-                        out,
-                        &mut quality,
-                        &mut written,
-                    );
-                    // Due rule b: cold replay end sets all due flags true.
-                    due = Due::all_true();
-                    pos = end;
-                    continue;
-                }
-
-                // D1/D2 passed: swap kernel <-> shadow and install tail phase.
-                std::mem::swap(kernel, shadow);
-                *sample_phase = outcome.end_phase;
-                #[cfg(test)]
-                test_stream_hooks::record_swap();
-
-                // Deliver buffered emissions in order.
-                let mut restarted_at: Option<usize> = None;
-                for emission in &emissions[..outcome.emission_count] {
-                    if emission.nonfinite_since_prev {
-                        emitter.raise(FrameFlags::NONFINITE_INPUT);
-                    }
-                    let mut transaction = false;
-                    written += emitter.on_levels_d0(
-                        emission.levels,
-                        emission.sample_ordinal,
-                        &mut transaction,
-                        &mut due.held,
-                        &mut due.nl,
-                        &mut due.tw,
-                        &mut out[written..],
-                        quality.as_deref_mut().map(|q| &mut q[written..]),
-                    );
-                    if transaction {
-                        // Downstream fault -> discard all subsequent
-                        // speculative TOL/emission/nonfinite records, zero BOTH kernel and shadow,
-                        // set phase = (0 + 1) % DEC_FACTOR = 1, consumed = e.ordinal + 1,
-                        // and restart a new block from the next sample.
-                        kernel.reset();
-                        shadow.reset();
-                        *sample_phase = 1;
-                        *consumed_samples = emission.sample_ordinal + 1;
-                        #[cfg(test)]
-                        test_stream_hooks::record_downstream_restart();
-                        restarted_at =
-                            Some(pos + (emission.sample_ordinal - entry_ordinal) as usize + 1);
-                        break;
-                    }
-                }
-
-                if let Some(next_pos) = restarted_at {
-                    // All-zero reset TOL does not require TOL entry validation .
-                    due.tol = false;
-                    pos = next_pos;
-                } else {
-                    if outcome.trailing_nonfinite {
-                        emitter.raise(FrameFlags::NONFINITE_INPUT);
-                    }
-                    *consumed_samples = entry_ordinal + block.len() as u64;
-                    pos = end;
-                }
+        // A stream created outside round-to-nearest runs the whole call checked (R) on
+        // kernel. Otherwise the first block's MXCSR read inside DenormalGuard also checks
+        // qualification.
+        let entry_mxcsr = if self.creation_environment == RoundingEnvironment::KnownRn {
+            crate::numeric_guard::read_unit_mxcsr()
+                .filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
+        } else {
+            None
+        };
+        match entry_mxcsr {
+            #[cfg(target_arch = "x86_64")]
+            Some(mxcsr) => self.push_speculative(chunk, &mut sink, mxcsr, &mut hooks),
+            #[cfg(not(target_arch = "x86_64"))]
+            Some(_) => self.push_checked(chunk, &mut sink, &mut hooks),
+            None => {
+                hooks.on_env_fallback();
+                self.push_checked(chunk, &mut sink, &mut hooks);
             }
-            #[cfg(test)] // c9_stream_hook
-            debug_assert!(
-                hook_cursor.is_exhausted(),
-                "unconsumed stream hooks remained after push"
-            );
-            written
         }
+        sink.written
+    }
+
+    /// The whole call through the checked per-sample controller on `kernel`, split at
+    /// hook samples.
+    fn push_checked<H: PushHooks>(
+        &mut self,
+        chunk: &[f64],
+        sink: &mut FrameSink<'_>,
+        hooks: &mut H,
+    ) {
+        let mut pos = 0usize;
+        while pos < chunk.len() {
+            if hooks.next_sample() == Some(pos) {
+                hooks.apply_at(
+                    pos,
+                    &mut self.tol.kernel,
+                    self.tol.sample_phase,
+                    &mut self.emitter,
+                    self.consumed_samples,
+                    None,
+                );
+            }
+            let end = hooks.next_sample().unwrap_or(chunk.len());
+            debug_assert!(end > pos && end <= chunk.len());
+            push_checked_range_on_kernel(
+                &mut self.tol.kernel,
+                &mut self.tol.sample_phase,
+                &mut self.emitter,
+                &mut self.consumed_samples,
+                &chunk[pos..end],
+                sink,
+            );
+            pos = end;
+        }
+        hooks.finish();
+    }
+
+    /// Qualified (D0) path: blocks of up to `STREAM_BLOCK_LEN` samples, each computed
+    /// speculatively on `shadow` and swapped in when it passes (terms: see
+    /// `crate::numeric_guard`).
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    fn push_speculative<H: PushHooks>(
+        &mut self,
+        chunk: &[f64],
+        sink: &mut FrameSink<'_>,
+        mut block_entry_mxcsr: u32,
+        hooks: &mut H,
+    ) {
+        // Due rule a: all due flags start true at every public push entry.
+        let mut due = Due::all_true();
+        let mut pos = 0usize;
+        let mut have_block_mxcsr = true;
+        let mut emissions = [SpecEmission::ZERO; STREAM_MAX_EMISSIONS];
+
+        while pos < chunk.len() {
+            if hooks.next_sample() == Some(pos) {
+                hooks.apply_at(
+                    pos,
+                    &mut self.tol.kernel,
+                    self.tol.sample_phase,
+                    &mut self.emitter,
+                    self.consumed_samples,
+                    Some(&mut due),
+                );
+            }
+            let end = (pos + STREAM_BLOCK_LEN)
+                .min(chunk.len())
+                .min(hooks.next_sample().unwrap_or(chunk.len()));
+            if !have_block_mxcsr {
+                block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(0);
+            }
+            have_block_mxcsr = false;
+            let block = BlockSpan {
+                pos,
+                end,
+                entry_mxcsr: block_entry_mxcsr,
+            };
+            pos = self.push_block(chunk, block, &mut due, &mut emissions, sink, hooks);
+        }
+        hooks.finish();
+    }
+
+    /// One block `chunk[block.pos..block.end]`; returns where the next block starts.
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    fn push_block<H: PushHooks>(
+        &mut self,
+        chunk: &[f64],
+        block: BlockSpan,
+        due: &mut Due,
+        emissions: &mut [SpecEmission; STREAM_MAX_EMISSIONS],
+        sink: &mut FrameSink<'_>,
+        hooks: &mut H,
+    ) -> usize {
+        let BlockSpan {
+            pos,
+            end,
+            entry_mxcsr,
+        } = block;
+        let samples = &chunk[pos..end];
+
+        // When due.tol is true, validate kernel before
+        // reading raw PCM, modifying pending, or touching shadow.
+        if due.tol {
+            if self.tol.kernel.validate_numeric().is_err() {
+                hooks.on_entry_due_replay();
+                hooks.check_none_inside(pos, end, "entry-due replay");
+                push_checked_range_on_kernel(
+                    &mut self.tol.kernel,
+                    &mut self.tol.sample_phase,
+                    &mut self.emitter,
+                    &mut self.consumed_samples,
+                    samples,
+                    sink,
+                );
+                // Due rule b: cold path end sets all due flags true.
+                *due = Due::all_true();
+                return end;
+            }
+            hooks.on_entry_due_passed();
+            due.tol = false;
+        }
+
+        let entry_ordinal = self.consumed_samples;
+        hooks.on_spec_block();
+        let outcome = tol_stage::advance_block_spec(
+            &self.tol.kernel,
+            &mut self.tol.shadow,
+            samples,
+            self.tol.sample_phase,
+            entry_ordinal,
+            emissions,
+        );
+
+        if !outcome.ok {
+            // D1/D2 failure: do NOT swap; restore block entry MXCSR and replay R checked
+            // directly on kernel. Cold-path rule: shadow is NOT passed.
+            hooks.check_none_inside(pos, end, "cold replay");
+            push_cold_replay_with_mxcsr_restore(
+                entry_mxcsr,
+                &mut self.tol.kernel,
+                &mut self.tol.sample_phase,
+                &mut self.emitter,
+                &mut self.consumed_samples,
+                samples,
+                sink,
+            );
+            // Due rule b: cold replay end sets all due flags true.
+            *due = Due::all_true();
+            return end;
+        }
+
+        // D1/D2 passed: swap kernel <-> shadow and install tail phase.
+        std::mem::swap(&mut self.tol.kernel, &mut self.tol.shadow);
+        self.tol.sample_phase = outcome.end_phase;
+        hooks.on_swap();
+
+        let delivered = &emissions[..outcome.emission_count];
+        match self.deliver_emissions(delivered, &mut due.downstream, sink, hooks) {
+            Some(restart_ordinal) => {
+                // All-zero reset TOL does not require TOL entry validation .
+                due.tol = false;
+                pos + (restart_ordinal - entry_ordinal) as usize
+            }
+            None => {
+                if outcome.trailing_nonfinite {
+                    self.emitter.raise(FrameFlags::NONFINITE_INPUT);
+                }
+                self.consumed_samples = entry_ordinal + samples.len() as u64;
+                end
+            }
+        }
+    }
+
+    /// Deliver a block's buffered emissions in order. A downstream fault
+    /// discards the rest and resets both TOL kernels; the returned ordinal
+    /// (the sample after the faulting emission) is where the next block starts.
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    fn deliver_emissions<H: PushHooks>(
+        &mut self,
+        emissions: &[SpecEmission],
+        due: &mut DownstreamDue,
+        sink: &mut FrameSink<'_>,
+        hooks: &mut H,
+    ) -> Option<u64> {
+        for emission in emissions {
+            if emission.nonfinite_since_prev {
+                self.emitter.raise(FrameFlags::NONFINITE_INPUT);
+            }
+            let (out, quality) = sink.rest();
+            let emitted = self.emitter.on_levels_d0(
+                emission.levels,
+                emission.sample_ordinal,
+                *due,
+                out,
+                quality,
+            );
+            *due = DownstreamDue::NONE;
+            sink.written += emitted.written;
+            if emitted.transaction {
+                // Downstream fault -> discard all subsequent
+                // speculative TOL/emission/nonfinite records, zero BOTH kernel and shadow,
+                // set phase = (0 + 1) % DEC_FACTOR = 1, consumed = e.ordinal + 1,
+                // and restart a new block from the next sample.
+                self.tol.kernel.reset();
+                self.tol.shadow.reset();
+                self.tol.sample_phase = 1;
+                self.consumed_samples = emission.sample_ordinal + 1;
+                hooks.on_downstream_restart();
+                return Some(emission.sample_ordinal + 1);
+            }
+        }
+        None
     }
 
     /// Finish the held slot (see `flush_with_quality`); returns the number of
@@ -943,9 +922,7 @@ fn push_checked_range_on_kernel(
     emitter: &mut FrameEmitter,
     consumed_samples: &mut u64,
     sub: &[f64],
-    out: &mut [StreamFrame],
-    quality: &mut Option<&mut [FrameQualityV1]>,
-    written: &mut usize,
+    sink: &mut FrameSink<'_>,
 ) {
     for &raw in sub {
         let sample = if raw.is_finite() {
@@ -984,13 +961,9 @@ fn push_checked_range_on_kernel(
         };
         if let Some(levels) = levels {
             let was_fault = transaction;
-            *written += emitter.on_levels(
-                levels,
-                *consumed_samples,
-                &mut transaction,
-                &mut out[*written..],
-                quality.as_deref_mut().map(|q| &mut q[*written..]),
-            );
+            let (out, quality) = sink.rest();
+            sink.written +=
+                emitter.on_levels(levels, *consumed_samples, &mut transaction, out, quality);
             if transaction && !was_fault {
                 kernel.reset();
             }
@@ -1013,23 +986,12 @@ fn push_cold_replay_with_mxcsr_restore(
     emitter: &mut FrameEmitter,
     consumed_samples: &mut u64,
     sub: &[f64],
-    out: &mut [StreamFrame],
-    quality: &mut Option<&mut [FrameQualityV1]>,
-    written: &mut usize,
+    sink: &mut FrameSink<'_>,
 ) {
     #[cfg(test)]
     test_stream_hooks::record_cold_replay();
     crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    push_checked_range_on_kernel(
-        kernel,
-        sample_phase,
-        emitter,
-        consumed_samples,
-        sub,
-        out,
-        quality,
-        written,
-    );
+    push_checked_range_on_kernel(kernel, sample_phase, emitter, consumed_samples, sub, sink);
 }
 
 fn map_diagnostic_error(error: diagnostics::DiagnosticError) -> StreamUsageError {
@@ -1068,21 +1030,21 @@ fn apply_stream_hooks_at_boundary(
                 emitter.inject_numeric(2, ev.band, ev.field, f64::from_bits(ev.raw_u64));
                 #[cfg(target_arch = "x86_64")]
                 if let Some(d) = due.as_deref_mut() {
-                    d.held = true;
+                    d.downstream.held = true;
                 }
             }
             3 => {
                 emitter.inject_numeric(3, ev.band, ev.field, f64::from_bits(ev.raw_u64));
                 #[cfg(target_arch = "x86_64")]
                 if let Some(d) = due.as_deref_mut() {
-                    d.nl = true;
+                    d.downstream.nl = true;
                 }
             }
             5 => {
                 emitter.inject_numeric(5, ev.band, ev.field, f64::from_bits(ev.raw_u64));
                 #[cfg(target_arch = "x86_64")]
                 if let Some(d) = due.as_deref_mut() {
-                    d.tw = true;
+                    d.downstream.tw = true;
                 }
             }
             other => panic!("unsupported stream hook stage: {other}"),
@@ -1096,56 +1058,165 @@ fn apply_stream_hooks_at_boundary(
             sample,
             stream_hooks::DueSnapshot {
                 tol: d.tol,
-                held: d.held,
-                nl: d.nl,
-                tw: d.tw,
+                held: d.downstream.held,
+                nl: d.downstream.nl,
+                tw: d.downstream.tw,
             },
         );
     }
     // c9_hook_post_snap
 }
 
-#[cfg(test)] // c9_stream_hook
-#[allow(clippy::too_many_arguments)]
-fn push_checked_range_with_hooks(
-    kernel: &mut TolKernel,
-    sample_phase: &mut usize,
-    emitter: &mut FrameEmitter,
-    consumed_samples: &mut u64,
-    chunk: &[f64],
-    out: &mut [StreamFrame],
-    quality: &mut Option<&mut [FrameQualityV1]>,
-    written: &mut usize,
-    hook_cursor: &mut stream_hooks::HookCursor,
-) {
-    let mut pos = 0usize;
-    while pos < chunk.len() {
-        if hook_cursor.peek_sample() == Some(pos) {
-            apply_stream_hooks_at_boundary(
-                hook_cursor,
-                pos,
-                kernel,
-                *sample_phase,
-                emitter,
-                *consumed_samples,
-                None,
-            );
-        }
-        let end = hook_cursor.peek_sample().unwrap_or(chunk.len());
-        debug_assert!(end > pos && end <= chunk.len());
-        push_checked_range_on_kernel(
+/// Bounds of one speculative block within the call, and the MXCSR read at its entry.
+#[cfg(target_arch = "x86_64")]
+#[derive(Clone, Copy)]
+struct BlockSpan {
+    pos: usize,
+    end: usize,
+    entry_mxcsr: u32,
+}
+
+#[cfg(target_arch = "x86_64")]
+type DueSlot<'a> = Option<&'a mut Due>;
+#[cfg(not(target_arch = "x86_64"))]
+type DueSlot<'a> = Option<&'a mut ()>;
+
+/// Observation points of one public push call. The product passes
+/// [`NoPushHooks`], whose methods are empty and inlined, so the product build
+/// carries no test state; unit tests pass the hook cursor, which writes
+/// scheduled state at block boundaries and counts the paths taken.
+trait PushHooks {
+    /// Sample index within this call where the next scheduled hook fires.
+    fn next_sample(&self) -> Option<usize>;
+    /// Apply the hooks scheduled at `pos`, setting the matching due flags.
+    fn apply_at(
+        &mut self,
+        pos: usize,
+        kernel: &mut TolKernel,
+        sample_phase: usize,
+        emitter: &mut FrameEmitter,
+        consumed_samples: u64,
+        due: DueSlot<'_>,
+    );
+    /// A replay over `[pos..end)` must not straddle a scheduled hook.
+    fn check_none_inside(&self, pos: usize, end: usize, what: &str);
+    fn on_env_fallback(&self);
+    fn on_entry_due_replay(&self);
+    fn on_entry_due_passed(&self);
+    fn on_spec_block(&self);
+    fn on_swap(&self);
+    fn on_downstream_restart(&self);
+    /// End of the call: every scheduled hook was applied.
+    fn finish(&self);
+}
+
+/// Product hooks: nothing scheduled, nothing recorded. Passed by value: a
+/// `&mut` to it would still be a pointer argument.
+struct NoPushHooks;
+
+impl PushHooks for NoPushHooks {
+    #[inline(always)]
+    fn next_sample(&self) -> Option<usize> {
+        None
+    }
+    #[inline(always)]
+    fn apply_at(
+        &mut self,
+        _: usize,
+        _: &mut TolKernel,
+        _: usize,
+        _: &mut FrameEmitter,
+        _: u64,
+        _: DueSlot<'_>,
+    ) {
+    }
+    #[inline(always)]
+    fn check_none_inside(&self, _: usize, _: usize, _: &str) {}
+    #[inline(always)]
+    fn on_env_fallback(&self) {}
+    #[inline(always)]
+    fn on_entry_due_replay(&self) {}
+    #[inline(always)]
+    fn on_entry_due_passed(&self) {}
+    #[inline(always)]
+    fn on_spec_block(&self) {}
+    #[inline(always)]
+    fn on_swap(&self) {}
+    #[inline(always)]
+    fn on_downstream_restart(&self) {}
+    #[inline(always)]
+    fn finish(&self) {}
+}
+
+#[cfg(test)]
+impl PushHooks for stream_hooks::HookCursor {
+    fn next_sample(&self) -> Option<usize> {
+        self.peek_sample()
+    }
+    fn apply_at(
+        &mut self,
+        pos: usize,
+        kernel: &mut TolKernel,
+        sample_phase: usize,
+        emitter: &mut FrameEmitter,
+        consumed_samples: u64,
+        due: DueSlot<'_>,
+    ) {
+        apply_stream_hooks_at_boundary(
+            self,
+            pos,
             kernel,
             sample_phase,
             emitter,
             consumed_samples,
-            &chunk[pos..end],
-            out,
-            quality,
-            written,
+            due,
         );
-        pos = end;
     }
-    debug_assert!(hook_cursor.is_exhausted());
+    fn check_none_inside(&self, pos: usize, end: usize, what: &str) {
+        assert!(
+            self.peek_sample().is_none_or(|s| s >= end),
+            "STOP CONDITION: hook at {:?} fell inside {what} interval [{}..{})",
+            self.peek_sample(),
+            pos,
+            end
+        );
+    }
+    fn on_env_fallback(&self) {
+        test_stream_hooks::record_env_fallback();
+    }
+    fn on_entry_due_replay(&self) {
+        test_stream_hooks::record_entry_due_replay();
+    }
+    fn on_entry_due_passed(&self) {
+        test_stream_hooks::record_entry_due_passed();
+    }
+    fn on_spec_block(&self) {
+        test_stream_hooks::record_spec_block();
+    }
+    fn on_swap(&self) {
+        test_stream_hooks::record_swap();
+    }
+    fn on_downstream_restart(&self) {
+        test_stream_hooks::record_downstream_restart();
+    }
+    fn finish(&self) {
+        debug_assert!(
+            self.is_exhausted(),
+            "unconsumed stream hooks remained after push"
+        );
+    }
+}
+
+/// Hooks for one public push call: the scheduled cursor in unit tests, none in the product.
+#[cfg(test)]
+fn push_hooks(chunk_len: usize) -> stream_hooks::HookCursor {
+    stream_hooks::HookCursor::for_call(chunk_len)
+}
+
+#[cfg(not(test))]
+#[inline(always)]
+fn push_hooks(_chunk_len: usize) -> NoPushHooks {
+    NoPushHooks
 }
 
 #[cfg(test)]
@@ -1190,6 +1261,39 @@ mod tests {
             reused.reset();
             assert_eq!(run(&mut reused, &signal), fresh, "avx2={avx2}");
             assert_eq!(ZwtvStream::latency_samples(), 24);
+        }
+    }
+
+    /// The product hooks and the test cursor with nothing scheduled take the
+    /// same paths: same frames, same quality records.
+    #[test]
+    fn product_hooks_match_an_empty_hook_schedule() {
+        let mut signal: Vec<f64> = (0..9_600).map(|i| (i as f64 * 0.07).sin() * 0.2).collect();
+        signal[3_001] = f64::NAN;
+        let backends = [
+            false,
+            cfg!(target_arch = "x86_64") && crate::simd::use_avx2(),
+        ];
+        let cap = ZwtvStream::max_frames_for_chunk(480);
+        for avx2 in backends {
+            let mut product = ZwtvStream::with_backend(FieldType::Free, avx2);
+            let mut hooked = ZwtvStream::with_backend(FieldType::Free, avx2);
+            for chunk in signal.chunks(480) {
+                let (mut out_a, mut out_b) = (
+                    vec![StreamFrame::default(); cap],
+                    vec![StreamFrame::default(); cap],
+                );
+                let (mut q_a, mut q_b) = (
+                    vec![FrameQualityV1::default(); cap],
+                    vec![FrameQualityV1::default(); cap],
+                );
+                let k_a = product.push_impl(chunk, &mut out_a, Some(&mut q_a), NoPushHooks);
+                let cursor = stream_hooks::HookCursor::for_call(chunk.len());
+                let k_b = hooked.push_impl(chunk, &mut out_b, Some(&mut q_b), cursor);
+                assert_eq!(k_a, k_b, "avx2={avx2}");
+                assert_eq!(&out_a[..k_a], &out_b[..k_b], "avx2={avx2}");
+                assert_eq!(&q_a[..k_a], &q_b[..k_b], "avx2={avx2}");
+            }
         }
     }
 

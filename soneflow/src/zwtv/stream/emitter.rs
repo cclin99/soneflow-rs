@@ -12,6 +12,43 @@ use crate::types::FieldType;
 use crate::zwtv::grid::OUT_DECIM;
 use crate::zwtv::temporal_weighting::TwState;
 
+/// Due flags of the emitter's persistent states: held core slot, NL and TW
+/// (due rules: see `crate::numeric_guard`).
+#[cfg(target_arch = "x86_64")]
+#[derive(Clone, Copy)]
+pub(super) struct DownstreamDue {
+    pub(super) held: bool,
+    pub(super) nl: bool,
+    pub(super) tw: bool,
+}
+
+#[cfg(target_arch = "x86_64")]
+impl DownstreamDue {
+    pub(super) const ALL: Self = Self {
+        held: true,
+        nl: true,
+        tw: true,
+    };
+    pub(super) const NONE: Self = Self {
+        held: false,
+        nl: false,
+        tw: false,
+    };
+
+    #[inline(always)]
+    fn any(self) -> bool {
+        self.held || self.nl || self.tw
+    }
+}
+
+/// What one D0 emission did: frames written, and whether a fault opened a
+/// transaction (the caller then restarts TOL after this sample).
+#[cfg(target_arch = "x86_64")]
+pub(super) struct D0Emit {
+    pub(super) written: usize,
+    pub(super) transaction: bool,
+}
+
 #[derive(Clone, Copy)]
 struct CoreSlot {
     values: [f64; 21],
@@ -223,31 +260,52 @@ impl FrameEmitter {
     /// - Deduplicates `levels` non-finite rescan (proven finite by the TOL stage's D2 check on the
     ///   exact same bits).
     /// - Retains `main_loudness_clamped` and its `validate_core(&core)` output check.
-    /// - Checks due persistent states (`held`, `nl`, `tw`) ONLY after `main_loudness` validation.
+    /// - Checks the states `due` marks (`held`, `nl`, `tw`) ONLY after `main_loudness`
+    ///   validation. The caller clears `due` after the call.
     /// - Omits NL/TW substeps, NL `validate_core`, stream total bound, and the extra `sone2phon`
     ///   finiteness check inside `calculate_d0`; retains public output `sone2phon` in `emit_d0`.
     /// - Never called by `flush`, `flush_with_quality`, unqualified calls, or cold replay.
     #[cfg(target_arch = "x86_64")]
-    #[allow(clippy::too_many_arguments)]
     pub(super) fn on_levels_d0(
         &mut self,
         levels: [f64; 28],
         sample: u64,
-        transaction: &mut bool,
-        due_held: &mut bool,
-        due_nl: &mut bool,
-        due_tw: &mut bool,
+        due: DownstreamDue,
         out: &mut [StreamFrame],
         quality: Option<&mut [FrameQualityV1]>,
-    ) -> usize {
-        debug_assert!(!*transaction);
+    ) -> D0Emit {
         #[cfg(test)]
         super::test_stream_hooks::record_d0_on_levels();
+        let mut transaction = false;
+        let mut current = self.d0_core_slot(&levels, sample, &mut transaction);
+        if due.any() && !transaction {
+            self.check_due_d0(sample, due, &mut current, &mut transaction);
+        }
+        let written = match self.held_core.take() {
+            Some(held) => self.emit_d0(held, &mut current, sample, &mut transaction, out, quality),
+            None => 0,
+        };
+        self.held_core = Some(current);
+        D0Emit {
+            written,
+            transaction,
+        }
+    }
+
+    /// Core loudness of `levels` (120 dB clamp, output check) as the next slot.
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    fn d0_core_slot(
+        &mut self,
+        levels: &[f64; 28],
+        sample: u64,
+        transaction: &mut bool,
+    ) -> CoreSlot {
         let mut current = CoreSlot {
             values: [0.0; 21],
             tainted: false,
         };
-        let (core, clamped) = main_loudness_clamped(&levels, self.field);
+        let (core, clamped) = main_loudness_clamped(levels, self.field);
         if clamped {
             self.raise(FrameFlags::CLAMPED_120DB);
         }
@@ -260,27 +318,27 @@ impl FrameEmitter {
                 current.tainted = true;
             }
         }
-        if *due_held || *due_nl || *due_tw {
-            if !*transaction {
-                #[cfg(test)]
-                super::test_stream_hooks::record_d0_due_check();
-                let held_ok = !*due_held || self.is_held_entry_valid();
-                let nl_ok = !*due_nl || self.nl.is_entry_valid();
-                let tw_ok = !*due_tw || self.tw.is_entry_valid();
-                if !(held_ok && nl_ok && tw_ok) {
-                    self.on_levels_due_fallback(sample, &mut current, transaction);
-                }
-            }
-            *due_held = false;
-            *due_nl = false;
-            *due_tw = false;
+        current
+    }
+
+    /// Validate the persistent states `due` marks; any failure takes the checked fallback.
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    fn check_due_d0(
+        &mut self,
+        sample: u64,
+        due: DownstreamDue,
+        current: &mut CoreSlot,
+        transaction: &mut bool,
+    ) {
+        #[cfg(test)]
+        super::test_stream_hooks::record_d0_due_check();
+        let held_ok = !due.held || self.is_held_entry_valid();
+        let nl_ok = !due.nl || self.nl.is_entry_valid();
+        let tw_ok = !due.tw || self.tw.is_entry_valid();
+        if !(held_ok && nl_ok && tw_ok) {
+            self.on_levels_due_fallback(sample, current, transaction);
         }
-        let written = match self.held_core.take() {
-            Some(held) => self.emit_d0(held, &mut current, sample, transaction, out, quality),
-            None => 0,
-        };
-        self.held_core = Some(current);
-        written
     }
 
     pub(super) fn finish(
