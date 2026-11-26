@@ -179,6 +179,15 @@ class ArchitectureGateBehavior(unittest.TestCase):
         self.assertNotIn("size", kinds(result))
         self.assertEqual(result["info"]["code_lines"]["core/big.rs"], 10)
 
+    def test_test_module_file_does_not_count_toward_size(self):
+        """Given a 201-line file brought in by `#[cfg(test)] mod tests;`, then the size limit holds."""
+        files = dict(CLEAN)
+        files["core/mod.rs"] = "pub mod a;\n#[cfg(test)]\nmod tests;\n"
+        files["core/tests.rs"] = "".join(f"fn t{i}() {{}}\n" for i in range(201))
+        result = self.crate(files).run()
+        self.assertNotIn("size", kinds(result))
+        self.assertNotIn("core/tests.rs", result["info"]["code_lines"])
+
     def test_file_over_the_code_line_limit_is_reported(self):
         """Given 201 code lines in core, then the size limit reports the file."""
         files = dict(CLEAN)

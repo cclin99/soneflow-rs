@@ -227,12 +227,16 @@ def _forbid_rule(f: dict):
 def check_files(src: Path, rules: dict) -> tuple:
     sizes, size_v, forbid_v = {}, [], []
     forbids = [(f["path"], *_forbid_rule(f)) for f in rules.get("forbid", [])]
+    # A file that is a `cfg(test)` module (`#[cfg(test)] mod tests;`) is test
+    # code, like an inline test module: it does not count toward the size limit.
+    test_only = mg.test_files(src)
     for f in sorted(src.rglob("*.rs")):
         rel = _rel(src, f)
         text = f.read_text(encoding="utf-8")
-        sizes[rel] = code_lines(text)
+        if rel not in test_only:
+            sizes[rel] = code_lines(text)
         for s in rules.get("size", []):
-            if _in_scope(rel, s["path"]) and sizes[rel] > s["code_lines_max"]:
+            if rel in sizes and _in_scope(rel, s["path"]) and sizes[rel] > s["code_lines_max"]:
                 size_v.append(f"{rel}: {sizes[rel]} code lines > {s['code_lines_max']} ({s['path']})")
         clean = mg.blank_comments_and_literals(text)
         for scope, label, find in forbids:
