@@ -1,5 +1,5 @@
 # soneflow project roadmap
-> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-26
+> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-27
 
 Current state (0.2.0): the `soneflow` crate (ISO 532-1:2017 Zwicker loudness, Rust + AVX2) with batch and streaming APIs, phon conversion, a C ABI v1 and a Python binding. 0.2.0 narrowed the public Rust API to the crate root and `soneflow::simd` and restructured the internals without changing any output.
 
@@ -24,7 +24,7 @@ Add-ons: physical and broadcast meters (what the signal is)
 - phon is part of the loudness engine output (loudness level, converted from sone), not an add-on.
 - Engines are named after the model, not after the standards body: `soneflow` holds the Zwicker engine today; later engines become `soneflow-moore`, `soneflow-sottek`, and so on, and `soneflow` becomes the umbrella crate that re-exports them behind features. Documentation names each standard with its full reference, for example "ISO 532-1:2017".
 - Add-on meters live outside the core crates (for example a `soneflow-meters` crate or the panel). LUFS and true peak can reuse the existing `ebur128` crate instead of a new implementation.
-- `dsp/` (sosfilt, filtfilt, onepole, SIMD filter bank kernel) stays independent of any one standard so that later engines can reuse it.
+- `dsp/` (sosfilt, filtfilt, SIMD filter bank kernel) stays independent of any one standard so that later engines can reuse it.
 - Sharpness can consume `n_specific` from `LoudnessStationary` / `LoudnessTimeVarying` directly; the output already contains the full 240-point specific loudness.
 
 ## 2. 64-track VST plug-in (real-time loudness metering)

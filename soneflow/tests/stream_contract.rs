@@ -212,18 +212,20 @@ fn over_120db_is_clamped_and_stream_continues() {
 #[cfg(target_arch = "x86_64")]
 #[test]
 fn push_and_flush_restore_mxcsr() {
-    #[allow(deprecated)]
-    let before = unsafe { std::arch::x86_64::_mm_getcsr() };
+    // Construct first: `new` does ordinary FP work that may set sticky status
+    // flags, and the promise is about `push` and `flush` only.
     let mut stream = ZwtvStream::new(FieldType::Free);
     let mut out = vec![StreamFrame::default(); 64];
+    #[allow(deprecated)]
+    let before = unsafe { std::arch::x86_64::_mm_getcsr() };
     stream.push(&vec![0.001; 4800], &mut out);
     #[allow(deprecated)]
     let after_push = unsafe { std::arch::x86_64::_mm_getcsr() };
-    assert_eq!(after_push & !0x3f, before & !0x3f);
+    assert_eq!(after_push, before, "push must restore the whole MXCSR");
     stream.flush(&mut out);
     #[allow(deprecated)]
     let after_flush = unsafe { std::arch::x86_64::_mm_getcsr() };
-    assert_eq!(after_flush & !0x3f, before & !0x3f);
+    assert_eq!(after_flush, before, "flush must restore the whole MXCSR");
 }
 
 #[test]

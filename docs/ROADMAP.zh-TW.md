@@ -1,5 +1,5 @@
 # soneflow 專案 Roadmap
-> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-26
+> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-27
 
 目前狀態（0.2.0）：`soneflow` crate（ISO 532-1:2017 Zwicker 響度，Rust + AVX2），含批次與串流 API、phon 轉換、C ABI v1 與 Python binding。0.2.0 把公開 Rust API 收窄到 crate 根層與 `soneflow::simd`，並重整內部結構，所有輸出都不變。
 
@@ -24,7 +24,7 @@ soneflow 以心理聲學引擎為核心，物理與廣播量表是疊在上面�
 - phon 是響度引擎輸出的一部分（響度位準，由 sone 換算），不是附加量表。
 - 引擎以模型命名，不用標準組織的名稱：目前 `soneflow` 內含 Zwicker 引擎；之後的引擎是 `soneflow-moore`、`soneflow-sottek` 等，`soneflow` 改當總包，用 feature 重新匯出。文件中引用標準時寫完整編號，例如「ISO 532-1:2017」。
 - 附加量表放在核心 crate 之外（例如 `soneflow-meters` crate 或面板）。LUFS 與 true peak 可直接沿用現成的 `ebur128` crate，不另行實作。
-- `dsp/`（sosfilt、filtfilt、onepole、SIMD filter bank kernel）不綁任何單一標準，之後的引擎可以直接複用。
+- `dsp/`（sosfilt、filtfilt、SIMD filter bank kernel）不綁任何單一標準，之後的引擎可以直接複用。
 - 銳度可以直接吃 `LoudnessStationary` / `LoudnessTimeVarying` 的 `n_specific`；輸出已含完整 240 點比響度。
 
 ## 2. 64 軌 VST 插件（即時響度量測）

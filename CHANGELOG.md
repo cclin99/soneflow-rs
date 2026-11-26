@@ -6,6 +6,21 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
+## Unreleased
+
+Maintenance after 0.2.0. Output and the public API do not change.
+
+### Removed (`internals` only)
+
+- `dsp::sos::onepole`, `tables::N_CRITICAL_BANDS` and `tables::N_BARK_STEPS`
+  had no callers. They were reachable only with the `internals` feature, which
+  semver does not cover.
+
+### Tests
+
+- `push_and_flush_restore_mxcsr` now compares the whole MXCSR, including the
+  six exception-status flags, instead of the control bits only.
+
 ## 0.2.0 - 2026-11-27
 
 Output is bit for bit that of 0.1.0 (frozen hashes, Python contract hashes and

@@ -52,37 +52,3 @@ pub fn sosfilt_zi(sections: &[Sos]) -> Vec<[f64; 2]> {
         })
         .collect()
 }
-
-/// First-order lowpass `y[n] = b0*x[n] + a1*y[n-1]`, in place.
-#[cfg(any(test, feature = "internals"))]
-pub fn onepole(b0: f64, a1: f64, x: &mut [f64]) {
-    let mut y = 0.0f64;
-    for v in x.iter_mut() {
-        y = b0 * *v + a1 * y;
-        *v = y;
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::onepole;
-
-    #[test]
-    fn onepole_impulse_response_is_geometric_and_in_place() {
-        let (b0, a1) = (0.25, 0.5);
-        let mut x = [1.0, 0.0, 0.0, 0.0, 0.0];
-        onepole(b0, a1, &mut x);
-        for (n, &y) in x.iter().enumerate() {
-            assert_eq!(y, b0 * a1.powi(n as i32), "sample {n}");
-        }
-    }
-
-    #[test]
-    fn onepole_step_response_settles_at_the_dc_gain() {
-        let (b0, a1) = (0.1, 0.9);
-        let mut x = vec![1.0; 400];
-        onepole(b0, a1, &mut x);
-        assert!((x[399] - b0 / (1.0 - a1)).abs() < 1e-12, "{}", x[399]);
-        assert!(x.windows(2).all(|w| w[1] >= w[0]), "monotone rise");
-    }
-}
