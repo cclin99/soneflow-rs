@@ -1,0 +1,14 @@
+warning: source/LCOV scope mismatch (64 analyzed, 55 in LCOV, 54 matched) — verify your --lcov path or coverage tool configuration
+  10 analyzed source file(s) had no matching entry in the LCOV report:
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\analytic.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\area_domain.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\cut_clamp.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\extremes.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\pieces.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\targeted.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\core\calc_slopes\tests\terminal_slice.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\numeric_guard\c4_tests.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\zwtv\batch_checked\tests.rs
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\zwtv\stream\containment_tests.rs
+  1 LCOV file(s) matched no analyzed source file:
+    <ACCEPTANCE_ROOT>\candidate\soneflow\src\tables.rs

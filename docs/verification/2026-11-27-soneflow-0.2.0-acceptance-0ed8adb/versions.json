@@ -1,0 +1,11 @@
+{
+  "soneflow/Cargo.toml": "0.2.0",
+  "soneflow-ffi/Cargo.toml": "0.2.0",
+  "soneflow-py/Cargo.toml": "0.2.0",
+  "Cargo.lock": {
+    "soneflow": "0.2.0",
+    "soneflow-ffi": "0.2.0",
+    "soneflow-py": "0.2.0"
+  },
+  "CITATION.cff": "0.2.0"
+}

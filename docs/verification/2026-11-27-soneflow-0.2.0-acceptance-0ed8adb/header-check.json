@@ -1,0 +1,10 @@
+{
+  "cbindgen": "0.29.4",
+  "raw_equal": true,
+  "LF_equal": true,
+  "generated_sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+  "source_sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+  "generated_CRLF": 0,
+  "source_CRLF": 0,
+  "ci_linux_raw_diff": "success; run 45851619042"
+}

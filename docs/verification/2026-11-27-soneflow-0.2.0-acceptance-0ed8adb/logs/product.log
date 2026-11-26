@@ -1,0 +1,95 @@
+   Compiling soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.49s
+     Running tests\api_errors.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\api_errors-c1ca54cc798ff891.exe)
+
+running 10 tests
+test loudness_zwst_rejects_unsupported_sample_rate ... ok
+test loudness_zwst_rejects_short_signal ... ok
+test loudness_zwtv_rejects_short_signal ... ok
+test loudness_zwtv_rejects_unsupported_sample_rate ... ok
+test nonfinite_error_code_is_frozen_at_4 ... ok
+test sample_rate_and_length_errors_take_precedence_over_finiteness ... ok
+test batch_reports_the_first_offending_sample ... ok
+test batch_rejects_nan_and_infinities_at_head_middle_and_tail ... ok
+test stream_still_flags_instead_of_failing ... ok
+test subnormal_zero_and_large_finite_samples_are_not_rejected_as_nonfinite ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+     Running tests\hash_gate.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\hash_gate-12271783841e0076.exe)
+
+running 1 test
+test zwtv_backend_hashes_match_frozen_snapshot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+     Running tests\l4_batch_fault.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\l4_batch_fault-0972401ecb328f86.exe)
+
+running 3 tests
+test stationary_input_error_precedence_stays_rate_length_finiteness ... ok
+test stationary_finite_extremes_are_internal_faults ... ok
+test temporal_extreme_fault_does_not_poison_reusable_processor ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests\nl_zero_init.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\nl_zero_init-4349ccd13babb0c4.exe)
+
+running 6 tests
+test silent_prefix_yields_exactly_zero_loudness_before_the_tone_starts ... ok
+test both_initialisations_agree_when_the_signal_ends_in_silence ... ok
+test mosqito_tail_init_reproduces_the_audited_pre_fix_numbers ... ok
+test processor_reuse_does_not_leak_state_between_calls ... ok
+test batch_prefix_is_invariant_to_the_future_tail ... ok
+test batch_matches_the_causal_stream_bitwise_from_frame_zero ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.23s
+
+     Running tests\output_grid.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\output_grid-7b6a4227b74eaefe.exe)
+
+running 7 tests
+test cli_grids_are_prefixes_of_the_rust_grid ... ok
+test shortest_legal_input_is_4800_samples_and_50_points ... ok
+test time_axis_is_an_exact_2ms_grid_from_zero ... ok
+test frame_count_is_ceil_of_ceil_for_every_field ... ok
+test every_point_is_prefix_determined_under_real_continuation ... ok
+test every_point_is_prefix_determined_under_zero_padding ... ok
+test stream_frame_count_equals_batch_for_any_chunking ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 27.74s
+
+     Running tests\py_contract_dump.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\py_contract_dump-f40cf0d04d5b59c7.exe)
+
+running 2 tests
+test dump_py_bitwise_contract_hashes ... ignored, manual: freeze constants for soneflow-py/tests/test_smoke.py (R3-P3)
+test fnv1a_known_answer_matches_python_testkit ... ok
+
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\simd_dispatch.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\simd_dispatch-074193cc080a8065.exe)
+
+running 1 test
+test force_scalar_overrides_runtime_detection ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\stream_alloc.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\stream_alloc-0de3b0a7b3a3122b.exe)
+
+running 1 test
+test push_and_flush_do_not_allocate ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests\stream_fault_rt.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\stream_fault_rt-92077c445ba4a798.exe)
+
+running 1 test
+test fault_recovery_quality_ack_and_reset_allocate_nothing_and_do_not_enter_rayon ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+     Running tests\stream_no_rayon.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\stream_no_rayon-6470c5fc75e82280.exe)
+
+running 1 test
+test stream_does_not_initialize_rayon_pool ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+

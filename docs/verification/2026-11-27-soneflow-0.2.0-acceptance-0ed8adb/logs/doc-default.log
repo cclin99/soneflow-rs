@@ -1,0 +1,28 @@
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.95s
+   Doc-tests soneflow
+
+running 20 tests
+test soneflow\src\lib.rs - api_boundary (line 74) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 54) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 62) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 58) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 78) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 70) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 66) - compile fail ... ok
+test soneflow\src\lib.rs - api_boundary (line 81) - compile fail ... ok
+test soneflow\src\sone2phon.rs - sone2phon::sone2phon (line 7) ... ok
+test soneflow\src\zwtv\grid.rs - zwtv::grid::zwtv_out_frames (line 29) ... ok
+test soneflow\src\error.rs - error::StreamUsageError (line 31) ... ok
+test soneflow\src\lib.rs - api_boundary (line 49) ... ok
+test soneflow\src\lib.rs - (line 24) ... ok
+test soneflow\src\zwtv\processor.rs - zwtv::processor::ZwtvProcessor (line 24) ... ok
+test soneflow\src\zwtv\processor.rs - zwtv::processor::loudness_zwtv (line 132) ... ok
+test soneflow\src\zwst\mod.rs - zwst::loudness_zwst (line 55) ... ok
+test soneflow\src\zwtv\stream\mod.rs - zwtv::stream::ZwtvStream (line 398) ... ok
+test soneflow\src\zwtv\stream\mod.rs - zwtv::stream::ZwtvStream (line 423) ... ok
+test soneflow\src\lib.rs - (line 11) ... ok
+test soneflow\src\error.rs - error::SoneflowError (line 85) ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.30s
+

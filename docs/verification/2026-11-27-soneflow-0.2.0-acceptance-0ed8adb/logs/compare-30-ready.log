@@ -1,0 +1,10 @@
+platform: Windows-10-10.0.19045-SP0
+python: 3.11.9; numpy: 2.4.6
+signal: contract_signal(144000), float64 contiguous, 48000 Hz
+iterations per implementation: 30 (after one warm-up)
+soneflow nl_init: zero
+soneflow Rust binding: mean=0.008584 s, sample_sd=0.000485 s, min=0.007884 s, max=0.009587 s, real_time=349.4923x
+MoSQITo: mean=7.134723 s, sample_sd=0.539620 s, min=6.759326 s, max=8.932660 s, real_time=0.4205x
+relative speed from arithmetic means: 831.18x
+max abs N(t) difference: 5.806071e-03 sone
+max abs N_specific(t) difference: 3.245252e-02 sone/Bark

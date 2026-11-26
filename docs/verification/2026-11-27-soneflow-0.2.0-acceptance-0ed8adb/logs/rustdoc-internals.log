@@ -1,0 +1,4 @@
+    Blocking waiting for file lock on build directory
+ Documenting soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.74s
+   Generated <ACCEPTANCE_ROOT>\candidate\target\doc\soneflow\index.html

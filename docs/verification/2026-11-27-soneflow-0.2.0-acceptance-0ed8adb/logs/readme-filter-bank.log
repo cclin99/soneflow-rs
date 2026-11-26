@@ -1,0 +1,22 @@
+    Finished `bench` profile [optimized] target(s) in 0.14s
+     Running benches\core.rs (target\release\deps\core-208e5491cc640119.exe)
+Gnuplot not found, using plotters backend
+Benchmarking filter_bank_10s_t12/scalar/480000
+Benchmarking filter_bank_10s_t12/scalar/480000: Warming up for 3.0000 s
+Benchmarking filter_bank_10s_t12/scalar/480000: Collecting 10 samples in estimated 6.6613 s (495 iterations)
+Benchmarking filter_bank_10s_t12/scalar/480000: Analyzing
+filter_bank_10s_t12/scalar/480000
+                        time:   [13.529 ms 13.702 ms 13.819 ms]
+                        thrpt:  [34.734 Melem/s 35.032 Melem/s 35.481 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking filter_bank_10s_t12/avx2/480000
+Benchmarking filter_bank_10s_t12/avx2/480000: Warming up for 3.0000 s
+Benchmarking filter_bank_10s_t12/avx2/480000: Collecting 10 samples in estimated 6.0343 s (1100 iterations)
+Benchmarking filter_bank_10s_t12/avx2/480000: Analyzing
+filter_bank_10s_t12/avx2/480000
+                        time:   [5.4987 ms 5.6253 ms 5.7848 ms]
+                        thrpt:  [82.976 Melem/s 85.329 Melem/s 87.293 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+

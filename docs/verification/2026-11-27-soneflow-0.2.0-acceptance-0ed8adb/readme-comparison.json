@@ -1,0 +1,72 @@
+[
+  {
+    "id": "zwtv_10s_t12/scalar/480000",
+    "readme_ms": 44.1,
+    "measured_ms": 43.298036296296296,
+    "percent": -1.8185117997816413,
+    "within_20": true
+  },
+  {
+    "id": "zwtv_10s_t12/avx2/480000",
+    "readme_ms": 30.6,
+    "measured_ms": 30.078344375,
+    "percent": -1.7047569444444521,
+    "within_20": true
+  },
+  {
+    "id": "filter_bank_10s_t12/scalar/480000",
+    "readme_ms": 13.7,
+    "measured_ms": 13.520989814814813,
+    "percent": -1.306643687483111,
+    "within_20": true
+  },
+  {
+    "id": "filter_bank_10s_t12/avx2/480000",
+    "readme_ms": 5.58,
+    "measured_ms": 5.52755375,
+    "percent": -0.9398969534050172,
+    "within_20": true
+  },
+  {
+    "id": "zwtv_10s_t1/scalar/480000",
+    "readme_ms": 195.3,
+    "measured_ms": 191.73912,
+    "percent": -1.8232872503840203,
+    "within_20": true
+  },
+  {
+    "id": "zwtv_10s_t1/avx2/480000",
+    "readme_ms": 101.1,
+    "measured_ms": 100.323960625,
+    "percent": -0.7675958209693357,
+    "within_20": true
+  },
+  {
+    "id": "stream_push_10s_480chunk/scalar",
+    "readme_ms": 187.5,
+    "measured_ms": 183.9204683333333,
+    "percent": -1.9090835555555685,
+    "within_20": true
+  },
+  {
+    "id": "stream_push_10s_480chunk/avx2",
+    "readme_ms": 84.5,
+    "measured_ms": 84.66087964285714,
+    "percent": 0.19039010989010396,
+    "within_20": true
+  },
+  {
+    "id": "soneflow Rust binding",
+    "readme_ms": 9.25,
+    "measured_ms": 8.584,
+    "percent": -7.200000000000006,
+    "within_20": true
+  },
+  {
+    "id": "MoSQITo",
+    "readme_ms": 7168,
+    "measured_ms": 7134.723,
+    "percent": -0.4642438616071387,
+    "within_20": true
+  }
+]

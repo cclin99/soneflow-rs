@@ -1,0 +1,3 @@
+from verify import *
+run('api-root-diff',['git','diff','15a2c07','0ed8adb','--','soneflow/src/lib.rs'],pathlib.Path('<SOURCE_ROOT>'))
+p=E/'api-diff.json';d=json.loads(p.read_text());d['interpretation']='rustdoc canonical paths change when re-exported modules become private. The 223 added root records were already accessible by unchanged root re-exports; lib.rs diff confirms. All 326 removed canonical records are under core,dsp,error,tables,tables_noct,zwst,zwtv, explicitly documented in Changed (breaking). decimate signature migration is documented separately.';d['removed_modules']=sorted(set(x.split('soneflow::',1)[1].split('::')[0]for x in d['removed'] if 'soneflow::' in x));p.write_text(json.dumps(d,indent=2))

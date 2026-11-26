@@ -1,0 +1,27 @@
+functions 1070  product 614  test 456
+
+== product, highest cc
+     14  soneflow/src/zwtv/batch_checked/nl_unit.rs:50 run_unit  (cc 14, ploc 34, sloc 34)
+     14  soneflow/src/zwtv/stream/tol_stage.rs:380 advance_sample_checked  (cc 14, ploc 39, sloc 39)
+     13  soneflow-ffi/src/lib.rs:309 snf_stream_push_with_quality_v1  (cc 13, ploc 55, sloc 56)
+     13  soneflow-ffi/src/lib.rs:547 snf_loudness_zwtv  (cc 13, ploc 49, sloc 52)
+     13  soneflow/src/zwtv/batch_checked/levels.rs:307 levels_with_backend  (cc 13, ploc 78, sloc 79)
+     12  soneflow-ffi/src/lib.rs:321 <anonymous>  (cc 12, ploc 42, sloc 43)
+     12  soneflow-ffi/src/lib.rs:557 <anonymous>  (cc 12, ploc 38, sloc 41)
+     12  soneflow/src/zwtv/stream/diagnostics/coverage.rs:24 merge  (cc 12, ploc 32, sloc 32)
+     11  soneflow/src/dsp/checked.rs:9 sos_mapped  (cc 11, ploc 33, sloc 33)
+     11  soneflow/src/zwtv/stream/emitter.rs:445 emit  (cc 11, ploc 60, sloc 63)
+
+== product, highest ploc
+     78  soneflow/src/zwtv/batch_checked/levels.rs:307 levels_with_backend  (cc 13, ploc 78, sloc 79)
+     75  soneflow/src/zwtv/stream/mod.rs:735 push_block  (cc 7, ploc 75, sloc 88)
+     68  soneflow/src/zwtv/batch_checked/nonlinear.rs:136 nonlinear_with_backend  (cc 10, ploc 68, sloc 70)
+     60  soneflow/src/zwtv/stream/emitter.rs:445 emit  (cc 11, ploc 60, sloc 63)
+     56  soneflow/src/zwtv/stream/mod.rs:966 push_checked_range_on_kernel  (cc 9, ploc 56, sloc 56)
+     55  soneflow-ffi/src/lib.rs:309 snf_stream_push_with_quality_v1  (cc 13, ploc 55, sloc 56)
+     49  soneflow-ffi/src/lib.rs:547 snf_loudness_zwtv  (cc 13, ploc 49, sloc 52)
+     49  soneflow/src/zwtv/batch_checked/avx2.rs:61 levels_fast  (cc 6, ploc 49, sloc 49)
+     49  soneflow/src/zwtv/batch_checked/levels.rs:334 <anonymous>  (cc 6, ploc 49, sloc 49)
+     47  soneflow/src/zwtv/batch_checked/validate.rs:51 validate_slopes_chunks  (cc 10, ploc 47, sloc 47)
+
+over limits (cc > 15 or ploc > 80): 0

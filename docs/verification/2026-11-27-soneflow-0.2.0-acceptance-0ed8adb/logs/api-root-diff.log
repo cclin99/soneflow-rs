@@ -1,0 +1,110 @@
+diff --git a/soneflow/src/lib.rs b/soneflow/src/lib.rs
+index ef89f64..2a25bf7 100644
+--- a/soneflow/src/lib.rs
++++ b/soneflow/src/lib.rs
+@@ -8,7 +8,7 @@
+ //!
+ //! # Stationary example
+ //!
+-//! ```no_run
++//! ```
+ //! use soneflow::{loudness_zwst, FieldType};
+ //!
+ //! # fn main() -> Result<(), soneflow::SoneflowError> {
+@@ -21,7 +21,7 @@
+ //!
+ //! # Time-varying example
+ //!
+-//! ```no_run
++//! ```
+ //! use soneflow::{loudness_zwtv, FieldType};
+ //!
+ //! # fn main() -> Result<(), soneflow::SoneflowError> {
+@@ -32,23 +32,80 @@
+ //! # }
+ //! ```
+ //!
++//! The examples here and on the functions, `ZwtvProcessor`, `ZwtvStream` and
++//! the error types run as doctests. `docs/BEHAVIOUR-CONTRACTS.md` lists the
++//! promises of the API and the tests that guard them.
++//!
+ //! # Limitations
+ //!
+ //! The public signal APIs currently accept only 48 kHz input. Signals shorter
+ //! than 0.1 s are rejected, and ISO 532-1 low-frequency applicability checks
+ //! are surfaced as `SoneflowError`.
++#![warn(clippy::undocumented_unsafe_blocks)]
++
++/// The internal modules are not part of the public API; tests and benches
++/// reach them through `soneflow::internals` (feature `internals`).
++///
++/// ```
++/// use soneflow::simd::{avx2_available, set_force_scalar, use_avx2};
++/// use soneflow::{loudness_zwst, loudness_zwtv, ZwtvStream};
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::core;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::dsp;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::error;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::tables;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::tables_noct;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::zwst;
++/// ```
++///
++/// ```compile_fail
++/// use soneflow::zwtv;
++/// ```
++#[cfg_attr(
++    not(feature = "internals"),
++    doc = "```compile_fail
++use soneflow::internals;
++```"
++)]
++#[cfg_attr(
++    feature = "internals",
++    doc = "```
++use soneflow::internals::zwtv::ParMode;
++```"
++)]
++mod api_boundary {}
++
+ mod batch_guard;
+-pub mod core;
+-pub mod dsp;
+-pub mod error;
++mod core;
++mod dsp;
++mod error;
++#[cfg(feature = "internals")]
++pub mod internals;
+ mod numeric_guard;
+ pub mod simd;
+ mod sone2phon;
+-pub mod tables;
+-pub mod tables_noct;
++mod tables;
++mod tables_noct;
+ mod types;
+-pub mod zwst;
+-pub mod zwtv;
++mod zwst;
++mod zwtv;
+ 
+ pub use error::{NumericFaultReason, NumericFaultStage, SoneflowError, StreamUsageError};
+ pub use sone2phon::sone2phon;

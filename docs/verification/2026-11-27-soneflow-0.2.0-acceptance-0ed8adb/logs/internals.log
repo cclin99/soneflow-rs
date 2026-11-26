@@ -1,0 +1,88 @@
+   Compiling soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.45s
+     Running tests\core_characterization.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\core_characterization-9652932001a2d229.exe)
+
+running 20 tests
+test a_low_band_above_120_db_is_rejected_and_120_db_is_accepted ... ok
+test band_0_valid_values_stay_flat_and_negative_values_are_rejected ... ok
+test band_0_stays_flat_in_the_valid_domain ... ok
+test a_negative_band_0_leaves_the_upper_bands_unchanged ... ok
+test band_0_starts_from_zero_and_does_not_look_back_at_band_20 ... ok
+test bands_from_the_twelfth_up_are_not_limited_to_120_db ... ok
+test finite_input_beyond_the_bounds_returns_without_panicking ... ok
+test equal_core_loudness_gives_a_flat_pattern ... ok
+test finite_out_of_domain_input_within_b2_returns_a_finite_non_negative_total ... ok
+test levels_far_below_threshold_give_zero_core_loudness ... ok
+test negative_core_is_rejected_without_inventing_walk_back_area ... ok
+test non_finite_input_returns_without_panicking ... ok
+test falling_core_loudness_descends_along_the_upper_slope ... ok
+test rising_core_loudness_jumps_up_at_the_band_edge ... ok
+test total_loudness_is_never_negative ... ok
+test the_valid_domain_is_finite_up_to_b1 ... ok
+test total_only_and_with_pattern_give_bitwise_equal_totals ... ok
+test out_of_domain_input_is_finite_up_to_b2 ... ok
+test raising_one_band_never_lowers_any_core_loudness ... ok
+test core_loudness_is_never_negative ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests\determinism.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\determinism-a37d6361ac9fd471.exe)
+
+running 1 test
+test zwtv_output_is_bitwise_deterministic_over_20_runs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.21s
+
+     Running tests\low_freq_correction.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\low_freq_correction-ff2ac43845eb1cdb.exe)
+
+running 6 tests
+test core_diffuse_field_uses_the_same_row_selection ... ok
+test core_band0_threshold_118_db_is_strict_and_last_row_applies_above_it ... ok
+test core_band0_118_000001_db_reaches_the_last_dll_row ... ok
+test zwtv_25hz_119db_sine_max_is_pinned ... ok
+test zwst_25hz_119db_sine_is_pinned ... ok
+test stream_25hz_119db_sine_matches_batch_and_is_not_clamped ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.66s
+
+     Running tests\simd_parity.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\simd_parity-acbceed3b5b58655.exe)
+
+running 2 tests
+test nl_loudness_avx2_matches_scalar ... ok
+test filter_bank_avx2_matches_scalar ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+     Running tests\stream_contract.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\stream_contract-e8b93a8f5360928a.exe)
+
+running 11 tests
+test silence_throughput_within_20pct_of_sine ... ignored
+test warmup_constant_is_frozen ... ok
+test push_and_flush_restore_mxcsr ... ok
+test tail_nonfinite_input_is_reported_as_residual_flag ... ok
+test over_120db_is_clamped_and_stream_continues ... ok
+test stream_constants_and_single_push_reference ... ok
+test reset_matches_a_new_stream ... ok
+test flush_reset_after_partial_nonfinite_chunk_matches_a_new_stream ... ok
+test nonfinite_input_flags_and_recovers ... ok
+test batch_zerostate_reference_and_stream_are_bitwise_identical_from_frame_zero ... ok
+test chunk_size_invariance_is_bitwise ... ok
+
+test result: ok. 10 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 3.36s
+
+     Running tests\stream_scalar.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\stream_scalar-80e45ccb5b017457.exe)
+
+running 1 test
+test forced_scalar_stream_matches_scalar_zerostate_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+     Running tests\zup_eps.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\zup_eps-8c5aa4956c85f5ff.exe)
+
+running 3 tests
+test flat_core_has_analytic_area_including_frozen_edge_extension ... ok
+test independent_fraction_intervals_preserve_original_one_e_minus_twelve_gate ... ok
+test complete_writes_repeatability_and_three_total_apis_remain_bitwise ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

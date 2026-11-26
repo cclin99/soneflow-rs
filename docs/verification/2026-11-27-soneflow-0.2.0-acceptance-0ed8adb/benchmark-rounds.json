@@ -1,0 +1,146 @@
+[
+  {
+    "round": 1,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 192962521.6666667
+  },
+  {
+    "round": 1,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 100387506.25
+  },
+  {
+    "round": 1,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 183747718.75
+  },
+  {
+    "round": 1,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 83549280.83333334
+  },
+  {
+    "round": 1,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 191739120.0
+  },
+  {
+    "round": 1,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 100323960.625
+  },
+  {
+    "round": 1,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 183920468.3333333
+  },
+  {
+    "round": 1,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 83395310.0
+  },
+  {
+    "round": 2,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 192561100.0
+  },
+  {
+    "round": 2,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 100462970.83333333
+  },
+  {
+    "round": 2,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 183556829.1666667
+  },
+  {
+    "round": 2,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 83893735.35714287
+  },
+  {
+    "round": 2,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 190975460.0
+  },
+  {
+    "round": 2,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 100232373.57142857
+  },
+  {
+    "round": 2,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 183725414.5833333
+  },
+  {
+    "round": 2,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 85853675.0
+  },
+  {
+    "round": 3,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 198019753.17460316
+  },
+  {
+    "round": 3,
+    "snapshot": "baseline",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 101994964.58333334
+  },
+  {
+    "round": 3,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 186155758.3333333
+  },
+  {
+    "round": 3,
+    "snapshot": "baseline",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 84423577.5
+  },
+  {
+    "round": 3,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/scalar/480000",
+    "median_ns": 193674110.4166667
+  },
+  {
+    "round": 3,
+    "snapshot": "candidate",
+    "id": "zwtv_10s_t1/avx2/480000",
+    "median_ns": 101469842.85714287
+  },
+  {
+    "round": 3,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/scalar",
+    "median_ns": 184229140.0
+  },
+  {
+    "round": 3,
+    "snapshot": "candidate",
+    "id": "stream_push_10s_480chunk/avx2",
+    "median_ns": 84660879.64285713
+  }
+]

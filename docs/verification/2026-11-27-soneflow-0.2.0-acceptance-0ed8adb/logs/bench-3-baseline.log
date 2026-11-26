@@ -1,0 +1,50 @@
+    Finished `bench` profile [optimized] target(s) in 0.14s
+     Running benches\loudness.rs (<ACCEPTANCE_ROOT>\baseline\target\release\deps\loudness-92a8a0c8460a47a1.exe)
+Gnuplot not found, using plotters backend
+Benchmarking zwtv_10s_t1/scalar/480000
+Benchmarking zwtv_10s_t1/scalar/480000: Warming up for 3.0000 s
+
+Warning: Unable to complete 10 samples in 6.0s. You may wish to increase target time to 10.8s or enable flat sampling.
+Benchmarking zwtv_10s_t1/scalar/480000: Collecting 10 samples in estimated 10.783 s (55 iterations)
+Benchmarking zwtv_10s_t1/scalar/480000: Analyzing
+zwtv_10s_t1/scalar/480000
+                        time:   [197.07 ms 198.60 ms 200.03 ms]
+                        thrpt:  [2.3996 Melem/s 2.4169 Melem/s 2.4357 Melem/s]
+                 change:
+                        time:   [+0.2592% +1.6765% +3.1152%] (p = 0.05 < 0.05)
+                        thrpt:  [-3.0211% -1.6488% -0.2585%]
+                        Change within noise threshold.
+Benchmarking zwtv_10s_t1/avx2/480000
+Benchmarking zwtv_10s_t1/avx2/480000: Warming up for 3.0000 s
+Benchmarking zwtv_10s_t1/avx2/480000: Collecting 10 samples in estimated 11.416 s (110 iterations)
+Benchmarking zwtv_10s_t1/avx2/480000: Analyzing
+zwtv_10s_t1/avx2/480000 time:   [101.34 ms 101.81 ms 102.36 ms]
+                        thrpt:  [4.6895 Melem/s 4.7149 Melem/s 4.7367 Melem/s]
+                 change:
+                        time:   [+0.5941% +1.4512% +2.1878%] (p = 0.00 < 0.05)
+                        thrpt:  [-2.1410% -1.4304% -0.5906%]
+                        Change within noise threshold.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking stream_push_10s_480chunk/scalar
+Benchmarking stream_push_10s_480chunk/scalar: Warming up for 3.0000 s
+
+Warning: Unable to complete 10 samples in 6.0s. You may wish to increase target time to 10.3s or enable flat sampling.
+Benchmarking stream_push_10s_480chunk/scalar: Collecting 10 samples in estimated 10.290 s (55 iterations)
+Benchmarking stream_push_10s_480chunk/scalar: Analyzing
+stream_push_10s_480chunk/scalar
+                        time:   [184.39 ms 185.89 ms 187.88 ms]
+                        change: [-0.7678% +1.3718% +3.6228%] (p = 0.26 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking stream_push_10s_480chunk/avx2
+Benchmarking stream_push_10s_480chunk/avx2: Warming up for 3.0000 s
+Benchmarking stream_push_10s_480chunk/avx2: Collecting 10 samples in estimated 9.2642 s (110 iterations)
+Benchmarking stream_push_10s_480chunk/avx2: Analyzing
+stream_push_10s_480chunk/avx2
+                        time:   [84.154 ms 85.260 ms 86.358 ms]
+                        change: [-0.1963% +1.0426% +2.3785%] (p = 0.16 > 0.05)
+                        No change in performance detected.
+

@@ -1,0 +1,54 @@
+    Blocking waiting for file lock on build directory
+   Compiling either v1.16.0
+   Compiling thiserror v1.0.69
+   Compiling rayon v1.12.0
+   Compiling soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+   Compiling soneflow-ffi v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow-ffi)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.55s
+     Running unittests src\lib.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\soneflow_ffi-513f6c7c34f0a645.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\ffi.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\ffi-4c12d904a5b32086.exe)
+
+running 17 tests
+test field_constants_are_frozen ... ok
+test out_frames_query_forwards_core_at_representative_boundaries ... ok
+test out_frames_query_never_panics_below_min_length ... ok
+test stream_layout_flags_and_null_paths_are_frozen ... ok
+test injected_panic_returns_err_panic_not_abort ... ok
+test null_pointers_return_err_null ... ok
+test stream_max_frames_forwards_rust_contract ... ok
+test stream_residual_flags_null_handle_returns_zero ... ok
+test stream_path_panic_is_caught_at_ffi_boundary ... ok
+test rayon_worker_panic_is_caught_at_ffi_boundary ... ok
+test stream_rejects_small_output_without_consuming_input ... ok
+test error_mapping_matches_spec_table ... ok
+test zwtv_diffuse_field_matches_rust_api ... ok
+test zwtv_happy_path_matches_rust_api_bitwise ... ok
+test stream_tail_nonfinite_is_exposed_as_residual_flag ... ok
+test zwst_happy_path_matches_rust_api_bitwise ... ok
+test stream_matches_rust_stream_bitwise ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+
+     Running tests\quality_v1.rs (<ACCEPTANCE_ROOT>\candidate\target\debug\deps\quality_v1-dfd396283df3862b.exe)
+
+running 6 tests
+test null_precedes_version_and_zeroes_only_written ... ok
+test quality_layout_is_additive ... ok
+test environment::environment_errors_preserve_payloads_and_creation_is_sticky ... ok
+test checked_buffers_versions_and_lifecycle_are_atomic ... ok
+test ffi_quality_matches_rust_on_signed_synthetic_chunks ... ok
+test batch_numeric_error_uses_code_five_without_output_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Doc-tests soneflow_ffi
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,9 @@
+'vswhere.exe' is not recognized as an internal or external command,
+operable program or batch file.
+smoke.c
+<ACCEPTANCE_ROOT>\candidate\soneflow-ffi\tests\smoke.c(1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+<ACCEPTANCE_ROOT>\candidate\soneflow-ffi\include\soneflow.h(1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+stream[0]: t=0 n=0.000000 phon=2.797045 flags=4
+stream[1]: t=1 n=0.173680 phon=21.697473 flags=4
+stream[2]: t=2 n=0.508414 phon=31.578075 flags=4
+smoke ok: frames=500 zwtv_n0=3.778508

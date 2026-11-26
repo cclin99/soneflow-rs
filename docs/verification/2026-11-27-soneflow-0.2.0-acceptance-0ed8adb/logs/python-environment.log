@@ -1,0 +1,5 @@
+3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+Windows-10-10.0.19045-SP0
+numpy 2.4.6
+mosqito 1.2.1
+scipy 1.17.1

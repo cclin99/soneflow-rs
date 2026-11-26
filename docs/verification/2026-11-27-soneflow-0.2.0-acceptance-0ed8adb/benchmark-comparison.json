@@ -1,0 +1,30 @@
+[
+  {
+    "id": "zwtv_10s_t1/scalar/480000",
+    "candidate_ns": 191739120.0,
+    "baseline_ns": 192962521.6666667,
+    "percent": -0.6340099912148012,
+    "pass_gate": true
+  },
+  {
+    "id": "zwtv_10s_t1/avx2/480000",
+    "candidate_ns": 100323960.625,
+    "baseline_ns": 100462970.83333333,
+    "percent": -0.13836959745491262,
+    "pass_gate": true
+  },
+  {
+    "id": "stream_push_10s_480chunk/scalar",
+    "candidate_ns": 183920468.3333333,
+    "baseline_ns": 183747718.75,
+    "percent": 0.09401454587218971,
+    "pass_gate": true
+  },
+  {
+    "id": "stream_push_10s_480chunk/avx2",
+    "candidate_ns": 84660879.64285713,
+    "baseline_ns": 83893735.35714287,
+    "percent": 0.9144238034562102,
+    "pass_gate": true
+  }
+]

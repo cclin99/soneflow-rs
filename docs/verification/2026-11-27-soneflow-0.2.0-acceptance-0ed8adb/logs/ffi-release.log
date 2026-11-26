@@ -1,0 +1,6 @@
+   Compiling syn v2.0.119
+   Compiling thiserror-impl v1.0.69
+   Compiling thiserror v1.0.69
+   Compiling soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+   Compiling soneflow-ffi v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow-ffi)
+    Finished `release` profile [optimized] target(s) in 17.54s

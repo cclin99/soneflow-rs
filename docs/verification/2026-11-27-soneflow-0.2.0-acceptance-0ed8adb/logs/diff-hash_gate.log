@@ -1,0 +1,13 @@
+diff --git a/soneflow/tests/hash_gate.rs b/soneflow/tests/hash_gate.rs
+index 4c7fd71..2c20b43 100644
+--- a/soneflow/tests/hash_gate.rs
++++ b/soneflow/tests/hash_gate.rs
+@@ -1,7 +1,7 @@
+ #[allow(dead_code)]
+ mod common;
+ 
+-use soneflow::zwtv::NlInit;
++use soneflow::NlInit;
+ use soneflow::{simd, FieldType, ZwtvProcessor};
+ 
+ const FS: f64 = 48_000.0;

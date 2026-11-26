@@ -1,0 +1,16 @@
+{
+  "B3": "PASS",
+  "performance_table": "| zwtv_10s_t1/scalar/480000 | 192.963 | 191.739 | -0.634% | PASS |\n| zwtv_10s_t1/avx2/480000 | 100.463 | 100.324 | -0.138% | PASS |\n| stream_push_10s_480chunk/scalar | 183.748 | 183.920 | +0.094% | PASS |\n| stream_push_10s_480chunk/avx2 | 83.894 | 84.661 | +0.914% | PASS |",
+  "snapshot_checks": {
+    "candidate": {
+      "commit": "0ed8adbb256ad29ba43781f57bd5ac370e549121",
+      "files_checked": 178,
+      "changed": []
+    },
+    "baseline": {
+      "commit": "15a2c076d3b4002b93e5380159a028fd056bdbb6",
+      "files_checked": 159,
+      "changed": []
+    }
+  }
+}

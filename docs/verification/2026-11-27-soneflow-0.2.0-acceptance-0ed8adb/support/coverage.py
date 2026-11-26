@@ -1,0 +1,12 @@
+from verify import *
+tests='api_errors core_characterization determinism hash_gate l4_batch_fault low_freq_correction nl_zero_init output_grid py_contract_dump simd_dispatch simd_parity stream_alloc stream_contract stream_fault_rt stream_no_rayon stream_scalar zup_eps'.split()
+run('coverage-clean',['cargo','llvm-cov','clean','--workspace'])
+run('coverage-core',['cargo','llvm-cov','--no-report','--release','-p','soneflow','--features','internals','--lib']+sum([['--test',t]for t in tests],[]))
+run('coverage-ffi',['cargo','llvm-cov','--no-report','--release','-p','soneflow-ffi'])
+run('coverage-report',['cargo','llvm-cov','report','--release','--lcov','--output-path',str(ROOT/'lcov.info')])
+run('crap',['cargo','crap','-p','soneflow','-p','soneflow-ffi','--lcov',str(ROOT/'lcov.info'),'--format','json','--output',str(E/'crap.json')])
+run('arch',['python','tools/arch_check.py','--crap',str(E/'crap.json'),'--json',str(E/'arch.json')])
+run('baseline-doc',['cargo','doc','-p','soneflow','--no-deps'],B)
+run('baseline-bench-build',['cargo','bench','--bench','loudness','--no-run'],B/'soneflow')
+run('candidate-bench-build',['cargo','bench','--bench','loudness','--no-run'],C/'soneflow')
+run('core-bench-build',['cargo','bench','--features','internals','--bench','core','--no-run'],C/'soneflow')

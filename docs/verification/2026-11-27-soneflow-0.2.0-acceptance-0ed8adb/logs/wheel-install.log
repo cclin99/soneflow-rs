@@ -1,0 +1,7 @@
+Processing <ACCEPTANCE_ROOT>\wheels\soneflow-0.2.0-cp39-abi3-win_amd64.whl
+Requirement already satisfied: numpy>=1.24 in <ACCEPTANCE_ROOT>\venv\lib\site-packages (from soneflow==0.2.0) (2.4.6)
+Installing collected packages: soneflow
+Successfully installed soneflow-0.2.0
+
+[notice] A new release of pip is available: 24.0 -> 26.3
+[notice] To update, run: <ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pip install --upgrade pip

@@ -1,0 +1,82 @@
+[
+  {
+    "promise": "48 kHz",
+    "path": "soneflow/tests/api_errors.rs",
+    "line": 4,
+    "evidence": "UnsupportedSampleRate equality",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "minimum input",
+    "path": "soneflow/tests/output_grid.rs",
+    "line": 59,
+    "evidence": "4800 succeeds with 50 points; 4799 rejects",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "input precedence",
+    "path": "soneflow/tests/api_errors.rs",
+    "line": 94,
+    "evidence": "rate error before NaN and short input before NaN",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "first nonfinite",
+    "path": "soneflow/tests/api_errors.rs",
+    "line": 83,
+    "evidence": "first offending index 50 asserted; code 4 at line 54",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "exact output times",
+    "path": "soneflow/tests/output_grid.rs",
+    "line": 78,
+    "evidence": "time to_bits equals j*96/48000",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "processor reuse",
+    "path": "soneflow/tests/nl_zero_init.rs",
+    "line": 159,
+    "evidence": "fresh and reused complete output compared bitwise",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "chunk invariance",
+    "path": "soneflow/tests/stream_contract.rs",
+    "line": 61,
+    "evidence": "fixed and LCG chunks compare n,phon,index,flags",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "warmup and latency",
+    "path": "soneflow/tests/stream_contract.rs",
+    "line": 34,
+    "evidence": "24 samples; every frame warmup predicate and 580 constant",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "reset",
+    "path": "soneflow/tests/stream_contract.rs",
+    "line": 84,
+    "evidence": "reset output matches newly constructed stream bitwise",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  },
+  {
+    "promise": "MXCSR restoration",
+    "path": "soneflow/tests/stream_contract.rs",
+    "line": 214,
+    "evidence": "control bits asserted; exception status bits masked. Source guard restores saved register. Narrow coverage is parked, no observed violation.",
+    "status": "consistent",
+    "limitation": "Sampled assertions are examples rather than exhaustive input-space proof"
+  }
+]

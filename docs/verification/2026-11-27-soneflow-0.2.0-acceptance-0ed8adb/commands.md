@@ -1,0 +1,76 @@
+# Commands
+
+All paths are redacted at delivery. Environment and exclusions: execution-boundaries.json. All failed preparation attempts are retained alongside successful retries.
+
+- `fmt` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.5 s: `cargo fmt --check`
+- `environment` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `python -c import sys,platform;print(sys.version);print(platform.platform())`
+- `rustc` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.0 s: `rustc -vV`
+- `cbindgen-version` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.0 s: `cbindgen --version`
+- `venv` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 9.0 s: `python -m venv <ACCEPTANCE_ROOT>\venv`
+- `pip` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.8 s: `python -m pip --version`
+- `fmt` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.5 s: `cargo fmt --check`
+- `ci-runs` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.6 s: `gh api repos/cclin99/soneflow-rs/actions/runs?head_sha=0ed8adbb256ad29ba43781f57bd5ac370e549121`
+- `ci-jobs` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.8 s: `gh api repos/cclin99/soneflow-rs/actions/runs/45851619042/jobs`
+- `diff-hash_gate` — cwd `<SOURCE_ROOT>`; exit 0; 0.4 s: `git diff 15a2c07 0ed8adb -- soneflow/tests/hash_gate.rs`
+- `diff-test_smoke` — cwd `<SOURCE_ROOT>`; exit 0; 0.0 s: `git diff 15a2c07 0ed8adb -- soneflow-py/tests/test_smoke.py`
+- `diff-test_stream` — cwd `<SOURCE_ROOT>`; exit 0; 0.0 s: `git diff 15a2c07 0ed8adb -- soneflow-py/tests/test_stream.py`
+- `diff-test_quality_v1` — cwd `<SOURCE_ROOT>`; exit 0; 0.0 s: `git diff 15a2c07 0ed8adb -- soneflow-py/tests/test_quality_v1.py`
+- `pip-freeze` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.9 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pip freeze`
+- `header` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow-ffi`; exit 0; 0.2 s: `cbindgen --config cbindgen.toml --crate soneflow-ffi --output <ACCEPTANCE_ROOT>\candidate\docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\soneflow.generated.h`
+- `lib-default` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 50.4 s: `cargo test --lib`
+- `lib-internals` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 26.4 s: `cargo test --lib --features internals`
+- `wheel` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 67.3 s: `<ACCEPTANCE_ROOT>\venv\Scripts\maturin.exe build --release --out <ACCEPTANCE_ROOT>\wheels -m soneflow-py/Cargo.toml`
+- `wheel-install` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 1.3 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pip install <ACCEPTANCE_ROOT>\wheels\soneflow-0.2.0-cp39-abi3-win_amd64.whl`
+- `python-tests` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 2.8 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pytest soneflow-py/tests/test_smoke.py soneflow-py/tests/test_stream.py soneflow-py/tests/test_quality_v1.py -v`
+- `product` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 73.8 s: `cargo test --test api_errors --test hash_gate --test l4_batch_fault --test nl_zero_init --test output_grid --test py_contract_dump --test simd_dispatch --test stream_alloc --test stream_fault_rt --test stream_no_rayon`
+- `tools-tests` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 16.5 s: `python -m unittest -v tools/test_arch_check.py tools/test_redact_paths.py tools/test_env_guards.py tools/test_public_api.py tools/test_contract_tests.py`
+- `internals` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 15.0 s: `cargo test --features internals --test core_characterization --test determinism --test low_freq_correction --test simd_parity --test stream_contract --test stream_scalar --test zup_eps`
+- `clippy-default` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 9.2 s: `cargo clippy -p soneflow --all-targets -- -D warnings`
+- `coverage-clean` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.5 s: `cargo llvm-cov clean --workspace`
+- `clippy-internals` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 4.0 s: `cargo clippy -p soneflow --all-targets --features internals -- -D warnings`
+- `doc-default` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 8.5 s: `cargo test --doc`
+- `clippy-ffi` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 5.0 s: `cargo clippy -p soneflow-ffi --all-targets --all-features -- -D warnings`
+- `doc-internals` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 34.2 s: `cargo test --doc --features internals`
+- `clippy-py` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 40.9 s: `cargo clippy -p soneflow-py --all-targets -- -D warnings`
+- `cli` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 9.5 s: `cargo test --example cli`
+- `rustdoc-default` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 2.0 s: `cargo doc -p soneflow --no-deps`
+- `rustdoc-internals` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 6.8 s: `cargo doc -p soneflow --no-deps --features internals`
+- `ffi` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow-ffi`; exit 0; 9.1 s: `cargo test --features test-panic`
+- `doc-pairs` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `python tools/doc_pairs.py --check`
+- `contracts` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `python tools/contract_tests.py`
+- `redact-docs` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 1; 0.1 s: `python tools/redact_paths.py --check docs`
+- `fnmetrics` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 1.7 s: `python tools/fnmetrics.py --check --out <ACCEPTANCE_ROOT>\candidate\docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\fnmetrics.json`
+- `api` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 1.7 s: `python tools/public_api.py --check`
+- `docs-source-redaction` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `python tools/redact_paths.py --check docs\BEHAVIOUR-CONTRACTS.md docs\BEHAVIOUR-CONTRACTS.zh-TW.md docs\DOCUMENTATION-LANGUAGE-POLICY.md docs\DOCUMENTATION-LANGUAGE-POLICY.zh-TW.md docs\GOLDEN-REGEN-SOP.md docs\GOLDEN-REGEN-SOP.zh-TW.md docs\README.md docs\README.zh-TW.md docs\RELEASE-CHECKLIST.md docs\RELEASE-CHECKLIST.zh-TW.md docs\ROADMAP.md docs\ROADMAP.zh-TW.md`
+- `ffi-release` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 17.6 s: `cargo build --release -p soneflow-ffi`
+- `c-smoke` — cwd `<ACCEPTANCE_ROOT>`; exit 0; 26.1 s: `cmd /c <ACCEPTANCE_ROOT>\c-smoke.cmd`
+- `coverage-core` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 205.1 s: `cargo llvm-cov --no-report --release -p soneflow --features internals --lib --test api_errors --test core_characterization --test determinism --test hash_gate --test l4_batch_fault --test low_freq_correction --test nl_zero_init --test output_grid --test py_contract_dump --test simd_dispatch --test simd_parity --test stream_alloc --test stream_contract --test stream_fault_rt --test stream_no_rayon --test stream_scalar --test zup_eps`
+- `coverage-ffi` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 53.0 s: `cargo llvm-cov --no-report --release -p soneflow-ffi`
+- `coverage-report` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.4 s: `cargo llvm-cov report --release --lcov --output-path <ACCEPTANCE_ROOT>\lcov.info`
+- `crap` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.2 s: `cargo crap -p soneflow -p soneflow-ffi --lcov <ACCEPTANCE_ROOT>\lcov.info --format json --output <ACCEPTANCE_ROOT>\candidate\docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\crap.json`
+- `arch` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 5.8 s: `python tools/arch_check.py --crap <ACCEPTANCE_ROOT>\candidate\docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\crap.json --json <ACCEPTANCE_ROOT>\candidate\docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\arch.json`
+- `cpu` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 1.6 s: `powershell -NoProfile -Command Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors | ConvertTo-Json`
+- `cargo-tools` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `cargo install --list`
+- `rust-components` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.1 s: `rustup component list --installed`
+- `python-environment` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.3 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -c import sys,platform,numpy,importlib.metadata as m;print(sys.version);print(platform.platform());print("numpy",numpy.__version__);print("mosqito",m.version("mosqito"));print("scipy",m.version("scipy"))`
+- `baseline-doc` — cwd `<ACCEPTANCE_ROOT>\baseline`; exit 0; 41.1 s: `cargo doc -p soneflow --no-deps`
+- `api-root-diff` — cwd `<SOURCE_ROOT>`; exit 0; 0.0 s: `git diff 15a2c07 0ed8adb -- soneflow/src/lib.rs`
+- `baseline-bench-build` — cwd `<ACCEPTANCE_ROOT>\baseline\soneflow`; exit 0; 40.4 s: `cargo bench --bench loudness --no-run`
+- `candidate-bench-build` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 45.4 s: `cargo bench --bench loudness --no-run`
+- `core-bench-build` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 5.0 s: `cargo bench --features internals --bench core --no-run`
+- `bench-1-baseline` — cwd `<ACCEPTANCE_ROOT>\baseline\soneflow`; exit 0; 74.1 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `bench-1-candidate` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 74.8 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `bench-2-baseline` — cwd `<ACCEPTANCE_ROOT>\baseline\soneflow`; exit 0; 62.5 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `bench-2-candidate` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 62.7 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `bench-3-baseline` — cwd `<ACCEPTANCE_ROOT>\baseline\soneflow`; exit 0; 63.4 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `bench-3-candidate` — cwd `<ACCEPTANCE_ROOT>\candidate\soneflow`; exit 0; 62.9 s: `cargo bench --bench loudness -- --noplot zwtv_10s_t1|stream_push_10s_480chunk`
+- `readme-bench-mt` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 55.0 s: `cargo bench -p soneflow --bench loudness -- --noplot`
+- `readme-filter-bank` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 35.5 s: `cargo bench -p soneflow --features internals --bench core -- --noplot filter_bank`
+- `compare-30` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 1; 5.8 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --iterations 30`
+- `compare-tail-5` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 1; 1.5 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --iterations 5 --nl-init mosqito_tail`
+- `compare-tables` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 1.6 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --check-tables`
+- `matplotlib-install` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 13.9 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pip install matplotlib==3.11.0`
+- `compare-30-ready` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 224.2 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --iterations 30`
+- `compare-tail-5-ready` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 44.1 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --iterations 5 --nl-init mosqito_tail`
+- `compare-tables-ready` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 2.2 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe tools/compare_mosqito.py --check-tables`
+- `pip-freeze-final` — cwd `<ACCEPTANCE_ROOT>\candidate`; exit 0; 0.8 s: `<ACCEPTANCE_ROOT>\venv\Scripts\python.exe -m pip freeze`

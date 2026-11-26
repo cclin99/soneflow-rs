@@ -1,0 +1,19 @@
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\commands.jsonl: 40 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\cli.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\clippy-default.log: 1 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\clippy-ffi.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\clippy-internals.log: 1 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\clippy-py.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\coverage-core.log: 1 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\ffi.log: 5 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\internals.log: 8 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\lib-default.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\lib-internals.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\pip.log: 1 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\product.log: 11 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\python-tests.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\rustdoc-default.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\rustdoc-internals.log: 2 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\wheel-install.log: 1 identifying path(s) remain
+docs\verification\2026-11-26-soneflow-0.2.0-acceptance-0ed8adb\logs\wheel.log: 3 identifying path(s) remain
+88 identifying path(s) remain

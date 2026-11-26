@@ -1,0 +1,20 @@
+{
+  "HASH_GATE_DUMP_ONLY": "0",
+  "REQUIRE_AVX2": "1",
+  "performance_RAYON_NUM_THREADS": "1",
+  "performance_order": [
+    "baseline-1",
+    "candidate-1",
+    "baseline-2",
+    "candidate-2",
+    "baseline-3",
+    "candidate-3"
+  ],
+  "builds": "isolated source and target trees, no pre-existing target",
+  "data_copied": false,
+  "private_copied": false,
+  "ignored_tests_enabled": false,
+  "iso_checker_executed": false,
+  "mutations": "temporary acceptance snapshots, build outputs and evidence only; no product/test/doc edits; no commit/push/tag",
+  "decision_probes": "none: only mandated acceptance measurements, no implementation decision or strategy change"
+}

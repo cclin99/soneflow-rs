@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "<ACCEPTANCE_ROOT>\candidate\tools\compare_mosqito.py", line 136, in <module>
+    main()
+  File "<ACCEPTANCE_ROOT>\candidate\tools\compare_mosqito.py", line 97, in main
+    from mosqito.sq_metrics import loudness_zwtv as mosqito_loudness_zwtv
+  File "<ACCEPTANCE_ROOT>\venv\Lib\site-packages\mosqito\__init__.py", line 5, in <module>
+    from mosqito.sq_metrics.loudness.loudness_ecma.loudness_ecma import loudness_ecma
+  File "<ACCEPTANCE_ROOT>\venv\Lib\site-packages\mosqito\sq_metrics\__init__.py", line 44, in <module>
+    from mosqito.sq_metrics.roughness.roughness_dw.roughness_dw import roughness_dw
+  File "<ACCEPTANCE_ROOT>\venv\Lib\site-packages\mosqito\sq_metrics\roughness\__init__.py", line 26, in <module>
+    from mosqito.sq_metrics.roughness.roughness_ecma.roughness_ecma import roughness_ecma
+  File "<ACCEPTANCE_ROOT>\venv\Lib\site-packages\mosqito\sq_metrics\roughness\roughness_ecma\roughness_ecma.py", line 16, in <module>
+    from mosqito.sq_metrics.roughness.roughness_ecma._noise_reduction import _noise_reduction
+  File "<ACCEPTANCE_ROOT>\venv\Lib\site-packages\mosqito\sq_metrics\roughness\roughness_ecma\_noise_reduction.py", line 2, in <module>
+    import matplotlib.pyplot as plt
+ModuleNotFoundError: No module named 'matplotlib'

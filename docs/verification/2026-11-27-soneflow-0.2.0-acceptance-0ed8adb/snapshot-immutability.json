@@ -1,0 +1,12 @@
+{
+  "candidate": {
+    "commit": "0ed8adbb256ad29ba43781f57bd5ac370e549121",
+    "files_checked": 178,
+    "changed": []
+  },
+  "baseline": {
+    "commit": "15a2c076d3b4002b93e5380159a028fd056bdbb6",
+    "files_checked": 159,
+    "changed": []
+  }
+}

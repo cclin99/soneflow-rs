@@ -1,0 +1,8 @@
+    Checking either v1.16.0
+   Compiling syn v2.0.119
+    Checking rayon v1.12.0
+   Compiling thiserror-impl v1.0.69
+    Checking thiserror v1.0.69
+    Checking soneflow v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow)
+    Checking soneflow-ffi v0.2.0 (<ACCEPTANCE_ROOT>\candidate\soneflow-ffi)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.71s
