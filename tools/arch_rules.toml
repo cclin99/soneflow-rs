@@ -124,12 +124,15 @@ max = 30.0              # cargo-crap default threshold, whole crate
 path = "core"
 cc_max = 8
 
-# zwtv: 15, the 0.2.0 limit for product functions (0.2.0 refactor; the
-# highest is 13, nl_unit::run_unit). CC here is cargo-crap's value; the
-# release condition is checked with rust-code-analysis (tools/fnmetrics.py).
+# zwtv: 17. Product functions are at most 13 (nl_unit::run_unit); the two
+# cfg(test) levels twins in batch_checked (levels_scalar_fast_with_hooks,
+# avx2::levels_fast_with_hooks, CC 17) are counted too, because cargo-crap
+# reports test functions in product files. CC here is cargo-crap's value; the
+# 0.2.0 condition (CC <= 15, product code only) is checked with
+# rust-code-analysis (tools/fnmetrics.py).
 [[crap.scope]]
 path = "zwtv"
-cc_max = 15
+cc_max = 17
 
 [[size]]
 path = "core"
