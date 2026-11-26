@@ -1,10 +1,11 @@
-//! Third-octave levels stage: checked controller (R), scalar fast path and dispatch.
+//! Third-octave levels stage: a scalar band as a `TolUnit`, and the dispatch
+//! of bands (scalar) or groups of four bands (AVX2).
 #[cfg(target_arch = "x86_64")]
 use super::avx2;
-use super::shared::dispatch;
-use super::shared::Fault;
 #[cfg(test)]
-use super::{batch_hooks, test_counters};
+use super::batch_hooks;
+use super::shared::{dispatch, qualified_mxcsr, Fault};
+use super::tol_unit::{run_levels_unit, tol_hooks, Cursor, TolHooks, TolUnit};
 use crate::batch_guard;
 use crate::error::{NumericFaultStage as Stage, SoneflowError};
 use crate::numeric_guard::DomainFault;
@@ -12,53 +13,26 @@ use crate::zwtv::grid::DEC_FACTOR;
 use crate::zwtv::par::ParMode;
 use crate::zwtv::third_octave_levels::{intensity_to_db, TolBandState};
 
-#[inline(never)]
-fn levels_scalar_checked(signal: &[f64], band: usize, row: &mut [f64]) -> Result<(), Fault> {
-    let mut state = TolBandState::new(band);
-    for (i, &sample) in signal.iter().enumerate() {
-        let value = state.advance_checked(sample).map_err(|r| (i, band, r))?;
-        if i % DEC_FACTOR == 0 {
-            let level = intensity_to_db(value);
-            if !level.is_finite() {
-                return Err((i, band, DomainFault::NonFinite));
-            }
-            row[i / DEC_FACTOR] = level;
-        }
+/// Unchecked steps over `block` from `at`, writing one level per emission
+/// into `row`: the samples before the next phase 0 first, then one
+/// `DEC_FACTOR` chunk per output slot. Returns the cursor after the block and
+/// whether every level is finite.
+#[inline(always)]
+fn scan_band(
+    state: &mut TolBandState,
+    block: &[f64],
+    row: &mut [f64],
+    at: Cursor,
+) -> (Cursor, bool) {
+    let lead = ((DEC_FACTOR - at.phase) % DEC_FACTOR).min(block.len());
+    let (head, rest) = block.split_at(lead);
+    for &sample in head {
+        let _ = state.advance(sample);
     }
-    Ok(())
-}
-
-#[cfg(target_arch = "x86_64")]
-#[cold]
-#[inline(never)]
-fn levels_scalar_cold_replay(
-    entry_mxcsr: u32,
-    signal: &[f64],
-    band: usize,
-    row: &mut [f64],
-) -> Result<(), Fault> {
-    #[cfg(test)]
-    test_counters::record_scalar_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    levels_scalar_checked(signal, band, row)
-}
-
-#[cfg(target_arch = "x86_64")]
-#[inline(never)]
-fn levels_scalar_fast(
-    entry_mxcsr: u32,
-    signal: &[f64],
-    band: usize,
-    row: &mut [f64],
-) -> Result<(), Fault> {
-    #[cfg(test)]
-    test_counters::record_scalar_fast_block();
-    let mut state = TolBandState::new(band);
     let mut nonfinite_acc = 0u64;
-    for (out_slot, chunk) in row.iter_mut().zip(signal.chunks(DEC_FACTOR)) {
+    for (out_slot, chunk) in row[at.emission..].iter_mut().zip(rest.chunks(DEC_FACTOR)) {
         if let Some((&first, tail)) = chunk.split_first() {
-            let v0 = state.advance(first);
-            let level = intensity_to_db(v0);
+            let level = intensity_to_db(state.advance(first));
             nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(level);
             *out_slot = level;
             for &sample in tail {
@@ -66,242 +40,105 @@ fn levels_scalar_fast(
             }
         }
     }
-    if (nonfinite_acc as i64) < 0 || state.validate_numeric().is_err() {
-        return levels_scalar_cold_replay(entry_mxcsr, signal, band, row);
-    }
-    Ok(())
+    let after = at.advanced(block.len(), rest.len().div_ceil(DEC_FACTOR));
+    (after, (nonfinite_acc as i64) >= 0)
 }
 
-#[cfg(test)] // c9_batch_hook
-struct BatchTolScalarSnapshot {
-    state: TolBandState,
-    start_sample: usize,
-    phase: usize,
-    emission_idx: usize,
-}
-
-#[cfg(test)] // c9_batch_hook
+/// Checked steps (R) over `signal[pos..end]` from `at`; the first fault is
+/// returned with its sample index.
 #[inline(never)]
-fn levels_scalar_checked_with_hooks(
+fn scan_band_checked(
+    state: &mut TolBandState,
     signal: &[f64],
-    band: usize,
+    (pos, end): (usize, usize),
+    at: Cursor,
     row: &mut [f64],
-    hooks: &[batch_hooks::BatchHookEvent],
-    ctx: &batch_hooks::StageHookContext,
+    band: usize,
 ) -> Result<(), Fault> {
-    let mut state = TolBandState::new(band);
-    let mut h_idx = 0usize;
-    for (i, &sample) in signal.iter().enumerate() {
-        while h_idx < hooks.len() && hooks[h_idx].sample == i {
-            state.inject_raw_bits(hooks[h_idx].field, hooks[h_idx].raw_u64);
-            ctx.record_executed_write();
-            h_idx += 1;
-        }
-        let value = state.advance_checked(sample).map_err(|r| (i, band, r))?;
-        if i % DEC_FACTOR == 0 {
-            let level = intensity_to_db(value);
-            if !level.is_finite() {
-                return Err((i, band, DomainFault::NonFinite));
-            }
-            row[i / DEC_FACTOR] = level;
-        }
-    }
-    Ok(())
-}
-
-#[cfg(test)] // c9_batch_hook
-#[inline(never)]
-fn levels_scalar_checked_from_snapshot(
-    mut state: TolBandState,
-    start_sample: usize,
-    mut phase: usize,
-    mut emission_idx: usize,
-    signal_slice: &[f64],
-    band: usize,
-    row: &mut [f64],
-) -> Result<TolBandState, Fault> {
-    for (offset, &sample) in signal_slice.iter().enumerate() {
-        let i = start_sample + offset;
+    let (mut phase, mut emission) = (at.phase, at.emission);
+    for (offset, &sample) in signal[pos..end].iter().enumerate() {
+        let i = pos + offset;
         let value = state.advance_checked(sample).map_err(|r| (i, band, r))?;
         if phase == 0 {
             let level = intensity_to_db(value);
             if !level.is_finite() {
                 return Err((i, band, DomainFault::NonFinite));
             }
-            row[emission_idx] = level;
-            emission_idx += 1;
+            row[emission] = level;
+            emission += 1;
         }
         phase += 1;
         if phase == DEC_FACTOR {
             phase = 0;
         }
     }
-    Ok(state)
+    Ok(())
 }
 
-#[cfg(test)] // c9_batch_hook
-#[cfg(target_arch = "x86_64")]
-#[cold]
-#[inline(never)]
-fn levels_scalar_cold_replay_from_snapshot(
-    entry_mxcsr: u32,
-    snap: BatchTolScalarSnapshot,
-    signal_slice: &[f64],
+/// One scalar band: the signal, its output row and its filter state.
+struct ScalarBand<'a> {
+    state: TolBandState,
+    signal: &'a [f64],
+    row: &'a mut [f64],
     band: usize,
-    row: &mut [f64],
-) -> Result<TolBandState, Fault> {
-    #[cfg(test)]
-    test_counters::record_scalar_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    levels_scalar_checked_from_snapshot(
-        snap.state,
-        snap.start_sample,
-        snap.phase,
-        snap.emission_idx,
-        signal_slice,
-        band,
-        row,
-    )
 }
 
-#[cfg(test)] // c9_batch_hook
-#[cfg(target_arch = "x86_64")]
-#[cold]
-#[inline(never)]
-fn levels_scalar_cold_replay_reconstruct(
-    entry_mxcsr: u32,
-    signal_slice: &[f64],
-    band: usize,
-    row: &mut [f64],
-) -> Result<TolBandState, Fault> {
+impl TolUnit for ScalarBand<'_> {
+    type Snapshot = TolBandState;
+    #[inline(always)]
+    fn len(&self) -> usize {
+        self.signal.len()
+    }
+    #[inline(always)]
+    fn scan(&mut self, pos: usize, end: usize, at: Cursor) -> (Cursor, bool) {
+        scan_band(&mut self.state, &self.signal[pos..end], self.row, at)
+    }
+    #[inline(always)]
+    fn scan_checked(&mut self, pos: usize, end: usize, at: Cursor) -> Result<(), Fault> {
+        scan_band_checked(
+            &mut self.state,
+            self.signal,
+            (pos, end),
+            at,
+            self.row,
+            self.band,
+        )
+    }
+    #[inline(always)]
+    fn state_valid(&self) -> bool {
+        self.state.validate_numeric().is_ok()
+    }
+    fn snapshot(&self) -> TolBandState {
+        self.state.copy_exact()
+    }
+    fn restore(&mut self, snapshot: TolBandState) {
+        self.state = snapshot;
+    }
+    fn reset(&mut self) {
+        self.state = TolBandState::new(self.band);
+    }
     #[cfg(test)]
-    test_counters::record_scalar_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    let fresh = TolBandState::new(band);
-    levels_scalar_checked_from_snapshot(fresh, 0, 0, 0, signal_slice, band, row)
+    fn inject(&mut self, _band: usize, field: usize, raw: u64) {
+        self.state.inject_raw_bits(field, raw);
+    }
 }
 
-#[cfg(test)] // c9_batch_hook
-#[cfg(target_arch = "x86_64")]
-#[inline(never)]
-fn levels_scalar_fast_with_hooks(
-    entry_mxcsr: u32,
+/// One scalar band of the stage (terms: see `crate::numeric_guard`).
+pub(super) fn levels_band<H: TolHooks>(
     signal: &[f64],
     band: usize,
     row: &mut [f64],
-    hooks: &[batch_hooks::BatchHookEvent],
-    ctx: &batch_hooks::StageHookContext,
+    hooks: H,
 ) -> Result<(), Fault> {
-    let mut state = TolBandState::new(band);
-    let mut pos = 0usize;
-    let mut phase = 0usize;
-    let mut emission_idx = 0usize;
-    let mut h_idx = 0usize;
-    let mut due_tol = false;
-    let mut block_entry_mxcsr = entry_mxcsr;
-
-    while pos < signal.len() {
-        let mut hook_snap: Option<BatchTolScalarSnapshot> = None;
-        if h_idx < hooks.len() && hooks[h_idx].sample == pos {
-            while h_idx < hooks.len() && hooks[h_idx].sample == pos {
-                state.inject_raw_bits(hooks[h_idx].field, hooks[h_idx].raw_u64);
-                ctx.record_executed_write();
-                h_idx += 1;
-            }
-            // Due rule c: a hook wrote TOL state.
-            due_tol = true;
-            ctx.record_due(1, band, pos, due_tol);
-            // Post-hook snapshot preserves all 9 numeric values, all 18 construction coeff bits,
-            // phase, and original sample / emission indices.
-            hook_snap = Some(BatchTolScalarSnapshot {
-                state: state.copy_exact(),
-                start_sample: pos,
-                phase,
-                emission_idx,
-            });
-            // Capture the block entry MXCSR once per hook-delimited block.
-            block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(entry_mxcsr);
-        }
-
-        let end = hooks.get(h_idx).map_or(signal.len(), |h| h.sample);
-        assert!(end > pos && end <= signal.len());
-        let block = &signal[pos..end];
-
-        if due_tol {
-            // c9_scalar_hook_due_check
-            if state.validate_numeric().is_err() {
-                assert!(
-                    hooks.get(h_idx).is_none_or(|h| h.sample >= end),
-                    "STOP CONDITION: batch scalar TOL hook fell inside entry-due replay interval [{}..{})",
-                    pos,
-                    end
-                );
-                let snap = hook_snap.expect("due_tol entry fault must have snapshot");
-                state = levels_scalar_checked_from_snapshot(
-                    snap.state,
-                    snap.start_sample,
-                    snap.phase,
-                    snap.emission_idx,
-                    block,
-                    band,
-                    row,
-                )?;
-                pos = end;
-                phase = pos % DEC_FACTOR;
-                emission_idx = pos.div_ceil(DEC_FACTOR);
-                due_tol = true;
-                continue;
-            }
-            due_tol = false;
-        }
-
-        #[cfg(test)]
-        test_counters::record_scalar_fast_block();
-        let mut nonfinite_acc = 0u64;
-        let mut work_phase = phase;
-        let mut work_emission = emission_idx;
-        for &sample in block {
-            let v = state.advance(sample);
-            if work_phase == 0 {
-                let level = intensity_to_db(v);
-                nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(level);
-                row[work_emission] = level;
-                work_emission += 1;
-            }
-            work_phase += 1;
-            if work_phase == DEC_FACTOR {
-                work_phase = 0;
-            }
-        }
-
-        // c9_scalar_hook_d1_check
-        if (nonfinite_acc as i64) < 0 || state.validate_numeric().is_err() {
-            assert!(
-                hooks.get(h_idx).is_none_or(|h| h.sample >= end),
-                "STOP CONDITION: batch scalar TOL hook fell inside cold replay interval [{}..{})",
-                pos,
-                end
-            );
-            state = if let Some(snap) = hook_snap {
-                levels_scalar_cold_replay_from_snapshot(block_entry_mxcsr, snap, block, band, row)?
-            } else {
-                assert_eq!(
-                    pos, 0,
-                    "unhooked batch scalar TOL block must start at sample 0"
-                );
-                levels_scalar_cold_replay_reconstruct(block_entry_mxcsr, block, band, row)?
-            };
-            pos = end;
-            phase = pos % DEC_FACTOR;
-            emission_idx = pos.div_ceil(DEC_FACTOR);
-            due_tol = true;
-        } else {
-            pos = end;
-            phase = work_phase;
-            emission_idx = work_emission;
-        }
-    }
-    Ok(())
+    // Read the worker MXCSR before constructing the band state.
+    let entry_mxcsr = qualified_mxcsr();
+    let mut unit = ScalarBand {
+        state: TolBandState::new(band),
+        signal,
+        row,
+        band,
+    };
+    run_levels_unit(&mut unit, entry_mxcsr, hooks)
 }
 
 pub(super) fn levels_with_backend(
@@ -317,68 +154,29 @@ pub(super) fn levels_with_backend(
     let _ = use_avx2;
     #[cfg(target_arch = "x86_64")]
     if use_avx2 {
-        // SAFETY: caller ensures AVX2 and FMA are available.
-        dispatch(&mut out, 4 * n, mode, |g, part| unsafe {
-            avx2::levels(
-                signal,
-                g,
-                part,
-                n,
-                #[cfg(test)] // c9_batch_hook
+        dispatch(&mut out, 4 * n, mode, |g, part| {
+            let hooks = tol_hooks(
+                #[cfg(test)]
                 &hook_ctx,
-            )
+                4 * g,
+                4,
+                true,
+            );
+            // SAFETY: caller ensures AVX2 and FMA are available.
+            unsafe { avx2::levels(signal, g, part, n, hooks) }
         })
         .map_err(|(i, b, r)| batch_guard::fault(Stage::Filter, r, i, Some(b)))?;
         return Ok((out, n));
     }
     dispatch(&mut out, n, mode, |band, row| {
-        let entry_mxcsr = crate::numeric_guard::read_unit_mxcsr();
-        #[cfg(test)] // c9_batch_hook
-        let band_hooks = hook_ctx.for_range(band, band + 1);
-        if let Some(entry_mxcsr) =
-            entry_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
-        {
+        let hooks = tol_hooks(
             #[cfg(test)]
-            test_counters::record_scalar(true);
-            #[cfg(target_arch = "x86_64")]
-            {
-                #[cfg(test)] // c9_batch_hook
-                if !band_hooks.is_empty() {
-                    return levels_scalar_fast_with_hooks(
-                        entry_mxcsr,
-                        signal,
-                        band,
-                        row,
-                        &band_hooks,
-                        &hook_ctx,
-                    );
-                }
-                levels_scalar_fast(entry_mxcsr, signal, band, row)
-            }
-            #[cfg(not(target_arch = "x86_64"))]
-            {
-                let _ = entry_mxcsr;
-                #[cfg(test)] // c9_batch_hook
-                if !band_hooks.is_empty() {
-                    return levels_scalar_checked_with_hooks(
-                        signal,
-                        band,
-                        row,
-                        &band_hooks,
-                        &hook_ctx,
-                    );
-                }
-                levels_scalar_checked(signal, band, row)
-            }
-        } else {
-            #[cfg(test)]
-            test_counters::record_scalar(false);
-            #[cfg(test)] // c9_batch_hook
-            if !band_hooks.is_empty() {
-                return levels_scalar_checked_with_hooks(signal, band, row, &band_hooks, &hook_ctx);
-            }
-            levels_scalar_checked(signal, band, row)
-        }
+            &hook_ctx,
+            band,
+            1,
+            false,
+        );
+        levels_band(signal, band, row, hooks)
     })
     .map_err(|(i, b, r)| batch_guard::fault(Stage::Filter, r, i, Some(b)))?;
     Ok((out, n))

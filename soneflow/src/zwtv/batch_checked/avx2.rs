@@ -1,424 +1,197 @@
-#![expect(
-    clippy::undocumented_unsafe_blocks,
-    reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
-)]
-
+//! AVX2 kernels of the batch stages: a group of four bands for the levels
+//! stage (`Avx2Levels`) and for the nonlinear decay stage (`Avx2Group`).
 use super::nl_unit::{run_unit, NlHooks, NlUnit};
-use super::shared::{mxcsr_qualified, Fault, StageCtx};
+use super::shared::{mxcsr_qualified, qualified_mxcsr, Fault, StageCtx};
+use super::tol_unit::{run_levels_unit, Cursor, TolHooks, TolUnit};
 use crate::numeric_guard::DomainFault;
 use crate::zwtv::grid::DEC_FACTOR;
 use crate::zwtv::nonlinear_decay::{NlConsts, NlGroupState, NlInit};
 use crate::zwtv::third_octave_levels::{intensity_to_db, TolGroupState};
 use std::arch::x86_64::*;
 
-#[inline(never)]
+/// The four lanes of `value` as levels.
 #[target_feature(enable = "avx2,fma")]
-unsafe fn levels_checked(
-    signal: &[f64],
-    group: usize,
+#[inline]
+unsafe fn lane_levels(value: __m256d) -> [f64; 4] {
+    let mut lanes = [0.0; 4];
+    // SAFETY: `lanes` holds four f64; unaligned store.
+    unsafe { _mm256_storeu_pd(lanes.as_mut_ptr(), value) };
+    lanes.map(intensity_to_db)
+}
+
+/// Unchecked steps over `block` from `at`, writing four levels per emission
+/// into the band-major `out` (`n` slots per band): the samples before the
+/// next phase 0 first, then one `DEC_FACTOR` chunk per output slot. Returns
+/// the cursor after the block and whether every level is finite.
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn scan_group(
+    state: &mut TolGroupState,
+    block: &[f64],
     out: &mut [f64],
     n: usize,
-) -> Result<(), (usize, usize, DomainFault)> {
-    let mut state = unsafe { TolGroupState::new(group) };
-    for (i, &sample) in signal.iter().enumerate() {
-        let value = unsafe { state.advance_checked(sample) }
-            .map_err(|(lane, r)| (i, group * 4 + lane, r))?;
-        if i % DEC_FACTOR == 0 {
-            let mut lanes = [0.0; 4];
-            unsafe {
-                _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-            }
-            for lane in 0..4 {
-                let level = intensity_to_db(lanes[lane]);
-                if !level.is_finite() {
-                    return Err((i, group * 4 + lane, DomainFault::NonFinite));
-                }
-                out[lane * n + i / DEC_FACTOR] = level;
-            }
-        }
+    at: Cursor,
+) -> (Cursor, bool) {
+    let lead = ((DEC_FACTOR - at.phase) % DEC_FACTOR).min(block.len());
+    let (head, rest) = block.split_at(lead);
+    for &sample in head {
+        // SAFETY: this function's own target features are enabled.
+        let _ = unsafe { state.advance(sample) };
     }
-    Ok(())
-}
-
-#[cold]
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-unsafe fn levels_cold_replay(
-    entry_mxcsr: u32,
-    signal: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-) -> Result<(), (usize, usize, DomainFault)> {
-    #[cfg(test)]
-    super::test_counters::record_avx2_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    unsafe { levels_checked(signal, group, out, n) }
-}
-
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-unsafe fn levels_fast(
-    entry_mxcsr: u32,
-    signal: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-) -> Result<(), (usize, usize, DomainFault)> {
-    #[cfg(test)]
-    super::test_counters::record_avx2_fast_block();
-    let mut state = unsafe { TolGroupState::new(group) };
     let mut nonfinite_acc = 0u64;
-    {
-        let (r0, rest) = out.split_at_mut(n);
-        let (r1, rest) = rest.split_at_mut(n);
-        let (r2, r3) = rest.split_at_mut(n);
-        for (chunk, ((s0, s1), (s2, s3))) in signal.chunks(DEC_FACTOR).zip(
-            r0.iter_mut()
-                .zip(r1.iter_mut())
-                .zip(r2.iter_mut().zip(r3.iter_mut())),
-        ) {
-            if let Some((&first, tail)) = chunk.split_first() {
-                let value = unsafe { state.advance(first) };
-                let mut lanes = [0.0; 4];
-                unsafe {
-                    _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-                }
-                let l0 = intensity_to_db(lanes[0]);
-                let l1 = intensity_to_db(lanes[1]);
-                let l2 = intensity_to_db(lanes[2]);
-                let l3 = intensity_to_db(lanes[3]);
-                nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(l0)
-                    | crate::numeric_guard::nonfinite_mask_bit(l1)
-                    | crate::numeric_guard::nonfinite_mask_bit(l2)
-                    | crate::numeric_guard::nonfinite_mask_bit(l3);
-                *s0 = l0;
-                *s1 = l1;
-                *s2 = l2;
-                *s3 = l3;
-                for &sample in tail {
-                    let _ = unsafe { state.advance(sample) };
-                }
+    let e = at.emission;
+    let (r0, tail) = out.split_at_mut(n);
+    let (r1, tail) = tail.split_at_mut(n);
+    let (r2, r3) = tail.split_at_mut(n);
+    for (chunk, ((s0, s1), (s2, s3))) in rest.chunks(DEC_FACTOR).zip(
+        r0[e..]
+            .iter_mut()
+            .zip(r1[e..].iter_mut())
+            .zip(r2[e..].iter_mut().zip(r3[e..].iter_mut())),
+    ) {
+        if let Some((&first, tail)) = chunk.split_first() {
+            // SAFETY: this function's own target features are enabled.
+            let [l0, l1, l2, l3] = unsafe { lane_levels(state.advance(first)) };
+            nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(l0)
+                | crate::numeric_guard::nonfinite_mask_bit(l1)
+                | crate::numeric_guard::nonfinite_mask_bit(l2)
+                | crate::numeric_guard::nonfinite_mask_bit(l3);
+            *s0 = l0;
+            *s1 = l1;
+            *s2 = l2;
+            *s3 = l3;
+            for &sample in tail {
+                // SAFETY: as above.
+                let _ = unsafe { state.advance(sample) };
             }
         }
     }
-    if (nonfinite_acc as i64) < 0 || unsafe { state.validate_numeric() }.is_err() {
-        return unsafe { levels_cold_replay(entry_mxcsr, signal, group, out, n) };
-    }
-    Ok(())
+    let after = at.advanced(block.len(), rest.len().div_ceil(DEC_FACTOR));
+    (after, (nonfinite_acc as i64) >= 0)
 }
 
-#[cfg(test)] // c9_batch_hook
-struct BatchTolAvx2Snapshot {
-    state: TolGroupState,
-    start_sample: usize,
-    phase: usize,
-    emission_idx: usize,
-}
-
-#[cfg(test)] // c9_batch_hook
+/// Checked steps (R) over `signal[pos..end]` from `at`; the first fault is
+/// returned with its sample index and band.
 #[inline(never)]
 #[target_feature(enable = "avx2,fma")]
-unsafe fn levels_checked_with_hooks(
+unsafe fn scan_group_checked(
+    state: &mut TolGroupState,
     signal: &[f64],
-    group: usize,
+    (pos, end): (usize, usize),
+    at: Cursor,
     out: &mut [f64],
-    n: usize,
-    hooks: &[super::batch_hooks::BatchHookEvent],
-    ctx: &super::batch_hooks::StageHookContext,
-) -> Result<(), (usize, usize, DomainFault)> {
-    let mut state = unsafe { TolGroupState::new(group) };
-    let mut h_idx = 0usize;
-    for (i, &sample) in signal.iter().enumerate() {
-        while h_idx < hooks.len() && hooks[h_idx].sample == i {
-            let ev = hooks[h_idx];
-            state.inject_raw_bits(ev.band - group * 4, ev.field, ev.raw_u64);
-            ctx.record_executed_write();
-            h_idx += 1;
-        }
-        let value = unsafe { state.advance_checked(sample) }
-            .map_err(|(lane, r)| (i, group * 4 + lane, r))?;
-        if i % DEC_FACTOR == 0 {
-            let mut lanes = [0.0; 4];
-            unsafe {
-                _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-            }
-            for lane in 0..4 {
-                let level = intensity_to_db(lanes[lane]);
-                if !level.is_finite() {
-                    return Err((i, group * 4 + lane, DomainFault::NonFinite));
-                }
-                out[lane * n + i / DEC_FACTOR] = level;
-            }
-        }
-    }
-    Ok(())
-}
-
-#[cfg(test)] // c9_batch_hook
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-#[allow(clippy::too_many_arguments)]
-unsafe fn levels_checked_from_snapshot(
-    mut state: TolGroupState,
-    start_sample: usize,
-    mut phase: usize,
-    mut emission_idx: usize,
-    signal_slice: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-) -> Result<TolGroupState, (usize, usize, DomainFault)> {
-    for (offset, &sample) in signal_slice.iter().enumerate() {
-        let i = start_sample + offset;
+    (n, group): (usize, usize),
+) -> Result<(), Fault> {
+    let (mut phase, mut emission) = (at.phase, at.emission);
+    for (offset, &sample) in signal[pos..end].iter().enumerate() {
+        let i = pos + offset;
+        // SAFETY: this function's own target features are enabled.
         let value = unsafe { state.advance_checked(sample) }
             .map_err(|(lane, r)| (i, group * 4 + lane, r))?;
         if phase == 0 {
-            let mut lanes = [0.0; 4];
-            unsafe {
-                _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-            }
-            for lane in 0..4 {
-                let level = intensity_to_db(lanes[lane]);
+            // SAFETY: as above.
+            let lanes = unsafe { lane_levels(value) };
+            for (lane, &level) in lanes.iter().enumerate() {
                 if !level.is_finite() {
                     return Err((i, group * 4 + lane, DomainFault::NonFinite));
                 }
-                out[lane * n + emission_idx] = level;
+                out[lane * n + emission] = level;
             }
-            emission_idx += 1;
+            emission += 1;
         }
         phase += 1;
         if phase == DEC_FACTOR {
             phase = 0;
         }
     }
-    Ok(state)
-}
-
-#[cfg(test)] // c9_batch_hook
-#[cold]
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-unsafe fn levels_cold_replay_from_snapshot(
-    entry_mxcsr: u32,
-    snap: BatchTolAvx2Snapshot,
-    signal_slice: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-) -> Result<TolGroupState, (usize, usize, DomainFault)> {
-    #[cfg(test)]
-    super::test_counters::record_avx2_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    unsafe {
-        levels_checked_from_snapshot(
-            snap.state,
-            snap.start_sample,
-            snap.phase,
-            snap.emission_idx,
-            signal_slice,
-            group,
-            out,
-            n,
-        )
-    }
-}
-
-#[cfg(test)] // c9_batch_hook
-#[cold]
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-unsafe fn levels_cold_replay_reconstruct(
-    entry_mxcsr: u32,
-    signal_slice: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-) -> Result<TolGroupState, (usize, usize, DomainFault)> {
-    #[cfg(test)]
-    super::test_counters::record_avx2_cold_replay();
-    crate::numeric_guard::restore_mxcsr(entry_mxcsr);
-    let fresh = unsafe { TolGroupState::new(group) };
-    unsafe { levels_checked_from_snapshot(fresh, 0, 0, 0, signal_slice, group, out, n) }
-}
-
-#[cfg(test)] // c9_batch_hook
-#[inline(never)]
-#[target_feature(enable = "avx2,fma")]
-unsafe fn levels_fast_with_hooks(
-    entry_mxcsr: u32,
-    signal: &[f64],
-    group: usize,
-    out: &mut [f64],
-    n: usize,
-    hooks: &[super::batch_hooks::BatchHookEvent],
-    ctx: &super::batch_hooks::StageHookContext,
-) -> Result<(), (usize, usize, DomainFault)> {
-    let mut state = unsafe { TolGroupState::new(group) };
-    let mut pos = 0usize;
-    let mut phase = 0usize;
-    let mut emission_idx = 0usize;
-    let mut h_idx = 0usize;
-    let mut due_tol = false;
-    let mut block_entry_mxcsr = entry_mxcsr;
-
-    while pos < signal.len() {
-        let mut hook_snap: Option<BatchTolAvx2Snapshot> = None;
-        if h_idx < hooks.len() && hooks[h_idx].sample == pos {
-            while h_idx < hooks.len() && hooks[h_idx].sample == pos {
-                let ev = hooks[h_idx];
-                state.inject_raw_bits(ev.band - group * 4, ev.field, ev.raw_u64);
-                ctx.record_executed_write();
-                h_idx += 1;
-            }
-            // Due rule c: a hook wrote TOL state.
-            due_tol = true;
-            ctx.record_due(1, group * 4, pos, due_tol);
-            // Post-hook snapshot preserves all 36 numeric values, all 36 construction coeff bits,
-            // phase, and original sample / emission indices.
-            hook_snap = Some(BatchTolAvx2Snapshot {
-                state: unsafe { state.copy_exact() },
-                start_sample: pos,
-                phase,
-                emission_idx,
-            });
-            // Capture the block entry MXCSR once per hook-delimited block.
-            block_entry_mxcsr = crate::numeric_guard::read_unit_mxcsr().unwrap_or(entry_mxcsr);
-        }
-
-        let end = hooks.get(h_idx).map_or(signal.len(), |h| h.sample);
-        assert!(end > pos && end <= signal.len());
-        let block = &signal[pos..end];
-
-        if due_tol {
-            // c9_avx2_hook_due_check
-            if unsafe { state.validate_numeric() }.is_err() {
-                assert!(
-                    hooks.get(h_idx).is_none_or(|h| h.sample >= end),
-                    "STOP CONDITION: batch AVX2 TOL hook fell inside entry-due replay interval [{}..{})",
-                    pos,
-                    end
-                );
-                let snap = hook_snap.expect("due_tol entry fault must have snapshot");
-                state = unsafe {
-                    levels_checked_from_snapshot(
-                        snap.state,
-                        snap.start_sample,
-                        snap.phase,
-                        snap.emission_idx,
-                        block,
-                        group,
-                        out,
-                        n,
-                    )
-                }?;
-                pos = end;
-                phase = pos % DEC_FACTOR;
-                emission_idx = pos.div_ceil(DEC_FACTOR);
-                due_tol = true;
-                continue;
-            }
-            due_tol = false;
-        }
-
-        #[cfg(test)]
-        super::test_counters::record_avx2_fast_block();
-        let mut nonfinite_acc = 0u64;
-        let mut work_phase = phase;
-        let mut work_emission = emission_idx;
-        for &sample in block {
-            let value = unsafe { state.advance(sample) };
-            if work_phase == 0 {
-                let mut lanes = [0.0; 4];
-                unsafe {
-                    _mm256_storeu_pd(lanes.as_mut_ptr(), value);
-                }
-                let l0 = intensity_to_db(lanes[0]);
-                let l1 = intensity_to_db(lanes[1]);
-                let l2 = intensity_to_db(lanes[2]);
-                let l3 = intensity_to_db(lanes[3]);
-                nonfinite_acc |= crate::numeric_guard::nonfinite_mask_bit(l0)
-                    | crate::numeric_guard::nonfinite_mask_bit(l1)
-                    | crate::numeric_guard::nonfinite_mask_bit(l2)
-                    | crate::numeric_guard::nonfinite_mask_bit(l3);
-                out[work_emission] = l0;
-                out[n + work_emission] = l1;
-                out[2 * n + work_emission] = l2;
-                out[3 * n + work_emission] = l3;
-                work_emission += 1;
-            }
-            work_phase += 1;
-            if work_phase == DEC_FACTOR {
-                work_phase = 0;
-            }
-        }
-
-        // c9_avx2_hook_d1_check
-        if (nonfinite_acc as i64) < 0 || unsafe { state.validate_numeric() }.is_err() {
-            assert!(
-                hooks.get(h_idx).is_none_or(|h| h.sample >= end),
-                "STOP CONDITION: batch AVX2 TOL hook fell inside cold replay interval [{}..{})",
-                pos,
-                end
-            );
-            state = if let Some(snap) = hook_snap {
-                unsafe {
-                    levels_cold_replay_from_snapshot(block_entry_mxcsr, snap, block, group, out, n)
-                }?
-            } else {
-                assert_eq!(
-                    pos, 0,
-                    "unhooked batch AVX2 TOL block must start at sample 0"
-                );
-                unsafe { levels_cold_replay_reconstruct(block_entry_mxcsr, block, group, out, n) }?
-            };
-            pos = end;
-            phase = pos % DEC_FACTOR;
-            emission_idx = pos.div_ceil(DEC_FACTOR);
-            due_tol = true;
-        } else {
-            pos = end;
-            phase = work_phase;
-            emission_idx = work_emission;
-        }
-    }
     Ok(())
 }
 
+/// A group of four bands (`group * 4..group * 4 + 4`) and its output rows.
+/// Built only by [`levels`], which requires AVX2 and FMA; every `unsafe`
+/// call below relies on that.
+struct Avx2Levels<'a> {
+    state: TolGroupState,
+    signal: &'a [f64],
+    out: &'a mut [f64],
+    n: usize,
+    group: usize,
+}
+
+impl TolUnit for Avx2Levels<'_> {
+    type Snapshot = TolGroupState;
+    fn len(&self) -> usize {
+        self.signal.len()
+    }
+    fn scan(&mut self, pos: usize, end: usize, at: Cursor) -> (Cursor, bool) {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Levels`).
+        unsafe {
+            scan_group(
+                &mut self.state,
+                &self.signal[pos..end],
+                self.out,
+                self.n,
+                at,
+            )
+        }
+    }
+    fn scan_checked(&mut self, pos: usize, end: usize, at: Cursor) -> Result<(), Fault> {
+        let (signal, n, group) = (self.signal, self.n, self.group);
+        // SAFETY: AVX2 and FMA are available (see `Avx2Levels`).
+        unsafe {
+            scan_group_checked(
+                &mut self.state,
+                signal,
+                (pos, end),
+                at,
+                self.out,
+                (n, group),
+            )
+        }
+    }
+    fn state_valid(&self) -> bool {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Levels`).
+        unsafe { self.state.validate_numeric() }.is_ok()
+    }
+    fn snapshot(&self) -> TolGroupState {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Levels`).
+        unsafe { self.state.copy_exact() }
+    }
+    fn restore(&mut self, snapshot: TolGroupState) {
+        self.state = snapshot;
+    }
+    fn reset(&mut self) {
+        // SAFETY: AVX2 and FMA are available (see `Avx2Levels`).
+        self.state = unsafe { TolGroupState::new(self.group) };
+    }
+    #[cfg(test)]
+    fn inject(&mut self, band: usize, field: usize, raw: u64) {
+        self.state
+            .inject_raw_bits(band - self.group * 4, field, raw);
+    }
+}
+
+/// One group of four bands of the levels stage (terms: see `crate::numeric_guard`).
 #[target_feature(enable = "avx2,fma")]
-pub(super) unsafe fn levels(
+pub(super) unsafe fn levels<H: TolHooks>(
     signal: &[f64],
     group: usize,
     out: &mut [f64],
     n: usize,
-    #[cfg(test)] // c9_batch_hook
-    hook_ctx: &super::batch_hooks::StageHookContext,
-) -> Result<(), (usize, usize, DomainFault)> {
-    let entry_mxcsr = crate::numeric_guard::read_unit_mxcsr();
-    #[cfg(test)] // c9_batch_hook
-    let group_hooks = hook_ctx.for_range(group * 4, group * 4 + 4);
-    if let Some(entry_mxcsr) = entry_mxcsr.filter(|&m| crate::numeric_guard::is_mxcsr_qualified(m))
-    {
-        #[cfg(test)]
-        super::test_counters::record_avx2(true);
-        #[cfg(test)] // c9_batch_hook
-        if !group_hooks.is_empty() {
-            return unsafe {
-                levels_fast_with_hooks(entry_mxcsr, signal, group, out, n, &group_hooks, hook_ctx)
-            };
-        }
-        unsafe { levels_fast(entry_mxcsr, signal, group, out, n) }
-    } else {
-        #[cfg(test)]
-        super::test_counters::record_avx2(false);
-        #[cfg(test)] // c9_batch_hook
-        if !group_hooks.is_empty() {
-            return unsafe {
-                levels_checked_with_hooks(signal, group, out, n, &group_hooks, hook_ctx)
-            };
-        }
-        unsafe { levels_checked(signal, group, out, n) }
-    }
+    hooks: H,
+) -> Result<(), Fault> {
+    // Read the worker MXCSR before constructing the group state.
+    let entry_mxcsr = qualified_mxcsr();
+    // SAFETY: this function's own target features are enabled.
+    let state = unsafe { TolGroupState::new(group) };
+    let mut unit = Avx2Levels {
+        state,
+        signal,
+        out,
+        n,
+        group,
+    };
+    run_levels_unit(&mut unit, entry_mxcsr, hooks)
 }
 
 #[target_feature(enable = "avx2,fma")]

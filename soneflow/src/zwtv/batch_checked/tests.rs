@@ -2,10 +2,11 @@
     clippy::undocumented_unsafe_blocks,
     reason = "unsafe blocks from 0.1.0 without SAFETY comments; remove once documented"
 )]
-use super::levels::levels_with_backend;
+use super::levels::{levels_band, levels_with_backend};
 use super::nl_unit::{CtxNlHooks, NoNlHooks};
 use super::nonlinear::{nl_band, nonlinear_with_backend};
 use super::shared::StageCtx;
+use super::tol_unit::{CtxTolHooks, NoTolHooks};
 use super::*;
 use crate::error::{NumericFaultStage as Stage, SoneflowError};
 use crate::zwtv::nonlinear_decay::{nl_coeffs, NlInit};
@@ -19,6 +20,35 @@ const UNVALIDATED: StageCtx = StageCtx {
 };
 fn bits(x: &[f64]) -> Vec<u64> {
     x.iter().map(|v| v.to_bits()).collect()
+}
+
+/// The product hooks and the test hooks with nothing scheduled take the same
+/// path in both levels units: same output bits.
+#[test]
+fn product_tol_hooks_match_an_empty_hook_schedule() {
+    let signal: Vec<f64> = (0..4_811).map(|i| (i as f64 * 0.031).sin() * 0.3).collect();
+    let n = signal.len().div_ceil(crate::zwtv::grid::DEC_FACTOR);
+    let hook_ctx = batch_hooks::StageHookContext::empty();
+    for band in 0..28 {
+        let (mut product, mut hooked) = (vec![0.0; n], vec![0.0; n]);
+        levels_band(&signal, band, &mut product, NoTolHooks).unwrap();
+        let hooks = CtxTolHooks::new(&hook_ctx, band, 1, false);
+        levels_band(&signal, band, &mut hooked, hooks).unwrap();
+        assert_eq!(bits(&product), bits(&hooked), "scalar band {band}");
+    }
+    #[cfg(target_arch = "x86_64")]
+    if crate::simd::use_avx2() {
+        for group in 0..7 {
+            let (mut product, mut hooked) = (vec![0.0; 4 * n], vec![0.0; 4 * n]);
+            let hooks = CtxTolHooks::new(&hook_ctx, 4 * group, 4, true);
+            // SAFETY: AVX2 and FMA checked just above.
+            unsafe {
+                avx2::levels(&signal, group, &mut product, n, NoTolHooks).unwrap();
+                avx2::levels(&signal, group, &mut hooked, n, hooks).unwrap();
+            }
+            assert_eq!(bits(&product), bits(&hooked), "avx2 group {group}");
+        }
+    }
 }
 
 /// The product hooks and the test hooks with nothing scheduled take the same
