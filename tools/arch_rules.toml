@@ -129,7 +129,7 @@ cc_max = 8
 # avx2::levels_fast_with_hooks, CC 17) are counted too, because cargo-crap
 # reports test functions in product files. CC here is cargo-crap's value; the
 # 0.2.0 condition (CC <= 15, product code only) is checked with
-# rust-code-analysis (tools/fnmetrics.py).
+# rust-code-analysis (tools/fnmetrics.py, a step of the same CI job).
 [[crap.scope]]
 path = "zwtv"
 cc_max = 17

@@ -36,22 +36,26 @@ from pathlib import Path
 # Ordered: longer / more specific prefixes first. Patterns are regexes over a
 # "normalised" path spelling where the separator is matched by SEP.
 SEP = r"(?:\\\\|\\|/)"
+# Working-copy names this repository has had: ISO532 until 2026-11-24, then
+# iso532-1; a clone of either GitHub repository defaults to its repo name.
+REPO_NAMES = r"(?:ISO532|iso532-1|iso532-1-rs|soneflow-rs)"
 RULES: list[tuple[str, str]] = [
+    # Profile paths are matched case-insensitively: shells and tools also print `c:\users\...`.
     (
-        rf"[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+{SEP}\.cache{SEP}codex-runtimes{SEP}[^\\/\s\"']+{SEP}dependencies{SEP}python{SEP}python\.exe",
+        rf"(?i)[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+{SEP}\.cache{SEP}codex-runtimes{SEP}[^\\/\s\"']+{SEP}dependencies{SEP}python{SEP}python\.exe",
         "<AUDIT_PYTHON>",
     ),
-    (rf"[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+{SEP}Documents{SEP}Codex", "<AUDIT_HOME>"),
-    (rf"[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+", "<USER_HOME>"),
-    (rf"/c/Users/[^/\s\"']+", "<USER_HOME>"),
+    (rf"(?i)[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+{SEP}Documents{SEP}Codex", "<AUDIT_HOME>"),
+    (rf"(?i)[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+", "<USER_HOME>"),
+    (r"(?i)(?<![\w.-])/[a-z]/Users/[^/\s\"']+", "<USER_HOME>"),
     # repository paths are matched case-insensitively (shell output may print `d:\iso532`)
     (rf"(?i)[A-Za-z]:{SEP}iso532-rs-panel", "<PANEL_REPO>"),
     (rf"(?i)[A-Za-z]:{SEP}iso532-panel", "<PANEL_REPO>"),
-    (rf"(?i)[A-Za-z]:{SEP}ISO532(?![\w-])", "<REPO>"),
+    (rf"(?i)[A-Za-z]:{SEP}{REPO_NAMES}(?![\w-])", "<REPO>"),
     # Git Bash / MSYS drive spelling (`/d/ISO532`), as printed by shell scripts
     (r"(?i)(?<![\w.-])/[a-z]/iso532-rs-panel(?![\w-])", "<PANEL_REPO>"),
     (r"(?i)(?<![\w.-])/[a-z]/iso532-panel(?![\w-])", "<PANEL_REPO>"),
-    (r"(?i)(?<![\w.-])/[a-z]/ISO532(?![\w-])", "<REPO>"),
+    (rf"(?i)(?<![\w.-])/[a-z]/{REPO_NAMES}(?![\w-])", "<REPO>"),
 ]
 COMPILED = [(re.compile(p), r) for p, r in RULES]
 # build products and vendored trees are never committed; skip them when a directory is given

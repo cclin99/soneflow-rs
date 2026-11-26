@@ -16,7 +16,7 @@ cyclomatic `sum`), and marks test code:
 Metric names follow rust-code-analysis: `cc` is `cyclomatic.sum`, `ploc` is
 physical lines of code without comments and blank lines, `sloc` is the full
 source span. `--check` exits 1 if any product function exceeds --max-cc or
---max-ploc (0.2.0 completion condition 4).
+--max-ploc (0.2.0 completion condition 4; CI runs it after 0.2.0).
 """
 
 import argparse

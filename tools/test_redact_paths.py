@@ -128,5 +128,42 @@ class DirectoryModeBehavior(unittest.TestCase):
         self.assertEqual(f.read_text(encoding="utf-8"), "<REPO>\\x\n")
 
 
+
+class RuleCoverage(unittest.TestCase):
+    """Spellings the 0.2.0 parking lot found uncovered (lowercase profile, renamed working copies)."""
+
+    def assertRedacts(self, before, after):
+        self.assertEqual(redact_paths.redact_text(before)[0], after, before)
+
+    def test_lowercase_user_profile_is_redacted(self):
+        """Given a profile path printed in lower case, when redacted, then it becomes <USER_HOME>."""
+        users = "us" + "ers"
+        self.assertRedacts("c:\\" + users + r"\someone\x", r"<USER_HOME>\x")
+        self.assertRedacts("C:/" + users + "/someone/x", "<USER_HOME>/x")
+        self.assertRedacts("/c/" + users + "/someone/x", "<USER_HOME>/x")
+        self.assertRedacts("c:\\" + users + r"\someone\documents\codex\a", r"<AUDIT_HOME>\a")
+
+    def test_current_working_copy_name_is_redacted(self):
+        """Given the iso532-1 working copy in every separator spelling, when redacted, then it becomes <REPO>."""
+        name = "iso" + "532-1"
+        self.assertRedacts("D:\\" + name + r"\soneflow\src", r"<REPO>\soneflow\src")
+        self.assertRedacts("d:/" + name + "/soneflow", "<REPO>/soneflow")
+        self.assertRedacts("D:\\\\" + name + r"\x", r"<REPO>\x")
+        self.assertRedacts("cd /d/" + name + " && ls", "cd <REPO> && ls")
+
+    def test_renamed_working_copies_are_redacted(self):
+        """Given a clone named after the old or the new GitHub repo, when redacted, then it becomes <REPO>."""
+        for name in ("sone" + "flow-rs", "iso" + "532-1-rs"):
+            self.assertRedacts("D:\\" + name + r"\x", r"<REPO>\x")
+            self.assertRedacts("/d/" + name + "/x", "<REPO>/x")
+
+    def test_urls_and_bare_names_are_left_alone(self):
+        """Given repository names in URLs and prose, when redacted, then nothing changes."""
+        for text in ("https://github.com/cclin99/soneflow-rs/actions/runs/1",
+                     "the old repo iso532-1-rs is archived",
+                     "soneflow-rs/src/lib.rs"):
+            self.assertRedacts(text, text)
+
+
 if __name__ == "__main__":
     unittest.main()
