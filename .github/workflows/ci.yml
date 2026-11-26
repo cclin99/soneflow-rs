@@ -84,7 +84,7 @@ jobs:
   # as in the R7 / R7a / R7b acceptance. Coverage comes from the data-free
   # tests above (built once, with `internals`, so every one of them runs), so
   # CRAP is computed on the same evidence CI has; measured
-  # locally on that set at 0.1.0, the highest CRAP is 25.6 (limit 30).
+  # locally on that set at 0.2.0, the highest CRAP is 20.0 (limit 30).
   arch:
     runs-on: ubuntu-latest
     env:

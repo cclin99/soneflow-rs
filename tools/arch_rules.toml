@@ -124,20 +124,21 @@ max = 30.0              # cargo-crap default threshold, whole crate
 path = "core"
 cc_max = 8
 
-# zwtv: frozen at the 0.1.0 maxima (nonlinear in batch_checked/avx2.rs,
-# zwtv/batch_checked.rs) so it cannot get worse; tightened when the 0.2.0
-# refactor lands. CC here is cargo-crap's value.
+# zwtv: 15, the 0.2.0 limit for product functions (0.2.0 refactor; the
+# highest is 13, nl_unit::run_unit). CC here is cargo-crap's value; the
+# release condition is checked with rust-code-analysis (tools/fnmetrics.py).
 [[crap.scope]]
 path = "zwtv"
-cc_max = 25
+cc_max = 15
 
 [[size]]
 path = "core"
 code_lines_max = 200
 
+# zwtv: frozen at the 0.2.0 maximum (stream/mod.rs, 739) so no file grows.
 [[size]]
 path = "zwtv"
-code_lines_max = 810
+code_lines_max = 740
 
 # Token rules, after removing comments and string literals (any whitespace).
 [[forbid]]
