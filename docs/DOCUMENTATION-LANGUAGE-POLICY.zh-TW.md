@@ -1,6 +1,6 @@
 # 文件語言政策
 
-> 對照／Pair: [English](DOCUMENTATION-LANGUAGE-POLICY.md) · 來源：en · 同步 2026-11-01
+> 對照／Pair: [English](DOCUMENTATION-LANGUAGE-POLICY.md) · 來源：en · 同步 2026-11-26
 
 自 2026-11-01 起生效，適用於本 repo 的所有 Markdown 文件。
 
@@ -69,7 +69,7 @@
 | 時間加權 | temporal weighting | 0.47·LP(3.5 ms) + 0.53·LP(70 ms) |
 | 低頻修正 | low-frequency correction（RAP／DLL 表） | ISO 532-1 Annex A |
 | 零狀態初始化 | zero-state initialisation | `NlInit::Zero` |
-| 上斜率表 | upper-slope table `USL` | `soneflow::tables::USL` |
+| 上斜率表 | upper-slope table `USL` | `soneflow::internals::tables::USL` (feature `internals`) |
 | 測試訊號／參考值 | Annex B test signals / reference values | 從你自己取得授權的副本放入 |
 | 容差 | tolerance | 逐點 `max(0.1, 0.05·|reference|)` |
 | 例外 | exception（超出容差） | Annex B 的 1 % 條款未實作 |

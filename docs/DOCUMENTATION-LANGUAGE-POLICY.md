@@ -1,6 +1,6 @@
 # Documentation language policy
 
-> 對照／Pair: [中文版](DOCUMENTATION-LANGUAGE-POLICY.zh-TW.md) · source: en · synced 2026-11-01
+> 對照／Pair: [中文版](DOCUMENTATION-LANGUAGE-POLICY.zh-TW.md) · source: en · synced 2026-11-26
 
 Effective 2026-11-01. Applies to every Markdown document in this repository.
 
@@ -69,7 +69,7 @@ This follows the existing `README.md` / `README.zh-TW.md` convention. Both files
 | 時間加權 | temporal weighting | 0.47·LP(3.5 ms) + 0.53·LP(70 ms) |
 | 低頻修正 | low-frequency correction (RAP/DLL tables) | ISO 532-1 Annex A |
 | 零狀態初始化 | zero-state initialisation | `NlInit::Zero` |
-| 上斜率表 | upper-slope table `USL` | `soneflow::tables::USL` |
+| 上斜率表 | upper-slope table `USL` | `soneflow::internals::tables::USL` (feature `internals`) |
 | 測試訊號／參考值 | Annex B test signals / reference values | supplied from your own licensed copy |
 | 容差 | tolerance | `max(0.1, 0.05·|reference|)` per point |
 | 例外 | exception (tolerance exceedance) | Annex B 1 % clause not implemented |

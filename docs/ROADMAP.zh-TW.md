@@ -1,9 +1,9 @@
 # soneflow 專案 Roadmap
-> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-01
+> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-26
 
-目前狀態（0.1.0）：`soneflow` crate（ISO 532-1:2017 Zwicker 響度，Rust + AVX2），含批次與串流 API、phon 轉換、C ABI v1 與 Python binding。
+目前狀態（0.2.0）：`soneflow` crate（ISO 532-1:2017 Zwicker 響度，Rust + AVX2），含批次與串流 API、phon 轉換、C ABI v1 與 Python binding。0.2.0 把公開 Rust API 收窄到 crate 根層與 `soneflow::simd`，並重整內部結構，所有輸出都不變。
 
-以下為後續方向（2026-07-03 記錄）。**均不在 0.1.0 的範圍內**，但列出對現行實作的架構影響，避免之後重工。
+以下為後續方向（2026-07-03 記錄）。**均不在 0.2.0 的範圍內**，但列出對現行實作的架構影響，避免之後重工。
 
 ## 1. 分層架構與更多標準
 
@@ -81,7 +81,7 @@ phon 換算已在 0.1.0 完成（`sone2phon`）；面板本身仍待做。
 
 ## 執行順序建議
 
-1. 0.1.0 已完成：批次 ZWST／ZWTV（AVX2）、C ABI v1 + Python binding、串流 API + phon 轉換
+1. 0.1.0 已完成：批次 ZWST／ZWTV（AVX2）、C ABI v1 + Python binding、串流 API + phon 轉換；0.2.0：公開 API 收窄、可維護性重構、行為契約
 2. VST 插件（64 軌 + 面板）
 3. aarch64 的 NEON kernel
 4. 其他標準（workspace 化後逐一加）

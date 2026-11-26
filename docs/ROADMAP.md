@@ -1,9 +1,9 @@
 # soneflow project roadmap
-> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-01
+> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-26
 
-Current state (0.1.0): the `soneflow` crate (ISO 532-1:2017 Zwicker loudness, Rust + AVX2) with batch and streaming APIs, phon conversion, a C ABI v1 and a Python binding.
+Current state (0.2.0): the `soneflow` crate (ISO 532-1:2017 Zwicker loudness, Rust + AVX2) with batch and streaming APIs, phon conversion, a C ABI v1 and a Python binding. 0.2.0 narrowed the public Rust API to the crate root and `soneflow::simd` and restructured the internals without changing any output.
 
-The items below are follow-on directions (recorded 2026-07-03). **None of them is in scope for 0.1.0.** They are listed here because they constrain the current implementation; stating the constraints now avoids rework later.
+The items below are follow-on directions (recorded 2026-07-03). **None of them is in scope for 0.2.0.** They are listed here because they constrain the current implementation; stating the constraints now avoids rework later.
 
 ## 1. Layered architecture and further standards
 
@@ -81,7 +81,7 @@ Shipped in 0.1.0 (C ABI v1 and the Python binding).
 
 ## Suggested execution order
 
-1. Done in 0.1.0: batch ZWST/ZWTV with AVX2, C ABI v1 + Python binding, streaming API + phon conversion
+1. Done in 0.1.0: batch ZWST/ZWTV with AVX2, C ABI v1 + Python binding, streaming API + phon conversion; 0.2.0: narrower public API, maintainability refactor, behaviour contracts
 2. VST plug-in (64 tracks + panel)
 3. NEON kernel for aarch64
 4. Other standards (added one by one after the workspace split)
