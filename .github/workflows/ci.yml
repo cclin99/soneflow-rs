@@ -131,12 +131,14 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - run: python -m unittest -v tools/test_arch_check.py tools/test_redact_paths.py tools/test_env_guards.py tools/test_public_api.py
+      - run: python -m unittest -v tools/test_arch_check.py tools/test_redact_paths.py tools/test_env_guards.py tools/test_public_api.py tools/test_contract_tests.py
       # Committed reports and evidence carry no workstation paths (AGENTS.md).
       # Binary files are listed as skipped and need the manual check the
       # rules ask for; they do not fail this step.
       - run: python tools/redact_paths.py --check docs
       - run: python tools/doc_pairs.py --check
+      # Every test named in docs/BEHAVIOUR-CONTRACTS(.zh-TW).md exists.
+      - run: python tools/contract_tests.py
 
   ffi:
     strategy:
