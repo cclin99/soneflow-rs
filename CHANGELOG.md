@@ -21,6 +21,15 @@ Maintenance after 0.2.0. Output and the public API do not change.
 - `push_and_flush_restore_mxcsr` now compares the whole MXCSR, including the
   six exception-status flags, instead of the control bits only.
 
+### CI and documentation
+
+- CI checks the per-function limits on product code (`tools/fnmetrics.py
+  --check`: CC at most 15, at most 80 lines of code).
+- `docs/GOLDEN-REGEN-SOP` lists `stream_golden` among the local golden tests
+  and, like the README, notes that MoSQITo 1.2.1 needs matplotlib although it
+  does not declare it. `CONTRIBUTING.md` lists the known limitations of
+  `cargo crap` and `tools/public_api.py`.
+
 ## 0.2.0 - 2026-11-27
 
 Output is bit for bit that of 0.1.0 (frozen hashes, Python contract hashes and

@@ -1,5 +1,5 @@
 # Golden data regeneration SOP (R-14)
-> 對照／Pair: [中文版](GOLDEN-REGEN-SOP.zh-TW.md) · source: zh · synced 2026-11-01
+> 對照／Pair: [中文版](GOLDEN-REGEN-SOP.zh-TW.md) · source: zh · synced 2026-11-27
 
 `data/` is gitignored. This document is the only procedure for changing machines, recovering from a broken venv, or regenerating the golden data.
 **Core idea: `tools/golden.sha256` is a per-environment contract.** The golden bytes depend on the libm of the generating machine (underneath scipy/numpy). A different SHA256 on a different machine is expected behaviour, not an error.
@@ -12,7 +12,7 @@ Prerequisite: `mosqito-1.2.1.tar.gz` in the repo root (sha256 in the header of `
                                                               # (put the Annex B files there from your own licensed copy)
     .venv/Scripts/python.exe tools/gen_golden.py              # regenerate data/golden (about 5–15 minutes)
     .venv/Scripts/python.exe tools/golden_manifest.py --verify
-    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
+    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test stream_golden --test annexb
 
 All four steps passing = the chain is intact. A `--verify` failure means the environment has drifted (check the Python minor version, whether `requirements.lock` was modified, and the mosqito tarball sha256).
 
@@ -20,7 +20,7 @@ All four steps passing = the chain is intact. A `--verify` failure means the env
 
 1. Run the first two steps of A.
 2. `--verify` is **expected to fail** (different libm). Run the golden tests instead:
-   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
+   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test stream_golden --test annexb`
 3. All tests green ⇒ the golden data of the new environment is valid. Re-freeze the contract:
    `.venv/Scripts/python.exe tools/golden_manifest.py --generate`
    commit `tools/golden.sha256`; record the new environment (OS/CPU) in the commit message.
@@ -32,6 +32,7 @@ All four steps passing = the chain is intact. A `--verify` failure means the env
 |---|---|
 | numpy/scipy versions | `tools/requirements.lock` (full pip freeze lock) |
 | mosqito 1.2.1 | local tarball + sha256 (lock header) |
+| matplotlib | `tools/requirements.lock` (3.11.0). MoSQITo 1.2.1 declares only numpy, scipy and pyuff, but some of its modules import matplotlib; `setup_env.sh` installs the lock first and MoSQITo with `--no-deps`. A MoSQITo installed any other way needs matplotlib added by hand |
 | Annex B wav/xlsx/csv | SHA256 in `tools/golden.sha256`; supplied from your own licensed copy of ISO 532-1. The hashes are those of the copies these tests were built with; a copy with different bytes fails `--verify` and goes through B |
 | Python minor version | 3.11 (noted in the lock header) |
 | golden bytes | `tools/golden.sha256` (per-environment) |

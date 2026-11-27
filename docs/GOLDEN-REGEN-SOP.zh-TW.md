@@ -1,5 +1,5 @@
 # Golden 資料再生 SOP(R-14)
-> 對照／Pair: [English](GOLDEN-REGEN-SOP.md) · 來源：zh · 同步 2026-11-01
+> 對照／Pair: [English](GOLDEN-REGEN-SOP.md) · 來源：zh · 同步 2026-11-27
 
 `data/` 是 gitignored;本文是換機器、venv 損毀、或需要重生 golden 時的唯一程序。
 **核心觀念:`tools/golden.sha256` 是 per-環境契約**——golden 位元組取決於生成
@@ -13,7 +13,7 @@
                                                               # (Annex B 檔從你自己取得授權的副本放入)
     .venv/Scripts/python.exe tools/gen_golden.py              # 重生 data/golden(約 5–15 分鐘)
     .venv/Scripts/python.exe tools/golden_manifest.py --verify
-    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb
+    cd soneflow && cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test stream_golden --test annexb
 
 四步全過 = 鏈健在。`--verify` 失敗 ⇒ 環境已漂移(檢查 Python 小版本、
 requirements.lock 是否被動過、mosqito tarball sha256)。
@@ -22,7 +22,7 @@ requirements.lock 是否被動過、mosqito tarball sha256)。
 
 1. 跑 A 的前兩步。
 2. `--verify` **預期失敗**(libm 不同)。此時改跑 golden 測試:
-   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test annexb`
+   `cargo test --features internals --test golden_core --test golden_dsp --test golden_zwst --test golden_zwtv --test stream_golden --test annexb`
 3. 測試全綠 ⇒ 新環境的 golden 有效。重新凍結契約:
    `.venv/Scripts/python.exe tools/golden_manifest.py --generate`
    commit `tools/golden.sha256`,commit 訊息記錄新環境(OS/CPU)。
@@ -35,6 +35,7 @@ requirements.lock 是否被動過、mosqito tarball sha256)。
 |---|---|
 | numpy/scipy 版本 | `tools/requirements.lock`(pip freeze 全鎖) |
 | mosqito 1.2.1 | 本地 tarball + sha256(lock 標頭) |
+| matplotlib | `tools/requirements.lock`(3.11.0)。MoSQITo 1.2.1 只宣告 numpy、scipy、pyuff 為依賴，但部分模組會 import matplotlib；`setup_env.sh` 先裝 lock、再以 `--no-deps` 裝 MoSQITo。用其他方式裝的 MoSQITo 要自己補裝 matplotlib |
 | Annex B wav/xlsx/csv | SHA256 在 `tools/golden.sha256`;從你自己取得授權的 ISO 532-1 副本放入。雜湊是建立這些測試時所用副本的值;位元組不同的副本 `--verify` 會失敗,照 B 處理 |
 | Python 小版本 | 3.11(lock 標頭註記) |
 | golden 位元組 | `tools/golden.sha256`(per-環境) |

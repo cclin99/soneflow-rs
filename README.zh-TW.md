@@ -269,6 +269,8 @@ cargo test --release --features internals --test golden_zwst --test golden_zwtv 
 
 MoSQITo golden 測試需要 `data/`（見 [`docs/GOLDEN-REGEN-SOP.md`](docs/GOLDEN-REGEN-SOP.md)）。上面的數字只來自合成 fixture。
 
+`compare_mosqito.py` 在 `tools/setup_env.sh` 依 `tools/requirements.lock` 建立的 `.venv` 裡執行。用自己的環境時，除了 MoSQITo 1.2.1 也要裝 matplotlib（lock 裡是 3.11.0）：MoSQITo 沒有把它列為依賴，但部分模組會 import 它。
+
 ## 驗證範圍
 
 API 檢查以已知輸入檢查輸出形狀、時間軸與 Bark 軸、輸入驗證、狀態重設及區塊處理。Rust、C ABI 與 Python 之間的比對，檢查各介面是否提供預期的資料契約。數值比較應記錄輸入如何構造、校準、初始化模式、平台與受測來源版本。

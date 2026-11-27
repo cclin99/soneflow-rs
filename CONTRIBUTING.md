@@ -79,6 +79,22 @@ toolchain, Rayon thread count, commit, command, median, and comparison baseline.
 Run Criterion benchmarks individually and do not mix one-thread and multi-thread
 history without clearly labeling it.
 
+## Known limitations of the repository tools
+
+- `cargo crap` (the CRAP step of CI's `arch` job) also reports test functions
+  that live in product files (`#[cfg(test)]` items and modules). A per-scope
+  CC limit in `tools/arch_rules.toml` can therefore sit above 15 to admit such
+  a test helper; `zwtv` has 17 for that reason. The product-code limits (CC at
+  most 15 and at most 80 lines of code per function) are checked by
+  `tools/fnmetrics.py --check`, which leaves test code out and also runs in the
+  `arch` job.
+- `tools/public_api.py` reads the HTML that rustdoc writes, which is not a
+  stable format. Most changes to it make the check fail rather than pass
+  quietly: an unknown section in `all.html` stops the tool, and a listed item
+  it can no longer find counts as a difference. That is likely, not
+  guaranteed. When the check fails after a toolchain upgrade, find out whether
+  the API or the HTML changed before rewriting the list with `--write`.
+
 ## Pull requests
 
 Keep pull requests focused. Describe the behavior change, test evidence,

@@ -269,6 +269,8 @@ cargo test --release --features internals --test golden_zwst --test golden_zwtv 
 
 The MoSQITo golden tests need `data/` (see [`docs/GOLDEN-REGEN-SOP.md`](docs/GOLDEN-REGEN-SOP.md)). The numbers above come from the synthetic fixtures only.
 
+`compare_mosqito.py` runs in the `.venv` that `tools/setup_env.sh` builds from `tools/requirements.lock`. In an environment of your own, install matplotlib (3.11.0 in the lock) next to MoSQITo 1.2.1: MoSQITo does not declare it as a dependency, but some of its modules import it.
+
 ## Verification scope
 
 API checks use known inputs to examine output shapes, the time and Bark axes, input validation, state reset and chunk handling. Comparisons between Rust, the C ABI and Python check that each interface exposes the intended contract. Numerical comparisons should record input construction, calibration, initialization mode, platform and the tested source version.
