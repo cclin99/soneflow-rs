@@ -4,6 +4,11 @@
 use super::c_constants::{A0_C, DCB_C, DDF_C, KORRY_OFFSET, KORRY_SLOPE, MP1_FACTOR};
 use crate::tables::LTQ;
 use crate::types::FieldType;
+use std::hint::black_box;
+use std::sync::OnceLock;
+
+/// `mp1` of every critical band, computed once in round-to-nearest.
+static MP1_TABLE_RN: OnceLock<[f64; 20]> = OnceLock::new();
 
 /// Excitation level of critical band `band`: the level minus the transmission
 /// term `A0`, plus the diffuse-field correction `DDF` in a diffuse field.
@@ -16,14 +21,39 @@ pub(super) fn excitation_level(level: f64, band: usize, field: FieldType) -> f64
     le
 }
 
+/// The input-independent factor `0.0635 * 10^(0.025 * LTQ)` of the power
+/// law, computed at run time in the caller's rounding mode. `black_box` on
+/// the table entry keeps the compiler from folding the product and the power
+/// in round-to-nearest, with the build machine's `pow`.
+#[inline]
+fn mp1_at_run_time(band: usize) -> f64 {
+    MP1_FACTOR * 10.0_f64.powf(0.025 * black_box(LTQ[band]))
+}
+
+#[inline(never)]
+fn init_mp1_table_rn() -> [f64; 20] {
+    std::array::from_fn(mp1_at_run_time)
+}
+
+/// The `mp1` table. Call only in round-to-nearest: the first call fills the
+/// table in the rounding mode it runs in.
+pub(super) fn mp1_table_rn() -> &'static [f64; 20] {
+    MP1_TABLE_RN.get_or_init(init_mp1_table_rn)
+}
+
 /// Core loudness of critical band `band` from its excitation level: zero up
 /// to the threshold in quiet `LTQ` (strict compare), then Zwicker's power law
 /// after the `DCB` correction, clamped at zero. Operation order follows ISO 532-1 Annex A.
+/// `mp1_table` is the round-to-nearest table, or `None` to compute `mp1` at
+/// run time (other rounding modes, or the mode cannot be read).
 #[inline]
-pub(super) fn core_loudness_of_band(le: f64, band: usize) -> f64 {
+pub(super) fn core_loudness_of_band(le: f64, band: usize, mp1_table: Option<&[f64; 20]>) -> f64 {
     if le > LTQ[band] {
         let le = le - DCB_C[band];
-        let mp1 = MP1_FACTOR * 10.0_f64.powf(0.025 * LTQ[band]);
+        let mp1 = match mp1_table {
+            Some(table) => table[band],
+            None => mp1_at_run_time(band),
+        };
         let mp2 = (1.0 - 0.25 + 0.25 * 10.0_f64.powf(0.1 * (le - LTQ[band]))).powf(0.25) - 1.0;
         (mp1 * mp2).max(0.0)
     } else {
@@ -71,7 +101,7 @@ mod tests {
     #[test]
     fn excitation_at_the_threshold_gives_zero_core_loudness() {
         for (band, &ltq) in LTQ.iter().enumerate() {
-            assert_eq!(core_loudness_of_band(ltq, band), 0.0, "band {band}");
+            assert_eq!(core_loudness_of_band(ltq, band, None), 0.0, "band {band}");
         }
         // The strict compare matters where DCB < 0: `>=` would give a value.
         let negative_dcb: Vec<usize> = (0..20).filter(|&b| DCB_C[b] < 0.0).collect();
@@ -83,21 +113,24 @@ mod tests {
         for band in 0..20 {
             if DCB_C[band] <= 0.0 {
                 assert!(
-                    core_loudness_of_band(LTQ[band] + 1e-6, band) > 0.0,
+                    core_loudness_of_band(LTQ[band] + 1e-6, band, None) > 0.0,
                     "band {band}"
                 );
             } else {
                 let half = LTQ[band] + DCB_C[band] / 2.0;
-                assert_eq!(core_loudness_of_band(half, band), 0.0, "band {band}");
+                assert_eq!(core_loudness_of_band(half, band, None), 0.0, "band {band}");
                 let above = LTQ[band] + DCB_C[band] + 1e-3;
-                assert!(core_loudness_of_band(above, band) > 0.0, "band {band}");
+                assert!(
+                    core_loudness_of_band(above, band, None) > 0.0,
+                    "band {band}"
+                );
             }
         }
     }
 
     #[test]
     fn nan_excitation_gives_zero_core_loudness() {
-        assert_eq!(core_loudness_of_band(f64::NAN, 7), 0.0);
+        assert_eq!(core_loudness_of_band(f64::NAN, 7, None), 0.0);
     }
 
     #[test]

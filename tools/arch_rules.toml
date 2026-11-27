@@ -84,7 +84,7 @@ allow = ["core::calc_slopes::model", "core::calc_slopes::positions"]
 
 [[layer]]
 module = "core::main_loudness"          # mod.rs assembles; children in own subtree
-allow = ["error", "types"]
+allow = ["error", "types", "numeric_guard"]
 
 [[layer]]
 module = "core::main_loudness::c_constants"

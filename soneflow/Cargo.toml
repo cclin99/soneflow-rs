@@ -59,6 +59,10 @@ name = "low_freq_correction"
 required-features = ["internals"]
 
 [[test]]
+name = "main_loudness_rounding"
+required-features = ["internals"]
+
+[[test]]
 name = "simd_parity"
 required-features = ["internals"]
 

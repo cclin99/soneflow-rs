@@ -1,4 +1,5 @@
 use crate::error::SoneflowError;
+use crate::numeric_guard::{read_rounding_environment, RoundingEnvironment};
 use crate::types::FieldType;
 use rayon::prelude::*;
 
@@ -6,7 +7,7 @@ mod c_constants;
 mod core_band;
 mod low_freq;
 
-use core_band::{band0_correction, core_loudness_of_band, excitation_level};
+use core_band::{band0_correction, core_loudness_of_band, excitation_level, mp1_table_rn};
 use low_freq::{low_band_intensities, lower_critical_band_levels, N_LOW_BANDS};
 
 /// Annex A applicability: third-octave bands below 300 Hz must not exceed
@@ -29,7 +30,21 @@ pub fn main_loudness(spec_third: &[f64], field: FieldType) -> Result<[f64; 21], 
     Ok(main_loudness_unchecked(spec_third, field))
 }
 
+/// Fills the `mp1` table if the caller runs in round-to-nearest, so that a
+/// stream created there does not fill it on its first push.
+pub(crate) fn warm_mp1_table(environment: RoundingEnvironment) {
+    if environment == RoundingEnvironment::KnownRn {
+        mp1_table_rn();
+    }
+}
+
 fn main_loudness_unchecked(spec_third: &[f64], field: FieldType) -> [f64; 21] {
+    // The table holds round-to-nearest values; any other mode, or a mode that
+    // cannot be read, computes `mp1` at run time as before.
+    let mp1_table = match read_rounding_environment() {
+        RoundingEnvironment::KnownRn => Some(mp1_table_rn()),
+        RoundingEnvironment::NonRn | RoundingEnvironment::Unknown => None,
+    };
     let ti = low_band_intensities(spec_third);
     let lcb = lower_critical_band_levels(&ti);
 
@@ -42,7 +57,7 @@ fn main_loudness_unchecked(spec_third: &[f64], field: FieldType) -> [f64; 21] {
         } else {
             spec_third[band + 8]
         };
-        nm[band] = core_loudness_of_band(excitation_level(level, band, field), band);
+        nm[band] = core_loudness_of_band(excitation_level(level, band, field), band, mp1_table);
     }
     nm[0] = band0_correction(nm[0]);
     nm

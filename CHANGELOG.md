@@ -8,7 +8,28 @@ happened in a private repository and is not published.
 
 ## Unreleased
 
-Maintenance after 0.2.0. Output and the public API do not change.
+Maintenance after 0.2.0. The public API does not change. Under
+round-to-nearest, the default floating-point rounding mode, output is bit for
+bit that of 0.2.0.
+
+### Changed
+
+- The main loudness stage computes the factor of its power law that does not
+  depend on the input (one per critical band) once per process, under
+  round-to-nearest, instead of in every frame. Time-varying loudness
+  (`loudness_zwtv`, `ZwtvProcessor`, `ZwtvStream`) spends less time per frame;
+  output is unchanged. A stream created under round-to-nearest computes the
+  factors when it is created, not in its first `push`.
+- Under any other rounding mode, and on targets other than x86_64, where the
+  crate cannot read the rounding mode, the factors are computed in every frame
+  as before, so these cases do not get faster. Under a rounding mode other
+  than round-to-nearest, the output of the legacy `push`/`flush` (the batch
+  functions and `push_with_quality` reject such a mode) may now differ from
+  0.2.0 in the last bits of the three lowest critical bands: 0.2.0 release
+  builds computed some of these factors at compile time, in
+  round-to-nearest, and now every factor is computed at run time in the
+  current rounding mode. Results computed under such a rounding mode are not
+  valid measurements in either version.
 
 ### Removed (`internals` only)
 
@@ -20,6 +41,11 @@ Maintenance after 0.2.0. Output and the public API do not change.
 
 - `push_and_flush_restore_mxcsr` now compares the whole MXCSR, including the
   six exception-status flags, instead of the control bits only.
+- `main_loudness_rounding` calls the main loudness stage first under
+  round-toward-zero, then under round-to-nearest, and checks each result bit
+  for bit against the values computed at run time in that mode, so that
+  cached factors cannot keep the rounding mode of the call that filled them.
+  CI runs it in the test and coverage jobs.
 
 ### CI and documentation
 

@@ -74,6 +74,7 @@ jobs:
           --test core_characterization
           --test determinism
           --test low_freq_correction
+          --test main_loudness_rounding
           --test simd_parity
           --test stream_contract
           --test stream_scalar
@@ -115,10 +116,10 @@ jobs:
           cargo llvm-cov --no-report --release -p soneflow --features internals --lib \
             --test api_errors --test core_characterization --test determinism \
             --test hash_gate --test l4_batch_fault --test low_freq_correction \
-            --test nl_zero_init --test output_grid --test py_contract_dump \
-            --test simd_dispatch --test simd_parity --test stream_alloc \
-            --test stream_contract --test stream_fault_rt --test stream_no_rayon \
-            --test stream_scalar --test zup_eps
+            --test main_loudness_rounding --test nl_zero_init --test output_grid \
+            --test py_contract_dump --test simd_dispatch --test simd_parity \
+            --test stream_alloc --test stream_contract --test stream_fault_rt \
+            --test stream_no_rayon --test stream_scalar --test zup_eps
           cargo llvm-cov --no-report --release -p soneflow --features internals \
             --test annexb_validator -- --skip csv_
           cargo llvm-cov --no-report --release -p soneflow-ffi

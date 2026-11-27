@@ -467,6 +467,7 @@ impl ZwtvStream {
 
     fn with_backend(field: FieldType, avx2: bool) -> Self {
         let creation_environment = read_rounding_environment();
+        crate::core::main_loudness::warm_mp1_table(creation_environment);
         Self {
             tol: TolStage::new(avx2),
             emitter: FrameEmitter::new(
