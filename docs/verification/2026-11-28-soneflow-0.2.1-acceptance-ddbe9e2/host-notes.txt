@@ -1,0 +1,3 @@
+Get-CimInstance Win32_Processor: Access denied; read-only registry fallback used.
+Logical processors visible: 12
+OS version: Microsoft Windows NT 10.0.19045.0

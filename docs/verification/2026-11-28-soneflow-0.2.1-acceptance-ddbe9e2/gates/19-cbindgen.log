@@ -1,0 +1,5 @@
+COMMAND ["cbindgen", "--config", "cbindgen.toml", "--crate", "soneflow-ffi", "--output", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\soneflow.generated.h"]
+CWD <AUDIT_ROOT>\repo\soneflow-ffi
+WARN: Skip soneflow-ffi::_ - (not `pub`).
+
+EXIT 0

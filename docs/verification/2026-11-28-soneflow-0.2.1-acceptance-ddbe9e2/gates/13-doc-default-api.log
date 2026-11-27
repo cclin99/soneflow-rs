@@ -1,0 +1,7 @@
+COMMAND ["cargo", "doc", "-p", "soneflow", "--no-deps"]
+CWD <AUDIT_ROOT>\repo
+ Documenting soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.75s
+   Generated <AUDIT_ROOT>\target-gates\doc\soneflow\index.html
+
+EXIT 0

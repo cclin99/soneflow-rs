@@ -1,0 +1,5 @@
+COMMAND ["python", "tools/public_api.py", "--doc-dir", "<AUDIT_ROOT>\\target-gates\\doc\\soneflow", "--check"]
+CWD <AUDIT_ROOT>\repo
+public_api: ok (266 lines)
+
+EXIT 0

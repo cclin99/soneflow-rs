@@ -1,0 +1,30 @@
+COMMAND ["cargo", "clippy", "-p", "soneflow-py", "--all-targets", "--", "-D", "warnings"]
+CWD <AUDIT_ROOT>\repo
+   Compiling target-lexicon v0.12.16
+   Compiling once_cell v1.21.4
+   Compiling num-traits v0.2.19
+   Compiling libc v0.2.186
+   Compiling memoffset v0.9.1
+   Compiling matrixmultiply v0.3.10
+   Compiling heck v0.5.0
+    Checking rawpointer v0.2.1
+   Compiling indoc v2.0.7
+   Compiling syn v2.0.119
+    Checking unindent v0.2.4
+    Checking rustc-hash v2.1.3
+   Compiling pyo3-build-config v0.23.5
+    Checking num-integer v0.1.46
+    Checking num-complex v0.4.6
+    Checking ndarray v0.16.1
+   Compiling thiserror-impl v1.0.69
+   Compiling pyo3-macros-backend v0.23.5
+   Compiling pyo3-ffi v0.23.5
+   Compiling pyo3 v0.23.5
+    Checking thiserror v1.0.69
+    Checking soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+   Compiling pyo3-macros v0.23.5
+    Checking numpy v0.23.0
+    Checking soneflow-py v0.2.1 (<AUDIT_ROOT>\repo\soneflow-py)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.10s
+
+EXIT 0

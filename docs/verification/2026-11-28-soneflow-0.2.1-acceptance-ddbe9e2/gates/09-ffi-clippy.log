@@ -1,0 +1,7 @@
+COMMAND ["cargo", "clippy", "-p", "soneflow-ffi", "--all-targets", "--all-features", "--", "-D", "warnings"]
+CWD <AUDIT_ROOT>\repo
+    Checking soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+    Checking soneflow-ffi v0.2.1 (<AUDIT_ROOT>\repo\soneflow-ffi)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.00s
+
+EXIT 0

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "34-ffi-c-smoke-retry",
+    "args": [
+      "cmd",
+      "/c",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\smoke-retry.cmd"
+    ],
+    "exit": 0,
+    "seconds": 25.6827073097229
+  }
+]

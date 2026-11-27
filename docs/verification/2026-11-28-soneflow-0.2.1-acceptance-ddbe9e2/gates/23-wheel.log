@@ -1,0 +1,32 @@
+COMMAND ["<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe", "-m", "maturin", "build", "--release", "--out", "<AUDIT_ROOT>\\wheels-gates"]
+CWD <AUDIT_ROOT>\repo\soneflow-py
+🔗 Found pyo3 bindings with abi3-py3.9 support
+   Compiling target-lexicon v0.12.16
+   Compiling once_cell v1.21.4
+   Compiling libc v0.2.186
+   Compiling heck v0.5.0
+   Compiling num-traits v0.2.19
+   Compiling matrixmultiply v0.3.10
+   Compiling memoffset v0.9.1
+   Compiling rawpointer v0.2.1
+   Compiling unindent v0.2.4
+   Compiling syn v2.0.119
+   Compiling indoc v2.0.7
+   Compiling rustc-hash v2.1.3
+   Compiling thiserror-impl v1.0.69
+   Compiling pyo3-build-config v0.23.5
+   Compiling num-integer v0.1.46
+   Compiling num-complex v0.4.6
+   Compiling thiserror v1.0.69
+   Compiling ndarray v0.16.1
+   Compiling pyo3-macros-backend v0.23.5
+   Compiling pyo3-ffi v0.23.5
+   Compiling pyo3 v0.23.5
+   Compiling soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+   Compiling pyo3-macros v0.23.5
+   Compiling numpy v0.23.0
+   Compiling soneflow-py v0.2.1 (<AUDIT_ROOT>\repo\soneflow-py)
+    Finished `release` profile [optimized] target(s) in 2m 21s
+📦 Built wheel for abi3 Python ≥ 3.9 to <AUDIT_ROOT>\wheels-gates\soneflow-0.2.1-cp39-abi3-win_amd64.whl
+
+EXIT 0

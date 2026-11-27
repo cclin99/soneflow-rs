@@ -1,0 +1,11 @@
+COMMAND ["<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe", "-m", "pip", "install", "<AUDIT_ROOT>\\wheels-gates\\soneflow-0.2.1-cp39-abi3-win_amd64.whl"]
+CWD <AUDIT_ROOT>\repo
+Processing <AUDIT_ROOT>\wheels-gates\soneflow-0.2.1-cp39-abi3-win_amd64.whl
+Requirement already satisfied: numpy>=1.24 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from soneflow==0.2.1) (2.4.6)
+Installing collected packages: soneflow
+Successfully installed soneflow-0.2.1
+
+[notice] A new release of pip is available: 24.0 -> 26.3
+[notice] To update, run: <AUDIT_ROOT>\venv-gates\Scripts\python.exe -m pip install --upgrade pip
+
+EXIT 0

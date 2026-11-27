@@ -1,0 +1,30 @@
+{
+  "analyzed_entries": 479,
+  "null_coverage_entries": 21,
+  "null_coverage_by_file": {
+    "soneflow/src/core/calc_slopes/tests/cut_clamp.rs": 1,
+    "soneflow/src/zwtv/stream/containment_tests.rs": 1,
+    "soneflow/src/core/calc_slopes/tests/analytic.rs": 3,
+    "soneflow/src/core/calc_slopes/tests/area_domain.rs": 2,
+    "soneflow/src/core/calc_slopes/tests/extremes.rs": 2,
+    "soneflow/src/core/calc_slopes/tests/pieces.rs": 3,
+    "soneflow/src/core/calc_slopes/tests/targeted.rs": 1,
+    "soneflow/src/core/calc_slopes/tests/terminal_slice.rs": 1,
+    "soneflow/src/numeric_guard/c4_tests.rs": 3,
+    "soneflow/src/zwtv/batch_checked/tests.rs": 4
+  },
+  "null_coverage_files_all_verified_test_only": true,
+  "test_only_module_evidence": [
+    "soneflow/src/core/calc_slopes/mod.rs:24-25 and tests/mod.rs:1-8",
+    "soneflow/src/numeric_guard.rs:25-26 cfg(all(test,target_arch=\"x86_64\"))",
+    "soneflow/src/zwtv/batch_checked/mod.rs:30-31",
+    "soneflow/src/zwtv/stream/mod.rs:1267-1268"
+  ],
+  "unmatched_lcov_tables": {
+    "path": "soneflow/src/tables.rs",
+    "product_functions": 0,
+    "only_function": "table_shapes_and_spot_values at 281",
+    "test_cfg": "276-277"
+  },
+  "claim_boundary": "No product source/function lacks coverage due to this source-scope warning among cargo-crap analyzed entries. Numeric zero-coverage product entries remain in metrics; this is not a claim of 100 percent coverage."
+}

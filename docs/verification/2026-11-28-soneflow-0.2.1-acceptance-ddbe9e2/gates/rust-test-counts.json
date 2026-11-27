@@ -1,0 +1,47 @@
+{
+  "02-product-debug.log": {
+    "passed": 175,
+    "failed": 0,
+    "ignored_not_executed": 1
+  },
+  "03-hash-release.log": {
+    "passed": 1,
+    "failed": 0,
+    "ignored_not_executed": 0
+  },
+  "04-internals-debug.log": {
+    "passed": 44,
+    "failed": 0,
+    "ignored_not_executed": 1
+  },
+  "06-doctest-default.log": {
+    "passed": 20,
+    "failed": 0,
+    "ignored_not_executed": 0
+  },
+  "06-doctest-internals.log": {
+    "passed": 20,
+    "failed": 0,
+    "ignored_not_executed": 0
+  },
+  "08-cli.log": {
+    "passed": 6,
+    "failed": 0,
+    "ignored_not_executed": 0
+  },
+  "10-ffi-test.log": {
+    "passed": 23,
+    "failed": 0,
+    "ignored_not_executed": 0
+  },
+  "27-coverage-soneflow.log": {
+    "passed": 219,
+    "failed": 0,
+    "ignored_not_executed": 2
+  },
+  "28-coverage-ffi.log": {
+    "passed": 20,
+    "failed": 0,
+    "ignored_not_executed": 0
+  }
+}

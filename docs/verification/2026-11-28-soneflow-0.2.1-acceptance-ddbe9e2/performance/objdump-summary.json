@@ -1,0 +1,23 @@
+[
+  {
+    "version": "base",
+    "symbol": "main_loudness_unchecked",
+    "start_line": 25845,
+    "pow_relocations": 11,
+    "stmxcsr": 0
+  },
+  {
+    "version": "new",
+    "symbol": "main_loudness_unchecked",
+    "start_line": 23966,
+    "pow_relocations": 14,
+    "stmxcsr": 1
+  },
+  {
+    "version": "new",
+    "symbol": "init_mp1_table_rn",
+    "start_line": 38800,
+    "pow_relocations": 20,
+    "stmxcsr": 0
+  }
+]

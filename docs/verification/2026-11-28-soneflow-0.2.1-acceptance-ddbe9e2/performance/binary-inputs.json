@@ -1,0 +1,22 @@
+[
+  {
+    "file": "libsoneflow-c68c02644fe97aad.rlib",
+    "directory": "perf-base-target",
+    "sha256": "E9AC1492699BD74B3C889E2F301FFC1A8A8226611F3DA66F87AAA8D22DBCA01D"
+  },
+  {
+    "file": "libsoneflow-dc956ea0b3f3cee8.rlib",
+    "directory": "perf-new-target",
+    "sha256": "E044CCCBD42E88D339C680CC5D595CC9934ADB52398563CD405419913B6764E6"
+  },
+  {
+    "file": "loudness-fef0962febcc60c2.exe",
+    "directory": "perf-base-target",
+    "sha256": "1A9CF943DAE363694EC8420433BEF352313E941036E04026F99BC928E0023B87"
+  },
+  {
+    "file": "loudness-a0295c726424e077.exe",
+    "directory": "perf-new-target",
+    "sha256": "3BA185EF5C7EA810605DB7D8B0ED90F2EC1C7F05CE12287636BBB0D1D42B1C84"
+  }
+]

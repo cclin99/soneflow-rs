@@ -1,0 +1,16 @@
+[
+  {
+    "name": "35-cbindgen-lf-config",
+    "args": [
+      "cbindgen",
+      "--config",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\cbindgen.lf.toml",
+      "--crate",
+      "soneflow-ffi",
+      "--output",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\soneflow.generated-lf.h"
+    ],
+    "exit": 0,
+    "seconds": 0.32116055488586426
+  }
+]

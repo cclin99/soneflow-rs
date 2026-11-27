@@ -1,0 +1,8 @@
+v0.2.0:soneflow/src/dsp/sos.rs:58:pub fn onepole(b0: f64, a1: f64, x: &mut [f64]) {
+v0.2.0:soneflow/src/dsp/sos.rs:68:    use super::onepole;
+v0.2.0:soneflow/src/dsp/sos.rs:71:    fn onepole_impulse_response_is_geometric_and_in_place() {
+v0.2.0:soneflow/src/dsp/sos.rs:74:        onepole(b0, a1, &mut x);
+v0.2.0:soneflow/src/dsp/sos.rs:81:    fn onepole_step_response_settles_at_the_dc_gain() {
+v0.2.0:soneflow/src/dsp/sos.rs:84:        onepole(b0, a1, &mut x);
+v0.2.0:soneflow/src/tables.rs:276:pub const N_CRITICAL_BANDS: usize = 20;
+v0.2.0:soneflow/src/tables.rs:278:pub const N_BARK_STEPS: usize = 240;

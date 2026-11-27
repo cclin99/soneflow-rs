@@ -1,0 +1,4343 @@
+{
+  "$schema": "https://raw.githubusercontent.com/minikin/cargo-crap/main/schemas/report-v1.json",
+  "version": "0.4.3",
+  "entries": [
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\cut_clamp.rs",
+      "function": "check",
+      "line": 2,
+      "cyclomatic": 6.0,
+      "coverage": null,
+      "crap": 42.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\product.rs",
+      "function": "product_model",
+      "line": 10,
+      "cyclomatic": 4.0,
+      "coverage": 0.0,
+      "crap": 20.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_fast_with_hooks",
+      "line": 187,
+      "cyclomatic": 17.0,
+      "coverage": 86.95652173913044,
+      "crap": 17.64132489520835,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_fast_with_hooks",
+      "line": 248,
+      "cyclomatic": 17.0,
+      "coverage": 89.90825688073394,
+      "crap": 17.29702732525681,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_checked_from_snapshot",
+      "line": 162,
+      "cyclomatic": 7.0,
+      "coverage": 45.45454545454545,
+      "crap": 14.951915852742296,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "apply_stream_hooks_at_boundary",
+      "line": 1054,
+      "cyclomatic": 12.0,
+      "coverage": 80.0,
+      "crap": 13.152,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "run_unit",
+      "line": 50,
+      "cyclomatic": 13.0,
+      "coverage": 96.66666666666667,
+      "crap": 13.00625925925926,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::advance_sample_checked",
+      "line": 380,
+      "cyclomatic": 12.0,
+      "coverage": 93.75,
+      "crap": 12.03515625,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::emit",
+      "line": 445,
+      "cyclomatic": 11.0,
+      "coverage": 88.46153846153845,
+      "crap": 11.185878470641784,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_checked_from_snapshot",
+      "line": 114,
+      "cyclomatic": 6.0,
+      "coverage": 50.0,
+      "crap": 10.5,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\mod.rs",
+      "function": "loudness_zwst",
+      "line": 68,
+      "cyclomatic": 10.0,
+      "coverage": 93.10344827586206,
+      "crap": 10.032801672885316,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::advance_checked",
+      "line": 54,
+      "cyclomatic": 10.0,
+      "coverage": 96.15384615384616,
+      "crap": 10.005689576695493,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::advance_checked",
+      "line": 65,
+      "cyclomatic": 10.0,
+      "coverage": 96.29629629629629,
+      "crap": 10.00508052634253,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::on_levels",
+      "line": 183,
+      "cyclomatic": 9.0,
+      "coverage": 85.36585365853658,
+      "crap": 9.253855863960187,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "sos_mapped",
+      "line": 9,
+      "cyclomatic": 9.0,
+      "coverage": 87.09677419354838,
+      "crap": 9.174012285589608,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\checked.rs",
+      "function": "band_rms",
+      "line": 25,
+      "cyclomatic": 9.0,
+      "coverage": 95.83333333333334,
+      "crap": 9.005859375,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::advance_frame_checked",
+      "line": 90,
+      "cyclomatic": 9.0,
+      "coverage": 96.55172413793103,
+      "crap": 9.003321169379639,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "ZwtvProcessor::process_with",
+      "line": 62,
+      "cyclomatic": 9.0,
+      "coverage": 96.96969696969697,
+      "crap": 9.002253944402705,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\error.rs",
+      "function": "StreamUsageError::code",
+      "line": 66,
+      "cyclomatic": 9.0,
+      "coverage": 100.0,
+      "crap": 9.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "push_checked_range_on_kernel",
+      "line": 966,
+      "cyclomatic": 9.0,
+      "coverage": 100.0,
+      "crap": 9.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "build_stage_ctx",
+      "line": 230,
+      "cyclomatic": 8.0,
+      "coverage": 91.66666666666666,
+      "crap": 8.037037037037038,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics\\coverage.rs",
+      "function": "Coverage::merge",
+      "line": 24,
+      "cyclomatic": 8.0,
+      "coverage": 93.54838709677419,
+      "crap": 8.01718639857675,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_checked_with_hooks",
+      "line": 122,
+      "cyclomatic": 8.0,
+      "coverage": 93.93939393939394,
+      "crap": 8.014247154743023,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::emission_quality",
+      "line": 155,
+      "cyclomatic": 8.0,
+      "coverage": 100.0,
+      "crap": 8.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::emit_d0",
+      "line": 376,
+      "cyclomatic": 8.0,
+      "coverage": 100.0,
+      "crap": 8.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::validate_numeric",
+      "line": 55,
+      "cyclomatic": 8.0,
+      "coverage": 100.0,
+      "crap": 8.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::advance_checked",
+      "line": 89,
+      "cyclomatic": 8.0,
+      "coverage": 100.0,
+      "crap": 8.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "begin_public_call",
+      "line": 213,
+      "cyclomatic": 4.0,
+      "coverage": 37.5,
+      "crap": 7.90625,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_checked_with_hooks",
+      "line": 85,
+      "cyclomatic": 7.0,
+      "coverage": 92.0,
+      "crap": 7.025088,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\model.rs",
+      "function": "validate_edges",
+      "line": 39,
+      "cyclomatic": 7.0,
+      "coverage": 93.33333333333333,
+      "crap": 7.014518518518519,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::advance_frame_checked",
+      "line": 222,
+      "cyclomatic": 7.0,
+      "coverage": 96.875,
+      "crap": 7.001495361328125,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\checked.rs",
+      "function": "SlopeInputError::fmt",
+      "line": 16,
+      "cyclomatic": 7.0,
+      "coverage": 100.0,
+      "crap": 7.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "temporal_with",
+      "line": 110,
+      "cyclomatic": 7.0,
+      "coverage": 100.0,
+      "crap": 7.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::next_u2",
+      "line": 180,
+      "cyclomatic": 7.0,
+      "coverage": 100.0,
+      "crap": 7.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::check_due_d0",
+      "line": 327,
+      "cyclomatic": 7.0,
+      "coverage": 100.0,
+      "crap": 7.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push_block",
+      "line": 735,
+      "cyclomatic": 7.0,
+      "coverage": 100.0,
+      "crap": 7.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::inject_raw_bits",
+      "line": 42,
+      "cyclomatic": 5.0,
+      "coverage": 57.14285714285714,
+      "crap": 6.96793002915452,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::calculate",
+      "line": 424,
+      "cyclomatic": 6.0,
+      "coverage": 94.44444444444444,
+      "crap": 6.006172839506172,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_fast",
+      "line": 48,
+      "cyclomatic": 6.0,
+      "coverage": 95.83333333333334,
+      "crap": 6.002604166666667,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_fast",
+      "line": 61,
+      "cyclomatic": 6.0,
+      "coverage": 97.72727272727273,
+      "crap": 6.000422614575507,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\positions.rs",
+      "function": "positions",
+      "line": 2,
+      "cyclomatic": 2.0,
+      "coverage": 0.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::range",
+      "line": 68,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\error.rs",
+      "function": "SoneflowError::code",
+      "line": 124,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\checked.rs",
+      "function": "spectrum",
+      "line": 57,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_checked",
+      "line": 16,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\containment_tests.rs",
+      "function": "trace",
+      "line": 139,
+      "cyclomatic": 2.0,
+      "coverage": null,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push_with_quality",
+      "line": 560,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push_impl",
+      "line": 613,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::numeric_reason_mask",
+      "line": 80,
+      "cyclomatic": 6.0,
+      "coverage": 100.0,
+      "crap": 6.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::inject_numeric",
+      "line": 33,
+      "cyclomatic": 5.0,
+      "coverage": 85.71428571428571,
+      "crap": 5.072886297376093,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::inject_numeric",
+      "line": 80,
+      "cyclomatic": 5.0,
+      "coverage": 90.0,
+      "crap": 5.025,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\checked.rs",
+      "function": "validate",
+      "line": 32,
+      "cyclomatic": 5.0,
+      "coverage": 90.9090909090909,
+      "crap": 5.018782870022539,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::check_environment",
+      "line": 595,
+      "cyclomatic": 5.0,
+      "coverage": 90.9090909090909,
+      "crap": 5.018782870022539,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "check_lanes_slow",
+      "line": 47,
+      "cyclomatic": 5.0,
+      "coverage": 94.11764705882352,
+      "crap": 5.005088540606554,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "nonlinear_with_backend",
+      "line": 136,
+      "cyclomatic": 5.0,
+      "coverage": 98.11320754716981,
+      "crap": 5.000167923856607,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\model.rs",
+      "function": "SlopeModel::new",
+      "line": 14,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::walk",
+      "line": 40,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "emit",
+      "line": 112,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\mod.rs",
+      "function": "main_loudness_unchecked",
+      "line": 41,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "classify_nonnegative_bounded",
+      "line": 80,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_checked",
+      "line": 16,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::next_uo",
+      "line": 164,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\par.rs",
+      "function": "chunks_dispatch",
+      "line": 24,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::on_levels_d0",
+      "line": 269,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::flush_with_quality",
+      "line": 886,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "scan_block",
+      "line": 177,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::numeric_bits",
+      "line": 463,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::advance_checked",
+      "line": 123,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::validate_numeric",
+      "line": 40,
+      "cyclomatic": 5.0,
+      "coverage": 100.0,
+      "crap": 5.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "snapshot_stage",
+      "line": 281,
+      "cyclomatic": 4.0,
+      "coverage": 61.53846153846154,
+      "crap": 4.9103322712790165,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::inject_raw_bits",
+      "line": 70,
+      "cyclomatic": 4.0,
+      "coverage": 66.66666666666666,
+      "crap": 4.5925925925925934,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "map_diagnostic_error",
+      "line": 1044,
+      "cyclomatic": 4.0,
+      "coverage": 66.66666666666666,
+      "crap": 4.5925925925925934,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "decimate_with_sos",
+      "line": 66,
+      "cyclomatic": 4.0,
+      "coverage": 80.95238095238095,
+      "crap": 4.110571212612029,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "read_rounding_environment",
+      "line": 119,
+      "cyclomatic": 4.0,
+      "coverage": 83.33333333333334,
+      "crap": 4.0740740740740735,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::inject_numeric",
+      "line": 62,
+      "cyclomatic": 4.0,
+      "coverage": 83.33333333333334,
+      "crap": 4.0740740740740735,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::inject_raw_bits",
+      "line": 179,
+      "cyclomatic": 4.0,
+      "coverage": 90.9090909090909,
+      "crap": 4.012021036814425,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "nl_loudness_band_scalar",
+      "line": 196,
+      "cyclomatic": 4.0,
+      "coverage": 90.9090909090909,
+      "crap": 4.012021036814425,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::check_timeline",
+      "line": 583,
+      "cyclomatic": 4.0,
+      "coverage": 90.9090909090909,
+      "crap": 4.012021036814425,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\batch_guard.rs",
+      "function": "environment",
+      "line": 24,
+      "cyclomatic": 4.0,
+      "coverage": 91.66666666666666,
+      "crap": 4.0092592592592595,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::inject_numeric",
+      "line": 165,
+      "cyclomatic": 4.0,
+      "coverage": 91.66666666666666,
+      "crap": 4.0092592592592595,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "check_core_lanes",
+      "line": 127,
+      "cyclomatic": 4.0,
+      "coverage": 92.85714285714286,
+      "crap": 4.005830903790088,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "advance_block_spec",
+      "line": 267,
+      "cyclomatic": 4.0,
+      "coverage": 93.33333333333333,
+      "crap": 4.004740740740741,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\batch_guard.rs",
+      "function": "fault",
+      "line": 5,
+      "cyclomatic": 4.0,
+      "coverage": 94.11764705882352,
+      "crap": 4.003256665988195,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::finish",
+      "line": 344,
+      "cyclomatic": 4.0,
+      "coverage": 94.44444444444444,
+      "crap": 4.002743484224966,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\shared.rs",
+      "function": "dispatch",
+      "line": 25,
+      "cyclomatic": 4.0,
+      "coverage": 95.65217391304348,
+      "crap": 4.001315032464864,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::flush_impl",
+      "line": 904,
+      "cyclomatic": 4.0,
+      "coverage": 95.65217391304348,
+      "crap": 4.001315032464864,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\model.rs",
+      "function": "validate_thresholds",
+      "line": 55,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "emit_terminal",
+      "line": 133,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "core_loudness_of_band",
+      "line": 50,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\mod.rs",
+      "function": "main_loudness_frames_into",
+      "line": 77,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "DomainFault::reason_mask",
+      "line": 70,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\types.rs",
+      "function": "FieldType::try_from",
+      "line": 14,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\types.rs",
+      "function": "FieldType::from_str",
+      "line": 26,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels",
+      "line": 387,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_with_backend",
+      "line": 305,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::numeric_reason_mask",
+      "line": 147,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "nl_loudness_process4",
+      "line": 375,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::take_frame_quality",
+      "line": 190,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::validate_numeric",
+      "line": 162,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::numeric_masks",
+      "line": 170,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::d0_core_slot",
+      "line": 298,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push_speculative",
+      "line": 691,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::deliver_emissions",
+      "line": 829,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::inject_numeric",
+      "line": 42,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::is_entry_valid",
+      "line": 80,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::advance",
+      "line": 165,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::new",
+      "line": 162,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::numeric_bits",
+      "line": 285,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "tol_group_avx2",
+      "line": 339,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::coeff_bits",
+      "line": 123,
+      "cyclomatic": 4.0,
+      "coverage": 100.0,
+      "crap": 4.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push_checked",
+      "line": 653,
+      "cyclomatic": 3.0,
+      "coverage": 73.33333333333333,
+      "crap": 3.1706666666666665,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::inject_raw_bits",
+      "line": 263,
+      "cyclomatic": 3.0,
+      "coverage": 91.66666666666666,
+      "crap": 3.0052083333333335,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::fault",
+      "line": 127,
+      "cyclomatic": 3.0,
+      "coverage": 97.05882352941177,
+      "crap": 3.000228984327295,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\checked.rs",
+      "function": "try_calc_slopes_into",
+      "line": 54,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "clean",
+      "line": 31,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::piece",
+      "line": 78,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\low_freq.rs",
+      "function": "low_freq_dll_row",
+      "line": 19,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\low_freq.rs",
+      "function": "lower_critical_band_levels",
+      "line": 42,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\mod.rs",
+      "function": "main_loudness_clamped",
+      "line": 66,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\filtfilt.rs",
+      "function": "odd_ext",
+      "line": 5,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\sos.rs",
+      "function": "sosfilt",
+      "line": 11,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\sos.rs",
+      "function": "sosfilt_zi_run",
+      "line": 27,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\error.rs",
+      "function": "SoneflowError::check_batch_input",
+      "line": 137,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\error.rs",
+      "function": "SoneflowError::check_finite",
+      "line": 154,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "validate_core",
+      "line": 105,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "run_checked",
+      "line": 87,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::before_frame",
+      "line": 154,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "advance_band",
+      "line": 41,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "CtxTwHooks::before_frame",
+      "line": 56,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "temporal_checked_loop",
+      "line": 89,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\validate.rs",
+      "function": "validate_core",
+      "line": 7,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::seed",
+      "line": 275,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::advance_frame",
+      "line": 304,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::seed",
+      "line": 124,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::advance_frame",
+      "line": 143,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "ZwtvProcessor::store_levels_time_major",
+      "line": 102,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\slopes.rs",
+      "function": "specific_bark_major",
+      "line": 59,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::record_incident",
+      "line": 112,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::acknowledge",
+      "line": 255,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "DownstreamDue::any",
+      "line": 39,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::numeric_reason_mask",
+      "line": 28,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::reset",
+      "line": 151,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\reference.rs",
+      "function": "zwtv_reference_zerostate",
+      "line": 15,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "validate_scalar_slice",
+      "line": 59,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "validate_avx2_slice",
+      "line": 69,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::numeric_reason_mask",
+      "line": 360,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::validate_numeric",
+      "line": 372,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::reset",
+      "line": 420,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::inject_raw_bits",
+      "line": 429,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::ptr_and_align",
+      "line": 439,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::coeff_bits",
+      "line": 454,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::validate_numeric",
+      "line": 50,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::is_entry_valid",
+      "line": 58,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::advance",
+      "line": 116,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "merge_fault",
+      "line": 67,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::validate_numeric",
+      "line": 108,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::advance",
+      "line": 311,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::advance",
+      "line": 174,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "tol_band_scalar",
+      "line": 193,
+      "cyclomatic": 3.0,
+      "coverage": 100.0,
+      "crap": 3.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "take_due_log",
+      "line": 169,
+      "cyclomatic": 2.0,
+      "coverage": 52.94117647058824,
+      "crap": 2.416853246488907,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "executed_writes",
+      "line": 141,
+      "cyclomatic": 2.0,
+      "coverage": 56.25,
+      "crap": 2.3349609375,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::entry_fallback",
+      "line": 562,
+      "cyclomatic": 2.0,
+      "coverage": 57.14285714285714,
+      "crap": 2.314868804664723,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "begin_due_log",
+      "line": 158,
+      "cyclomatic": 2.0,
+      "coverage": 70.0,
+      "crap": 2.108,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::entry_fallback",
+      "line": 100,
+      "cyclomatic": 2.0,
+      "coverage": 80.0,
+      "crap": 2.032,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "third_octave_levels_avx2",
+      "line": 364,
+      "cyclomatic": 2.0,
+      "coverage": 90.9090909090909,
+      "crap": 2.0030052592036065,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "third_octave_levels_scalar_impl",
+      "line": 211,
+      "cyclomatic": 2.0,
+      "coverage": 90.9090909090909,
+      "crap": 2.0030052592036065,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "nl_loudness_avx2",
+      "line": 23,
+      "cyclomatic": 2.0,
+      "coverage": 95.0,
+      "crap": 2.0005,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\checked.rs",
+      "function": "try_calc_slopes",
+      "line": 47,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\checked.rs",
+      "function": "try_calc_slopes_n_only",
+      "line": 66,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\analytic.rs",
+      "function": "fixture",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\analytic.rs",
+      "function": "model",
+      "line": 11,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\analytic.rs",
+      "function": "close",
+      "line": 15,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\area_domain.rs",
+      "function": "model",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\area_domain.rs",
+      "function": "check",
+      "line": 13,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\extremes.rs",
+      "function": "model",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\extremes.rs",
+      "function": "check",
+      "line": 11,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\pieces.rs",
+      "function": "model",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\pieces.rs",
+      "function": "edges",
+      "line": 5,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\pieces.rs",
+      "function": "close",
+      "line": 10,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\targeted.rs",
+      "function": "model",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\terminal_slice.rs",
+      "function": "model",
+      "line": 2,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "Piece::sample",
+      "line": 12,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "excitation_level",
+      "line": 16,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "band0_correction",
+      "line": 67,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\c_constants.rs",
+      "function": "c_float_table",
+      "line": 14,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\low_freq.rs",
+      "function": "low_band_intensities",
+      "line": 30,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\mod.rs",
+      "function": "main_loudness",
+      "line": 17,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\mod.rs",
+      "function": "warm_mp1_table",
+      "line": 35,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "logical_sample",
+      "line": 91,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard\\c4_tests.rs",
+      "function": "Restore::drop",
+      "line": 11,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard\\c4_tests.rs",
+      "function": "set_control",
+      "line": 15,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard\\c4_tests.rs",
+      "function": "check",
+      "line": 98,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "lanes_valid",
+      "line": 40,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "is_nonnegative_bounded",
+      "line": 100,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "is_mxcsr_qualified",
+      "line": 145,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\simd\\mod.rs",
+      "function": "avx2_available",
+      "line": 14,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\simd\\mod.rs",
+      "function": "use_avx2",
+      "line": 38,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\sone2phon.rs",
+      "function": "sone2phon",
+      "line": 13,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_cold_replay_reconstruct",
+      "line": 231,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "load_frame",
+      "line": 435,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "store_frame",
+      "line": 450,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "advance_group",
+      "line": 479,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::inputs_ok",
+      "line": 520,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::advance_checked",
+      "line": 550,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "nonlinear",
+      "line": 581,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "ScheduleStore::empty",
+      "line": 36,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::has_hooks",
+      "line": 76,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::for_range",
+      "line": 85,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::record_executed_write",
+      "line": 97,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::record_due",
+      "line": 104,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "install_schedule",
+      "line": 119,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "clear_schedule",
+      "line": 130,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_cold_replay_reconstruct",
+      "line": 171,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "NoNlHooks::on_entry_fallback",
+      "line": 116,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::needs_loop",
+      "line": 151,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::on_unit",
+      "line": 165,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::on_fast_frame",
+      "line": 172,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::on_entry_fallback",
+      "line": 179,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "frame_inputs",
+      "line": 33,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::inputs_ok",
+      "line": 75,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::advance_checked",
+      "line": 91,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "nl_band",
+      "line": 112,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\tests.rs",
+      "function": "bits",
+      "line": 21,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\tests.rs",
+      "function": "MxcsrGuard::capture",
+      "line": 169,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\tests.rs",
+      "function": "MxcsrGuard::set",
+      "line": 176,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\tests.rs",
+      "function": "MxcsrGuard::drop",
+      "line": 184,
+      "cyclomatic": 1.0,
+      "coverage": null,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\validate.rs",
+      "function": "validate_slopes_chunks",
+      "line": 51,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "nl_group_avx2",
+      "line": 56,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::is_entry_valid",
+      "line": 208,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\mod.rs",
+      "function": "nl_loudness_with",
+      "line": 34,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "nl_loudness_scalar_impl",
+      "line": 20,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::validate_numeric",
+      "line": 77,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::is_entry_valid",
+      "line": 84,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::snapshot",
+      "line": 219,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::reset_with_diagnostics",
+      "line": 267,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::on_levels_due_fallback",
+      "line": 242,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::reset_with_diagnostics",
+      "line": 499,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::filter_fault",
+      "line": 929,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::apply_at",
+      "line": 1168,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_env_fallback",
+      "line": 1181,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_entry_due_replay",
+      "line": 1183,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_downstream_restart",
+      "line": 1191,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "NlStage::new",
+      "line": 130,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\nl_stage.rs",
+      "function": "advance_avx2",
+      "line": 187,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "advance_emit",
+      "line": 89,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "advance",
+      "line": 100,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "avx2_advance_emit",
+      "line": 131,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "avx2_advance",
+      "line": 164,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "run_scalar_fast_block",
+      "line": 220,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "run_avx2_fast_block",
+      "line": 240,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolKernel::new_pair",
+      "line": 342,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "check_lanes",
+      "line": 33,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::coeff_bits",
+      "line": 241,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\mod.rs",
+      "function": "third_octave_levels_with_mode_and_backend",
+      "line": 40,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\mod.rs",
+      "function": "third_octave_levels",
+      "line": 60,
+      "cyclomatic": 1.0,
+      "coverage": 0.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::numeric_reason_mask",
+      "line": 27,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::inject_raw_bits",
+      "line": 148,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_free",
+      "line": 531,
+      "cyclomatic": 2.0,
+      "coverage": 100.0,
+      "crap": 2.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_scalar_entry_fallback",
+      "line": 192,
+      "cyclomatic": 1.0,
+      "coverage": 75.0,
+      "crap": 1.015625,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::finish",
+      "line": 1247,
+      "cyclomatic": 1.0,
+      "coverage": 75.0,
+      "crap": 1.015625,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::check_none_inside",
+      "line": 1220,
+      "cyclomatic": 1.0,
+      "coverage": 80.0,
+      "crap": 1.008,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_avx2_entry_fallback",
+      "line": 230,
+      "cyclomatic": 1.0,
+      "coverage": 85.71428571428571,
+      "crap": 1.0029154518950438,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_tw_entry_fallback",
+      "line": 289,
+      "cyclomatic": 1.0,
+      "coverage": 85.71428571428571,
+      "crap": 1.0029154518950438,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_reset_with_diagnostics_v1",
+      "line": 495,
+      "cyclomatic": 1.0,
+      "coverage": 87.5,
+      "crap": 1.001953125,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_flush",
+      "line": 280,
+      "cyclomatic": 1.0,
+      "coverage": 88.0,
+      "crap": 1.001728,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\checked.rs",
+      "function": "levels",
+      "line": 77,
+      "cyclomatic": 1.0,
+      "coverage": 92.3076923076923,
+      "crap": 1.0004551661356396,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_ack_diagnostics_v1",
+      "line": 472,
+      "cyclomatic": 1.0,
+      "coverage": 92.3076923076923,
+      "crap": 1.0004551661356396,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_flush_with_quality_v1",
+      "line": 388,
+      "cyclomatic": 1.0,
+      "coverage": 92.85714285714286,
+      "crap": 1.0003644314868805,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_push",
+      "line": 232,
+      "cyclomatic": 1.0,
+      "coverage": 93.33333333333333,
+      "crap": 1.0002962962962962,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_loudness_zwst",
+      "line": 631,
+      "cyclomatic": 1.0,
+      "coverage": 93.33333333333333,
+      "crap": 1.0002962962962962,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_diagnostics_v1",
+      "line": 443,
+      "cyclomatic": 1.0,
+      "coverage": 95.23809523809523,
+      "crap": 1.0001079796998165,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_loudness_zwtv",
+      "line": 568,
+      "cyclomatic": 1.0,
+      "coverage": 97.72727272727273,
+      "crap": 1.0000117392937642,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_push_with_quality_v1",
+      "line": 322,
+      "cyclomatic": 1.0,
+      "coverage": 97.82608695652173,
+      "crap": 1.0000102736911318,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\batch_guard.rs",
+      "function": "core",
+      "line": 38,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\batch_guard.rs",
+      "function": "bounded",
+      "line": 43,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\bark_axis.rs",
+      "function": "bark_axis",
+      "line": 3,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\mod.rs",
+      "function": "calc_slopes",
+      "line": 29,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\mod.rs",
+      "function": "calc_slopes_into",
+      "line": 35,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\mod.rs",
+      "function": "calc_slopes_n_only",
+      "line": 41,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "Piece::area",
+      "line": 18,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "Sum::add",
+      "line": 27,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::evaluate",
+      "line": 151,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::evaluate_into",
+      "line": 158,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\walk.rs",
+      "function": "SlopeModel::total_only",
+      "line": 168,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "mp1_at_run_time",
+      "line": 29,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "init_mp1_table_rn",
+      "line": 34,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\core_band.rs",
+      "function": "mp1_table_rn",
+      "line": 40,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\main_loudness\\c_constants.rs",
+      "function": "c_float_literal",
+      "line": 10,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "sos",
+      "line": 5,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "finite",
+      "line": 43,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\checked.rs",
+      "function": "run_with_seed",
+      "line": 50,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\filtfilt.rs",
+      "function": "sosfiltfilt",
+      "line": 22,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\filtfilt.rs",
+      "function": "decimate_with_sos",
+      "line": 45,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\dsp\\sos.rs",
+      "function": "sosfilt_zi",
+      "line": 43,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "read_unit_mxcsr",
+      "line": 130,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "restore_mxcsr",
+      "line": 153,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "nonfinite_mask_bit",
+      "line": 168,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "rounding_bits",
+      "line": 172,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard.rs",
+      "function": "read_mxcsr",
+      "line": 185,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\simd\\mod.rs",
+      "function": "set_force_scalar",
+      "line": 31,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\checked.rs",
+      "function": "cheby_sos",
+      "line": 8,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\checked.rs",
+      "function": "fault",
+      "line": 16,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\mod.rs",
+      "function": "noct_spectrum_rms",
+      "line": 17,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwst\\mod.rs",
+      "function": "spec_to_db",
+      "line": 35,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_cold_replay",
+      "line": 46,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "levels_cold_replay_from_snapshot",
+      "line": 202,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "load",
+      "line": 423,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "nonlinear_entry_fallback",
+      "line": 462,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::frames",
+      "line": 513,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::is_entry_valid",
+      "line": 516,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::advance",
+      "line": 527,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::advance_from",
+      "line": 535,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\avx2.rs",
+      "function": "Avx2Group::inject",
+      "line": 573,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::empty",
+      "line": 66,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "StageHookContext::has_due_log",
+      "line": 81,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "install_thread_schedule",
+      "line": 189,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\batch_hooks.rs",
+      "function": "clear_thread_schedule",
+      "line": 201,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_cold_replay",
+      "line": 34,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels_scalar_cold_replay_from_snapshot",
+      "line": 146,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\levels.rs",
+      "function": "levels",
+      "line": 385,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "NoNlHooks::needs_loop",
+      "line": 106,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "NoNlHooks::before_frame",
+      "line": 110,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "NoNlHooks::on_unit",
+      "line": 112,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "NoNlHooks::on_fast_frame",
+      "line": 114,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "CtxNlHooks::new",
+      "line": 133,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "nl_hooks",
+      "line": 190,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nl_unit.rs",
+      "function": "nl_hooks",
+      "line": 201,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "nl_band_entry_fallback",
+      "line": 16,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::frames",
+      "line": 67,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::is_entry_valid",
+      "line": 71,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::advance",
+      "line": 82,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::advance_from",
+      "line": 87,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "ScalarBand::inject",
+      "line": 106,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "nonlinear",
+      "line": 208,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\nonlinear.rs",
+      "function": "nonlinear_validated_core",
+      "line": 219,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\shared.rs",
+      "function": "mxcsr_qualified",
+      "line": 21,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "NoTwHooks::before_frame",
+      "line": 26,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "NoTwHooks::on_stage",
+      "line": 28,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "NoTwHooks::on_fast_frame",
+      "line": 30,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "NoTwHooks::on_entry_fallback",
+      "line": 32,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "CtxTwHooks::new",
+      "line": 45,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "CtxTwHooks::on_stage",
+      "line": 67,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "CtxTwHooks::on_fast_frame",
+      "line": 70,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "CtxTwHooks::on_entry_fallback",
+      "line": 73,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "tw_entry_fallback",
+      "line": 80,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\temporal.rs",
+      "function": "temporal",
+      "line": 140,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "Sink::snapshot",
+      "line": 62,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "attach_thread",
+      "line": 95,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_scalar",
+      "line": 100,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_scalar_fast_block",
+      "line": 114,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_scalar_cold_replay",
+      "line": 124,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_avx2",
+      "line": 134,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_avx2_fast_block",
+      "line": 148,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_avx2_cold_replay",
+      "line": 158,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_scalar",
+      "line": 168,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_scalar_fast_frame",
+      "line": 182,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_avx2",
+      "line": 204,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_nl_avx2_fast_frame",
+      "line": 219,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_slopes",
+      "line": 240,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_slopes_unqual_validated",
+      "line": 254,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_tw",
+      "line": 265,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\test_counters.rs",
+      "function": "record_tw_fast_frame",
+      "line": 279,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\validate.rs",
+      "function": "validate_slopes",
+      "line": 16,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\grid.rs",
+      "function": "zwtv_out_frames",
+      "line": 36,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\grid.rs",
+      "function": "time_axis",
+      "line": 41,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\grid.rs",
+      "function": "decimate_to_output_grid",
+      "line": 46,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "nl_loudness_load4",
+      "line": 78,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlConsts::new",
+      "line": 105,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::validate_numeric",
+      "line": 195,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::core_lanes_valid",
+      "line": 217,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::zero",
+      "line": 264,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::mosqito_seed",
+      "line": 285,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::next_uo",
+      "line": 329,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\avx2.rs",
+      "function": "NlGroupState::next_u2",
+      "line": 348,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\mod.rs",
+      "function": "nl_loudness_with_mode",
+      "line": 45,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\mod.rs",
+      "function": "nl_loudness",
+      "line": 50,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\params.rs",
+      "function": "nl_coeffs",
+      "line": 35,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "nl_loudness_scalar",
+      "line": 10,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "nl_loudness_scalar_with",
+      "line": 15,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::numeric_reason_mask",
+      "line": 54,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\nonlinear_decay\\scalar.rs",
+      "function": "NlBandState::mosqito_seed",
+      "line": 131,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "ZwtvProcessor::new",
+      "line": 44,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "ZwtvProcessor::process",
+      "line": 50,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "ZwtvProcessor::scratch_capacities",
+      "line": 112,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\processor.rs",
+      "function": "loudness_zwtv",
+      "line": 148,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\slopes.rs",
+      "function": "slopes_into_d0",
+      "line": 22,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\denormal.rs",
+      "function": "DenormalGuard::new",
+      "line": 20,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\denormal.rs",
+      "function": "DenormalGuard::drop",
+      "line": 33,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\denormal.rs",
+      "function": "DenormalGuard::new",
+      "line": 46,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics\\coverage.rs",
+      "function": "Coverage::add_masks",
+      "line": 57,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "FrameQualityV1::default",
+      "line": 28,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::new",
+      "line": 94,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\diagnostics.rs",
+      "function": "DiagnosticState::merge_incident_masks",
+      "line": 147,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "core_reason_mask",
+      "line": 70,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::new",
+      "line": 93,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::reset",
+      "line": 105,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::timeline_fits",
+      "line": 113,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::raise",
+      "line": 120,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::pending",
+      "line": 123,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::is_held_entry_valid",
+      "line": 230,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\emitter.rs",
+      "function": "FrameEmitter::calculate_d0",
+      "line": 366,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\frame.rs",
+      "function": "FrameFlags::bits",
+      "line": 26,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\frame.rs",
+      "function": "FrameFlags::contains",
+      "line": 29,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\frame.rs",
+      "function": "FrameFlags::insert",
+      "line": 32,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\frame.rs",
+      "function": "FrameFlags::take",
+      "line": 35,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "Due::all_true",
+      "line": 354,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "FrameSink::rest",
+      "line": 373,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::new",
+      "line": 464,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::with_backend",
+      "line": 468,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::reset",
+      "line": 491,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::diagnostics",
+      "line": 513,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::ack_diagnostics",
+      "line": 519,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::latency_samples",
+      "line": 527,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::max_frames_for_chunk",
+      "line": 532,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::push",
+      "line": 546,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::flush",
+      "line": 875,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "ZwtvStream::residual_flags",
+      "line": 943,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "filter_fault_on_kernel",
+      "line": 948,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "push_cold_replay_with_mxcsr_restore",
+      "line": 1029,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::next_sample",
+      "line": 1164,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::check_none_inside",
+      "line": 1179,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_entry_due_passed",
+      "line": 1185,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_spec_block",
+      "line": 1187,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::on_swap",
+      "line": 1189,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "NoPushHooks::finish",
+      "line": 1193,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::next_sample",
+      "line": 1198,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::apply_at",
+      "line": 1201,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_env_fallback",
+      "line": 1229,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_entry_due_replay",
+      "line": 1232,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_entry_due_passed",
+      "line": 1235,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_spec_block",
+      "line": 1238,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_swap",
+      "line": 1241,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "HookCursor::on_downstream_restart",
+      "line": 1244,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "push_hooks",
+      "line": 1257,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\mod.rs",
+      "function": "push_hooks",
+      "line": 1263,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\reference.rs",
+      "function": "core_frames",
+      "line": 33,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "Avx2Bank::advance_emit",
+      "line": 116,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "Avx2Bank::advance",
+      "line": 122,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::reset_numeric",
+      "line": 287,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::validate_numeric",
+      "line": 291,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::new",
+      "line": 295,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::reset",
+      "line": 304,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::kernel_ptr_and_align",
+      "line": 311,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::shadow_ptr_and_align",
+      "line": 316,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::kernel_coeff_bits",
+      "line": 321,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::shadow_coeff_bits",
+      "line": 326,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::kernel_numeric_bits",
+      "line": 331,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\tol_stage.rs",
+      "function": "TolStage::shadow_numeric_bits",
+      "line": 336,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "lp_coeff",
+      "line": 6,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::numeric_reason_mask",
+      "line": 21,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::new",
+      "line": 97,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "TwState::reset",
+      "line": 108,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\temporal_weighting.rs",
+      "function": "temporal_weighting",
+      "line": 135,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::reset",
+      "line": 201,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::copy_exact",
+      "line": 214,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::sync_numeric_from",
+      "line": 234,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\avx2.rs",
+      "function": "TolGroupState::inject_nan_for_test",
+      "line": 256,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\coeffs.rs",
+      "function": "feedback_coeffs",
+      "line": 16,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\coeffs.rs",
+      "function": "band_sos",
+      "line": 23,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\coeffs.rs",
+      "function": "center_frequency",
+      "line": 33,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\coeffs.rs",
+      "function": "smoothing_coeff",
+      "line": 38,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\coeffs.rs",
+      "function": "intensity_to_db",
+      "line": 47,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\mod.rs",
+      "function": "third_octave_levels_with_mode",
+      "line": 55,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::new",
+      "line": 84,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::reset",
+      "line": 96,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::copy_exact",
+      "line": 103,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::sync_numeric_from",
+      "line": 117,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::inject_nan_for_test",
+      "line": 143,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "TolBandState::numeric_bits",
+      "line": 159,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\third_octave_levels\\scalar.rs",
+      "function": "third_octave_levels_scalar",
+      "line": 206,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "guarded_or",
+      "line": 64,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "guarded",
+      "line": 68,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_new",
+      "line": 185,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_max_frames",
+      "line": 197,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_stream_residual_flags",
+      "line": 210,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf_zwtv_out_frames",
+      "line": 551,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf__test_panic",
+      "line": 672,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf__test_panic_rayon",
+      "line": 679,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    },
+    {
+      "file": "<AUDIT_ROOT>\\repo\\soneflow-ffi\\src\\lib.rs",
+      "function": "snf__test_panic_stream",
+      "line": 693,
+      "cyclomatic": 1.0,
+      "coverage": 100.0,
+      "crap": 1.0,
+      "crate": "soneflow-ffi"
+    }
+  ],
+  "diagnostics": {
+    "analyzed_files": 64,
+    "lcov_files": 55,
+    "matched_files": 54,
+    "source_only": {
+      "count": 10,
+      "examples": [
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\analytic.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\area_domain.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\cut_clamp.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\extremes.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\pieces.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\targeted.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\core\\calc_slopes\\tests\\terminal_slice.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\numeric_guard\\c4_tests.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\batch_checked\\tests.rs",
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\zwtv\\stream\\containment_tests.rs"
+      ]
+    },
+    "lcov_only": {
+      "count": 1,
+      "examples": [
+        "<AUDIT_ROOT>\\repo\\soneflow\\src\\tables.rs"
+      ]
+    }
+  }
+}

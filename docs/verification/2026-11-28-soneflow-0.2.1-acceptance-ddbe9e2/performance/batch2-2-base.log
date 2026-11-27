@@ -1,0 +1,54 @@
+command=['cargo', 'bench', '--bench', 'loudness', '--', '--noplot', 'zwtv_10s_t1|stream_push_10s_480chunk']
+RAYON_NUM_THREADS=1
+    Finished `bench` profile [optimized] target(s) in 0.09s
+     Running benches\loudness.rs (<AUDIT_ROOT>\perf-base-target\release\deps\loudness-fef0962febcc60c2.exe)
+Gnuplot not found, using plotters backend
+Benchmarking zwtv_10s_t1/scalar/480000
+Benchmarking zwtv_10s_t1/scalar/480000: Warming up for 3.0000 s
+
+Warning: Unable to complete 10 samples in 6.0s. You may wish to increase target time to 10.6s or enable flat sampling.
+Benchmarking zwtv_10s_t1/scalar/480000: Collecting 10 samples in estimated 10.563 s (55 iterations)
+Benchmarking zwtv_10s_t1/scalar/480000: Analyzing
+zwtv_10s_t1/scalar/480000
+                        time:   [188.72 ms 189.46 ms 190.66 ms]
+                        thrpt:  [2.5175 Melem/s 2.5335 Melem/s 2.5435 Melem/s]
+                 change:
+                        time:   [-0.1413% +0.4517% +1.0255%] (p = 0.17 > 0.05)
+                        thrpt:  [-1.0151% -0.4497% +0.1415%]
+                        No change in performance detected.
+Benchmarking zwtv_10s_t1/avx2/480000
+Benchmarking zwtv_10s_t1/avx2/480000: Warming up for 3.0000 s
+Benchmarking zwtv_10s_t1/avx2/480000: Collecting 10 samples in estimated 10.836 s (110 iterations)
+Benchmarking zwtv_10s_t1/avx2/480000: Analyzing
+zwtv_10s_t1/avx2/480000 time:   [98.252 ms 98.857 ms 100.10 ms]
+                        thrpt:  [4.7951 Melem/s 4.8555 Melem/s 4.8854 Melem/s]
+                 change:
+                        time:   [-1.3979% +0.0050% +1.9672%] (p = 0.99 > 0.05)
+                        thrpt:  [-1.9292% -0.0050% +1.4177%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking stream_push_10s_480chunk/scalar
+Benchmarking stream_push_10s_480chunk/scalar: Warming up for 3.0000 s
+
+Warning: Unable to complete 10 samples in 6.0s. You may wish to increase target time to 10.0s or enable flat sampling.
+Benchmarking stream_push_10s_480chunk/scalar: Collecting 10 samples in estimated 9.9973 s (55 iterations)
+Benchmarking stream_push_10s_480chunk/scalar: Analyzing
+stream_push_10s_480chunk/scalar
+                        time:   [181.14 ms 181.48 ms 182.02 ms]
+                        change: [+0.0898% +0.3050% +0.5837%] (p = 0.01 < 0.05)
+                        Change within noise threshold.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high mild
+Benchmarking stream_push_10s_480chunk/avx2
+Benchmarking stream_push_10s_480chunk/avx2: Warming up for 3.0000 s
+Benchmarking stream_push_10s_480chunk/avx2: Collecting 10 samples in estimated 9.1459 s (110 iterations)
+Benchmarking stream_push_10s_480chunk/avx2: Analyzing
+stream_push_10s_480chunk/avx2
+                        time:   [82.792 ms 83.132 ms 83.775 ms]
+                        change: [-0.3640% +0.0231% +0.6220%] (p = 0.94 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+

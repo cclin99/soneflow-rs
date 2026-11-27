@@ -1,0 +1,99 @@
+COMMAND ["cargo", "test", "-p", "soneflow", "--features", "internals", "--test", "core_characterization", "--test", "determinism", "--test", "low_freq_correction", "--test", "main_loudness_rounding", "--test", "simd_parity", "--test", "stream_contract", "--test", "stream_scalar", "--test", "zup_eps"]
+CWD <AUDIT_ROOT>\repo
+   Compiling soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.28s
+     Running tests\core_characterization.rs (<AUDIT_ROOT>\target-gates\debug\deps\core_characterization-7ecca3f6bb911b66.exe)
+
+running 20 tests
+test a_low_band_above_120_db_is_rejected_and_120_db_is_accepted ... ok
+test band_0_valid_values_stay_flat_and_negative_values_are_rejected ... ok
+test band_0_stays_flat_in_the_valid_domain ... ok
+test a_negative_band_0_leaves_the_upper_bands_unchanged ... ok
+test band_0_starts_from_zero_and_does_not_look_back_at_band_20 ... ok
+test bands_from_the_twelfth_up_are_not_limited_to_120_db ... ok
+test equal_core_loudness_gives_a_flat_pattern ... ok
+test finite_input_beyond_the_bounds_returns_without_panicking ... ok
+test finite_out_of_domain_input_within_b2_returns_a_finite_non_negative_total ... ok
+test levels_far_below_threshold_give_zero_core_loudness ... ok
+test falling_core_loudness_descends_along_the_upper_slope ... ok
+test negative_core_is_rejected_without_inventing_walk_back_area ... ok
+test non_finite_input_returns_without_panicking ... ok
+test rising_core_loudness_jumps_up_at_the_band_edge ... ok
+test total_loudness_is_never_negative ... ok
+test the_valid_domain_is_finite_up_to_b1 ... ok
+test out_of_domain_input_is_finite_up_to_b2 ... ok
+test total_only_and_with_pattern_give_bitwise_equal_totals ... ok
+test raising_one_band_never_lowers_any_core_loudness ... ok
+test core_loudness_is_never_negative ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests\determinism.rs (<AUDIT_ROOT>\target-gates\debug\deps\determinism-d2b1a8a8b26322a8.exe)
+
+running 1 test
+test zwtv_output_is_bitwise_deterministic_over_20_runs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.77s
+
+     Running tests\low_freq_correction.rs (<AUDIT_ROOT>\target-gates\debug\deps\low_freq_correction-8a4d3ec3a988271d.exe)
+
+running 6 tests
+test core_diffuse_field_uses_the_same_row_selection ... ok
+test core_band0_118_000001_db_reaches_the_last_dll_row ... ok
+test core_band0_threshold_118_db_is_strict_and_last_row_applies_above_it ... ok
+test zwtv_25hz_119db_sine_max_is_pinned ... ok
+test zwst_25hz_119db_sine_is_pinned ... ok
+test stream_25hz_119db_sine_matches_batch_and_is_not_clamped ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+     Running tests\main_loudness_rounding.rs (<AUDIT_ROOT>\target-gates\debug\deps\main_loudness_rounding-6f5420b774573ade.exe)
+
+running 1 test
+test toward_zero_first_then_round_to_nearest_match_run_time_values ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\simd_parity.rs (<AUDIT_ROOT>\target-gates\debug\deps\simd_parity-81fb46a4c59030b3.exe)
+
+running 2 tests
+test nl_loudness_avx2_matches_scalar ... ok
+test filter_bank_avx2_matches_scalar ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+     Running tests\stream_contract.rs (<AUDIT_ROOT>\target-gates\debug\deps\stream_contract-cf476a10fd7d9460.exe)
+
+running 11 tests
+test silence_throughput_within_20pct_of_sine ... ignored
+test warmup_constant_is_frozen ... ok
+test push_and_flush_restore_mxcsr ... ok
+test tail_nonfinite_input_is_reported_as_residual_flag ... ok
+test over_120db_is_clamped_and_stream_continues ... ok
+test stream_constants_and_single_push_reference ... ok
+test reset_matches_a_new_stream ... ok
+test flush_reset_after_partial_nonfinite_chunk_matches_a_new_stream ... ok
+test nonfinite_input_flags_and_recovers ... ok
+test batch_zerostate_reference_and_stream_are_bitwise_identical_from_frame_zero ... ok
+test chunk_size_invariance_is_bitwise ... ok
+
+test result: ok. 10 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 3.05s
+
+     Running tests\stream_scalar.rs (<AUDIT_ROOT>\target-gates\debug\deps\stream_scalar-c5e6d7dcf13d98c7.exe)
+
+running 1 test
+test forced_scalar_stream_matches_scalar_zerostate_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+     Running tests\zup_eps.rs (<AUDIT_ROOT>\target-gates\debug\deps\zup_eps-987f5cfe3a0cc177.exe)
+
+running 3 tests
+test flat_core_has_analytic_area_including_frozen_edge_extension ... ok
+test independent_fraction_intervals_preserve_original_one_e_minus_twelve_gate ... ok
+test complete_writes_repeatability_and_three_total_apis_remain_bitwise ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+EXIT 0

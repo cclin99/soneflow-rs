@@ -1,0 +1,18 @@
+COMMAND ["cargo", "test", "-p", "soneflow", "--example", "cli"]
+CWD <AUDIT_ROOT>\repo
+   Compiling soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.56s
+     Running unittests examples\cli.rs (<AUDIT_ROOT>\target-gates\debug\examples\cli-9df4d07a644f2a2c.exe)
+
+running 6 tests
+test tests::calib_without_value_is_rejected ... ok
+test tests::calib_must_parse_and_be_finite ... ok
+test tests::calib_value_is_parsed_and_last_one_wins ... ok
+test tests::missing_path_prints_usage ... ok
+test tests::unknown_argument_is_rejected ... ok
+test tests::path_alone_uses_unit_calibration ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+EXIT 0

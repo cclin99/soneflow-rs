@@ -1,0 +1,35 @@
+COMMAND ["python", "tools/arch_check.py", "--crap", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\crap.json"]
+CWD <AUDIT_ROOT>\repo
+src: <AUDIT_ROOT>\repo\soneflow\src  rules: <AUDIT_ROOT>\repo\tools\arch_rules.toml
+modules: 66  edges: 191
+cycles: PASS
+layers: PASS
+unruled: PASS
+unsupported: PASS
+crap: PASS
+size: PASS
+forbid: PASS
+crap: 403 functions {'core': 42, 'zwtv': 315}, highest:
+  CRAP 20.0 CC 4 cov 0.0 product_model core/calc_slopes/product.rs:10
+  CRAP 17.6 CC 17 cov 86.95652173913044 levels_scalar_fast_with_hooks zwtv/batch_checked/levels.rs:187
+  CRAP 17.3 CC 17 cov 89.90825688073394 levels_fast_with_hooks zwtv/batch_checked/avx2.rs:248
+  CRAP 15.0 CC 7 cov 45.45454545454545 levels_checked_from_snapshot zwtv/batch_checked/avx2.rs:162
+  CRAP 13.2 CC 12 cov 80.0 apply_stream_hooks_at_boundary zwtv/stream/mod.rs:1054
+  CRAP 13.0 CC 13 cov 96.66666666666667 run_unit zwtv/batch_checked/nl_unit.rs:50
+  CRAP 12.0 CC 12 cov 93.75 TolKernel::advance_sample_checked zwtv/stream/tol_stage.rs:380
+  CRAP 11.2 CC 11 cov 88.46153846153845 FrameEmitter::emit zwtv/stream/emitter.rs:445
+  CRAP 10.5 CC 6 cov 50.0 levels_scalar_checked_from_snapshot zwtv/batch_checked/levels.rs:114
+  CRAP 10.0 CC 10 cov 93.10344827586206 loudness_zwst zwst/mod.rs:68
+largest files (non-test code lines):
+  740 zwtv/stream/mod.rs
+  558 zwtv/batch_checked/avx2.rs
+  461 zwtv/stream/emitter.rs
+  415 zwtv/stream/tol_stage.rs
+  365 zwtv/batch_checked/levels.rs
+  346 zwtv/nonlinear_decay/avx2.rs
+  324 zwtv/third_octave_levels/avx2.rs
+  255 zwtv/stream/diagnostics.rs
+  245 tables.rs
+  202 zwtv/batch_checked/nonlinear.rs
+
+EXIT 0

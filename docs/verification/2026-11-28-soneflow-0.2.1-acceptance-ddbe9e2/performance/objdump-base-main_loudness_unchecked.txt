@@ -1,0 +1,375 @@
+0000000000000000 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333>:
+       0: 41 57                        	pushq	%r15
+       2: 41 56                        	pushq	%r14
+       4: 41 55                        	pushq	%r13
+       6: 41 54                        	pushq	%r12
+       8: 56                           	pushq	%rsi
+       9: 57                           	pushq	%rdi
+       a: 55                           	pushq	%rbp
+       b: 53                           	pushq	%rbx
+       c: 48 81 ec 38 01 00 00         	subq	$0x138, %rsp            # imm = 0x138
+      13: 44 0f 29 bc 24 20 01 00 00   	movaps	%xmm15, 0x120(%rsp)
+      1c: 44 0f 29 b4 24 10 01 00 00   	movaps	%xmm14, 0x110(%rsp)
+      25: 44 0f 29 ac 24 00 01 00 00   	movaps	%xmm13, 0x100(%rsp)
+      2e: 44 0f 29 a4 24 f0 00 00 00   	movaps	%xmm12, 0xf0(%rsp)
+      37: 44 0f 29 9c 24 e0 00 00 00   	movaps	%xmm11, 0xe0(%rsp)
+      40: 44 0f 29 94 24 d0 00 00 00   	movaps	%xmm10, 0xd0(%rsp)
+      49: 44 0f 29 8c 24 c0 00 00 00   	movaps	%xmm9, 0xc0(%rsp)
+      52: 44 0f 29 84 24 b0 00 00 00   	movaps	%xmm8, 0xb0(%rsp)
+      5b: 0f 29 bc 24 a0 00 00 00      	movaps	%xmm7, 0xa0(%rsp)
+      63: 0f 29 b4 24 90 00 00 00      	movaps	%xmm6, 0x90(%rsp)
+      6b: 44 89 c3                     	movl	%r8d, %ebx
+      6e: 48 89 d7                     	movq	%rdx, %rdi
+      71: 48 89 ce                     	movq	%rcx, %rsi
+      74: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+      78: 66 0f 29 44 24 70            	movapd	%xmm0, 0x70(%rsp)
+      7e: 66 0f 29 44 24 60            	movapd	%xmm0, 0x60(%rsp)
+      84: 66 0f 29 44 24 50            	movapd	%xmm0, 0x50(%rsp)
+      8a: 66 0f 29 44 24 40            	movapd	%xmm0, 0x40(%rsp)
+      90: 66 0f 29 44 24 30            	movapd	%xmm0, 0x30(%rsp)
+      96: 48 c7 84 24 80 00 00 00 00 00 00 00  	movq	$0x0, 0x80(%rsp)
+      a2: 45 31 f6                     	xorl	%r14d, %r14d
+      a5: 4c 8d 3d 00 00 00 00         	leaq	(%rip), %r15            # 0xac <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xac>
+		00000000000000a8:  IMAGE_REL_AMD64_REL32	anon.d92da1865c79cc75d05ed117a0d9f5f8.6.llvm.14051483432527574028
+      ac: f2 0f 10 3d 00 00 00 00      	movsd	(%rip), %xmm7           # 0xb4 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xb4>
+		00000000000000b0:  IMAGE_REL_AMD64_REL32	__real@4046800000000000
+      b4: f2 44 0f 10 05 00 00 00 00   	movsd	(%rip), %xmm8           # 0xbd <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xbd>
+		00000000000000b9:  IMAGE_REL_AMD64_REL32	__real@404b800000000000
+      bd: f2 44 0f 10 0d 00 00 00 00   	movsd	(%rip), %xmm9           # 0xc6 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xc6>
+		00000000000000c2:  IMAGE_REL_AMD64_REL32	__real@4050400000000000
+      c6: f2 44 0f 10 15 00 00 00 00   	movsd	(%rip), %xmm10          # 0xcf <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xcf>
+		00000000000000cb:  IMAGE_REL_AMD64_REL32	__real@4051c00000000000
+      cf: f2 44 0f 10 1d 00 00 00 00   	movsd	(%rip), %xmm11          # 0xd8 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xd8>
+		00000000000000d4:  IMAGE_REL_AMD64_REL32	__real@4054000000000000
+      d8: f2 44 0f 10 25 00 00 00 00   	movsd	(%rip), %xmm12          # 0xe1 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xe1>
+		00000000000000dd:  IMAGE_REL_AMD64_REL32	__real@4056800000000000
+      e1: f2 44 0f 10 2d 00 00 00 00   	movsd	(%rip), %xmm13          # 0xea <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xea>
+		00000000000000e6:  IMAGE_REL_AMD64_REL32	__real@4059000000000000
+      ea: f2 0f 10 35 00 00 00 00      	movsd	(%rip), %xmm6           # 0xf2 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0xf2>
+		00000000000000ee:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+      f2: eb 3d                        	jmp	0x131 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x131>
+      f4: 66 66 66 2e 0f 1f 84 00 00 00 00 00  	nopw	%cs:(%rax,%rax)
+     100: 31 c0                        	xorl	%eax, %eax
+     102: 48 6b c0 58                  	imulq	$0x58, %rax, %rax
+     106: 4c 01 f0                     	addq	%r14, %rax
+     109: f2 41 0f 58 0c 07            	addsd	(%r15,%rax), %xmm1
+     10f: f2 0f 5e ce                  	divsd	%xmm6, %xmm1
+     113: 66 0f 28 c6                  	movapd	%xmm6, %xmm0
+     117: e8 00 00 00 00               	callq	0x11c <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x11c>
+		0000000000000118:  IMAGE_REL_AMD64_REL32	pow
+     11c: f2 42 0f 11 44 34 30         	movsd	%xmm0, 0x30(%rsp,%r14)
+     123: 49 83 c6 08                  	addq	$0x8, %r14
+     127: 49 83 fe 58                  	cmpq	$0x58, %r14
+     12b: 0f 84 c9 00 00 00            	je	0x1fa <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x1fa>
+     131: f2 42 0f 10 0c 37            	movsd	(%rdi,%r14), %xmm1
+     137: 66 0f 28 c7                  	movapd	%xmm7, %xmm0
+     13b: f2 43 0f 5c 04 3e            	subsd	(%r14,%r15), %xmm0
+     141: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     145: 76 b9                        	jbe	0x100 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x100>
+     147: 66 41 0f 28 c0               	movapd	%xmm8, %xmm0
+     14c: f2 43 0f 5c 44 3e 58         	subsd	0x58(%r14,%r15), %xmm0
+     153: b8 01 00 00 00               	movl	$0x1, %eax
+     158: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     15c: 76 a4                        	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     15e: 66 41 0f 28 c1               	movapd	%xmm9, %xmm0
+     163: f2 43 0f 5c 84 3e b0 00 00 00	subsd	0xb0(%r14,%r15), %xmm0
+     16d: b8 02 00 00 00               	movl	$0x2, %eax
+     172: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     176: 76 8a                        	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     178: 66 41 0f 28 c2               	movapd	%xmm10, %xmm0
+     17d: f2 43 0f 5c 84 3e 08 01 00 00	subsd	0x108(%r14,%r15), %xmm0
+     187: b8 03 00 00 00               	movl	$0x3, %eax
+     18c: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     190: 0f 86 6c ff ff ff            	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     196: 66 41 0f 28 c3               	movapd	%xmm11, %xmm0
+     19b: f2 43 0f 5c 84 3e 60 01 00 00	subsd	0x160(%r14,%r15), %xmm0
+     1a5: b8 04 00 00 00               	movl	$0x4, %eax
+     1aa: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     1ae: 0f 86 4e ff ff ff            	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     1b4: 66 41 0f 28 c4               	movapd	%xmm12, %xmm0
+     1b9: f2 43 0f 5c 84 3e b8 01 00 00	subsd	0x1b8(%r14,%r15), %xmm0
+     1c3: b8 05 00 00 00               	movl	$0x5, %eax
+     1c8: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     1cc: 0f 86 30 ff ff ff            	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     1d2: 66 41 0f 28 c5               	movapd	%xmm13, %xmm0
+     1d7: f2 43 0f 5c 84 3e 10 02 00 00	subsd	0x210(%r14,%r15), %xmm0
+     1e1: b8 06 00 00 00               	movl	$0x6, %eax
+     1e6: 66 0f 2e c8                  	ucomisd	%xmm0, %xmm1
+     1ea: 0f 86 12 ff ff ff            	jbe	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     1f0: b8 07 00 00 00               	movl	$0x7, %eax
+     1f5: e9 08 ff ff ff               	jmp	0x102 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x102>
+     1fa: f2 0f 10 44 24 30            	movsd	0x30(%rsp), %xmm0
+     200: f2 0f 10 74 24 60            	movsd	0x60(%rsp), %xmm6
+     206: f2 44 0f 10 54 24 78         	movsd	0x78(%rsp), %xmm10
+     20d: f2 44 0f 58 94 24 80 00 00 00	addsd	0x80(%rsp), %xmm10
+     217: f2 0f 58 74 24 68            	addsd	0x68(%rsp), %xmm6
+     21d: f2 0f 58 74 24 70            	addsd	0x70(%rsp), %xmm6
+     223: f2 0f 58 44 24 38            	addsd	0x38(%rsp), %xmm0
+     229: f2 0f 58 44 24 40            	addsd	0x40(%rsp), %xmm0
+     22f: f2 0f 58 44 24 48            	addsd	0x48(%rsp), %xmm0
+     235: f2 0f 58 44 24 50            	addsd	0x50(%rsp), %xmm0
+     23b: f2 0f 58 44 24 58            	addsd	0x58(%rsp), %xmm0
+     241: 66 45 0f 57 c0               	xorpd	%xmm8, %xmm8
+     246: 66 41 0f 2e c0               	ucomisd	%xmm8, %xmm0
+     24b: 66 45 0f 57 c9               	xorpd	%xmm9, %xmm9
+     250: 0f 87 dc 02 00 00            	ja	0x532 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x532>
+     256: 66 41 0f 2e f0               	ucomisd	%xmm8, %xmm6
+     25b: 0f 87 ef 02 00 00            	ja	0x550 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x550>
+     261: 66 0f 57 f6                  	xorpd	%xmm6, %xmm6
+     265: 66 44 0f 2e d6               	ucomisd	%xmm6, %xmm10
+     26a: 66 0f 57 ff                  	xorpd	%xmm7, %xmm7
+     26e: 76 16                        	jbe	0x286 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x286>
+     270: 66 41 0f 28 c2               	movapd	%xmm10, %xmm0
+     275: e8 00 00 00 00               	callq	0x27a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x27a>
+		0000000000000276:  IMAGE_REL_AMD64_REL32	log10
+     27a: 66 0f 28 f8                  	movapd	%xmm0, %xmm7
+     27e: f2 0f 59 3d 00 00 00 00      	mulsd	(%rip), %xmm7           # 0x286 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x286>
+		0000000000000282:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     286: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     28a: 66 0f 11 86 98 00 00 00      	movupd	%xmm0, 0x98(%rsi)
+     292: 66 0f 11 86 88 00 00 00      	movupd	%xmm0, 0x88(%rsi)
+     29a: 66 0f 11 46 78               	movupd	%xmm0, 0x78(%rsi)
+     29f: 66 0f 11 46 68               	movupd	%xmm0, 0x68(%rsi)
+     2a4: 66 0f 11 46 58               	movupd	%xmm0, 0x58(%rsi)
+     2a9: 66 0f 11 46 48               	movupd	%xmm0, 0x48(%rsi)
+     2ae: 66 0f 11 46 38               	movupd	%xmm0, 0x38(%rsi)
+     2b3: 66 0f 11 46 28               	movupd	%xmm0, 0x28(%rsi)
+     2b8: 66 0f 11 46 18               	movupd	%xmm0, 0x18(%rsi)
+     2bd: 84 db                        	testb	%bl, %bl
+     2bf: 0f 85 ba 02 00 00            	jne	0x57f <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x57f>
+     2c5: 66 44 0f 2e 0d 00 00 00 00   	ucomisd	(%rip), %xmm9           # 0x2ce <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2ce>
+		00000000000002ca:  IMAGE_REL_AMD64_REL32	__real@403e000000000000
+     2ce: 0f 87 bf 02 00 00            	ja	0x593 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x593>
+     2d4: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     2d8: 84 db                        	testb	%bl, %bl
+     2da: 0f 85 21 03 00 00            	jne	0x601 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x601>
+     2e0: 66 44 0f 2e 05 00 00 00 00   	ucomisd	(%rip), %xmm8           # 0x2e9 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2e9>
+		00000000000002e5:  IMAGE_REL_AMD64_REL32	__real@4032000000000000
+     2e9: 0f 87 26 03 00 00            	ja	0x615 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x615>
+     2ef: f2 0f 11 46 08               	movsd	%xmm0, 0x8(%rsi)
+     2f4: 84 db                        	testb	%bl, %bl
+     2f6: 0f 85 84 03 00 00            	jne	0x680 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x680>
+     2fc: f2 0f 11 74 24 28            	movsd	%xmm6, 0x28(%rsp)
+     302: 66 0f 2e 3d 00 00 00 00      	ucomisd	(%rip), %xmm7           # 0x30a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x30a>
+		0000000000000306:  IMAGE_REL_AMD64_REL32	__real@4028000000000000
+     30a: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     30e: 76 5a                        	jbe	0x36a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x36a>
+     310: f2 0f 58 3d 00 00 00 00      	addsd	(%rip), %xmm7           # 0x318 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x318>
+		0000000000000314:  IMAGE_REL_AMD64_REL32	__real@3fe99999a0000000
+     318: f2 0f 58 3d 00 00 00 00      	addsd	(%rip), %xmm7           # 0x320 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x320>
+		000000000000031c:  IMAGE_REL_AMD64_REL32	__real@c028000000000000
+     320: f2 0f 59 3d 00 00 00 00      	mulsd	(%rip), %xmm7           # 0x328 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x328>
+		0000000000000324:  IMAGE_REL_AMD64_REL32	__real@3fb999999999999a
+     328: f2 0f 10 05 00 00 00 00      	movsd	(%rip), %xmm0           # 0x330 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x330>
+		000000000000032c:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     330: 66 0f 28 cf                  	movapd	%xmm7, %xmm1
+     334: e8 00 00 00 00               	callq	0x339 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x339>
+		0000000000000335:  IMAGE_REL_AMD64_REL32	pow
+     339: f2 0f 10 0d 00 00 00 00      	movsd	(%rip), %xmm1           # 0x341 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x341>
+		000000000000033d:  IMAGE_REL_AMD64_REL32	__real@3fd0000000000000
+     341: f2 0f 59 c1                  	mulsd	%xmm1, %xmm0
+     345: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x34d <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x34d>
+		0000000000000349:  IMAGE_REL_AMD64_REL32	__real@3fe8000000000000
+     34d: e8 00 00 00 00               	callq	0x352 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x352>
+		000000000000034e:  IMAGE_REL_AMD64_REL32	pow
+     352: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x35a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x35a>
+		0000000000000356:  IMAGE_REL_AMD64_REL32	__real@bff0000000000000
+     35a: f2 0f 59 05 00 00 00 00      	mulsd	(%rip), %xmm0           # 0x362 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x362>
+		000000000000035e:  IMAGE_REL_AMD64_REL32	__real@3fc037ad988eb133
+     362: 66 0f 57 c9                  	xorpd	%xmm1, %xmm1
+     366: f2 0f 5f c1                  	maxsd	%xmm1, %xmm0
+     36a: f2 0f 11 46 10               	movsd	%xmm0, 0x10(%rsi)
+     36f: 45 31 f6                     	xorl	%r14d, %r14d
+     372: 4c 8d 3d 00 00 00 00         	leaq	(%rip), %r15            # 0x379 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x379>
+		0000000000000375:  IMAGE_REL_AMD64_REL32	anon.8153b52c8608a354981f43b07844fffd.9
+     379: 4c 8d 25 00 00 00 00         	leaq	(%rip), %r12            # 0x380 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x380>
+		000000000000037c:  IMAGE_REL_AMD64_REL32	anon.8153b52c8608a354981f43b07844fffd.10
+     380: 4c 8d 2d 00 00 00 00         	leaq	(%rip), %r13            # 0x387 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x387>
+		0000000000000383:  IMAGE_REL_AMD64_REL32	anon.8153b52c8608a354981f43b07844fffd.17
+     387: 48 8d 2d 00 00 00 00         	leaq	(%rip), %rbp            # 0x38e <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x38e>
+		000000000000038a:  IMAGE_REL_AMD64_REL32	anon.8153b52c8608a354981f43b07844fffd.18
+     38e: f2 44 0f 10 25 00 00 00 00   	movsd	(%rip), %xmm12          # 0x397 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x397>
+		0000000000000393:  IMAGE_REL_AMD64_REL32	__real@3f9999999999999a
+     397: f2 0f 10 3d 00 00 00 00      	movsd	(%rip), %xmm7           # 0x39f <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x39f>
+		000000000000039b:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     39f: f2 44 0f 10 2d 00 00 00 00   	movsd	(%rip), %xmm13          # 0x3a8 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3a8>
+		00000000000003a4:  IMAGE_REL_AMD64_REL32	__real@3fb0418940000000
+     3a8: f2 44 0f 10 35 00 00 00 00   	movsd	(%rip), %xmm14          # 0x3b1 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3b1>
+		00000000000003ad:  IMAGE_REL_AMD64_REL32	__real@3fb999999999999a
+     3b1: f2 44 0f 10 05 00 00 00 00   	movsd	(%rip), %xmm8           # 0x3ba <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3ba>
+		00000000000003b6:  IMAGE_REL_AMD64_REL32	__real@3fd0000000000000
+     3ba: f2 44 0f 10 3d 00 00 00 00   	movsd	(%rip), %xmm15          # 0x3c3 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3c3>
+		00000000000003bf:  IMAGE_REL_AMD64_REL32	__real@3fe8000000000000
+     3c3: f2 0f 10 35 00 00 00 00      	movsd	(%rip), %xmm6           # 0x3cb <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3cb>
+		00000000000003c7:  IMAGE_REL_AMD64_REL32	__real@bff0000000000000
+     3cb: eb 1b                        	jmp	0x3e8 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3e8>
+     3cd: 0f 1f 00                     	nopl	(%rax)
+     3d0: f2 42 0f 11 44 36 18         	movsd	%xmm0, 0x18(%rsi,%r14)
+     3d7: 49 83 c6 08                  	addq	$0x8, %r14
+     3db: 49 81 fe 88 00 00 00         	cmpq	$0x88, %r14
+     3e2: 0f 84 a7 00 00 00            	je	0x48f <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x48f>
+     3e8: f2 46 0f 10 4c 37 58         	movsd	0x58(%rdi,%r14), %xmm9
+     3ef: f2 47 0f 5c 4c 3e 18         	subsd	0x18(%r14,%r15), %xmm9
+     3f6: 84 db                        	testb	%bl, %bl
+     3f8: 75 16                        	jne	0x410 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x410>
+     3fa: f2 47 0f 10 5c 2e 18         	movsd	0x18(%r14,%r13), %xmm11
+     401: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     405: 66 45 0f 2e cb               	ucomisd	%xmm11, %xmm9
+     40a: 76 c4                        	jbe	0x3d0 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3d0>
+     40c: eb 1b                        	jmp	0x429 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x429>
+     40e: 66 90                        	nop
+     410: f2 47 0f 58 4c 26 18         	addsd	0x18(%r14,%r12), %xmm9
+     417: f2 47 0f 10 5c 2e 18         	movsd	0x18(%r14,%r13), %xmm11
+     41e: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     422: 66 45 0f 2e cb               	ucomisd	%xmm11, %xmm9
+     427: 76 a7                        	jbe	0x3d0 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3d0>
+     429: f2 45 0f 5c 4c 2e 18         	subsd	0x18(%r14,%rbp), %xmm9
+     430: 66 41 0f 28 cb               	movapd	%xmm11, %xmm1
+     435: f2 41 0f 59 cc               	mulsd	%xmm12, %xmm1
+     43a: 66 0f 28 c7                  	movapd	%xmm7, %xmm0
+     43e: e8 00 00 00 00               	callq	0x443 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x443>
+		000000000000043f:  IMAGE_REL_AMD64_REL32	pow
+     443: 66 44 0f 28 d0               	movapd	%xmm0, %xmm10
+     448: f2 45 0f 59 d5               	mulsd	%xmm13, %xmm10
+     44d: f2 45 0f 5c cb               	subsd	%xmm11, %xmm9
+     452: f2 45 0f 59 ce               	mulsd	%xmm14, %xmm9
+     457: 66 0f 28 c7                  	movapd	%xmm7, %xmm0
+     45b: 66 41 0f 28 c9               	movapd	%xmm9, %xmm1
+     460: e8 00 00 00 00               	callq	0x465 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x465>
+		0000000000000461:  IMAGE_REL_AMD64_REL32	pow
+     465: f2 41 0f 59 c0               	mulsd	%xmm8, %xmm0
+     46a: f2 41 0f 58 c7               	addsd	%xmm15, %xmm0
+     46f: 66 41 0f 28 c8               	movapd	%xmm8, %xmm1
+     474: e8 00 00 00 00               	callq	0x479 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x479>
+		0000000000000475:  IMAGE_REL_AMD64_REL32	pow
+     479: f2 0f 58 c6                  	addsd	%xmm6, %xmm0
+     47d: f2 41 0f 59 c2               	mulsd	%xmm10, %xmm0
+     482: 66 0f 57 c9                  	xorpd	%xmm1, %xmm1
+     486: f2 0f 5f c1                  	maxsd	%xmm1, %xmm0
+     48a: e9 41 ff ff ff               	jmp	0x3d0 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x3d0>
+     48f: f2 0f 10 0d 00 00 00 00      	movsd	(%rip), %xmm1           # 0x497 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x497>
+		0000000000000493:  IMAGE_REL_AMD64_REL32	__real@3fc999999999999a
+     497: f2 0f 10 74 24 28            	movsd	0x28(%rsp), %xmm6
+     49d: 66 0f 28 c6                  	movapd	%xmm6, %xmm0
+     4a1: e8 00 00 00 00               	callq	0x4a6 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x4a6>
+		00000000000004a2:  IMAGE_REL_AMD64_REL32	pow
+     4a6: f2 0f 59 05 00 00 00 00      	mulsd	(%rip), %xmm0           # 0x4ae <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x4ae>
+		00000000000004aa:  IMAGE_REL_AMD64_REL32	__real@3fd47ae140000000
+     4ae: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x4b6 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x4b6>
+		00000000000004b2:  IMAGE_REL_AMD64_REL32	__real@3fd99999a0000000
+     4b6: f2 0f 5d 05 00 00 00 00      	minsd	(%rip), %xmm0           # 0x4be <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x4be>
+		00000000000004ba:  IMAGE_REL_AMD64_REL32	__real@3ff0000000000000
+     4be: f2 0f 59 c6                  	mulsd	%xmm6, %xmm0
+     4c2: f2 0f 11 06                  	movsd	%xmm0, (%rsi)
+     4c6: 0f 28 b4 24 90 00 00 00      	movaps	0x90(%rsp), %xmm6
+     4ce: 0f 28 bc 24 a0 00 00 00      	movaps	0xa0(%rsp), %xmm7
+     4d6: 44 0f 28 84 24 b0 00 00 00   	movaps	0xb0(%rsp), %xmm8
+     4df: 44 0f 28 8c 24 c0 00 00 00   	movaps	0xc0(%rsp), %xmm9
+     4e8: 44 0f 28 94 24 d0 00 00 00   	movaps	0xd0(%rsp), %xmm10
+     4f1: 44 0f 28 9c 24 e0 00 00 00   	movaps	0xe0(%rsp), %xmm11
+     4fa: 44 0f 28 a4 24 f0 00 00 00   	movaps	0xf0(%rsp), %xmm12
+     503: 44 0f 28 ac 24 00 01 00 00   	movaps	0x100(%rsp), %xmm13
+     50c: 44 0f 28 b4 24 10 01 00 00   	movaps	0x110(%rsp), %xmm14
+     515: 44 0f 28 bc 24 20 01 00 00   	movaps	0x120(%rsp), %xmm15
+     51e: 48 81 c4 38 01 00 00         	addq	$0x138, %rsp            # imm = 0x138
+     525: 5b                           	popq	%rbx
+     526: 5d                           	popq	%rbp
+     527: 5f                           	popq	%rdi
+     528: 5e                           	popq	%rsi
+     529: 41 5c                        	popq	%r12
+     52b: 41 5d                        	popq	%r13
+     52d: 41 5e                        	popq	%r14
+     52f: 41 5f                        	popq	%r15
+     531: c3                           	retq
+     532: e8 00 00 00 00               	callq	0x537 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x537>
+		0000000000000533:  IMAGE_REL_AMD64_REL32	log10
+     537: 66 44 0f 28 c8               	movapd	%xmm0, %xmm9
+     53c: f2 44 0f 59 0d 00 00 00 00   	mulsd	(%rip), %xmm9           # 0x545 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x545>
+		0000000000000541:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     545: 66 41 0f 2e f0               	ucomisd	%xmm8, %xmm6
+     54a: 0f 86 11 fd ff ff            	jbe	0x261 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x261>
+     550: 66 0f 28 c6                  	movapd	%xmm6, %xmm0
+     554: e8 00 00 00 00               	callq	0x559 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x559>
+		0000000000000555:  IMAGE_REL_AMD64_REL32	log10
+     559: 66 44 0f 28 c0               	movapd	%xmm0, %xmm8
+     55e: f2 44 0f 59 05 00 00 00 00   	mulsd	(%rip), %xmm8           # 0x567 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x567>
+		0000000000000563:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     567: 66 0f 57 f6                  	xorpd	%xmm6, %xmm6
+     56b: 66 44 0f 2e d6               	ucomisd	%xmm6, %xmm10
+     570: 66 0f 57 ff                  	xorpd	%xmm7, %xmm7
+     574: 0f 87 f6 fc ff ff            	ja	0x270 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x270>
+     57a: e9 07 fd ff ff               	jmp	0x286 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x286>
+     57f: f2 44 0f 58 ce               	addsd	%xmm6, %xmm9
+     584: 66 44 0f 2e 0d 00 00 00 00   	ucomisd	(%rip), %xmm9           # 0x58d <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x58d>
+		0000000000000589:  IMAGE_REL_AMD64_REL32	__real@403e000000000000
+     58d: 0f 86 41 fd ff ff            	jbe	0x2d4 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2d4>
+     593: f2 0f 10 35 00 00 00 00      	movsd	(%rip), %xmm6           # 0x59b <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x59b>
+		0000000000000597:  IMAGE_REL_AMD64_REL32	__real@3fd0000000000000
+     59b: f2 44 0f 58 ce               	addsd	%xmm6, %xmm9
+     5a0: f2 44 0f 58 0d 00 00 00 00   	addsd	(%rip), %xmm9           # 0x5a9 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5a9>
+		00000000000005a5:  IMAGE_REL_AMD64_REL32	__real@c03e000000000000
+     5a9: f2 44 0f 59 0d 00 00 00 00   	mulsd	(%rip), %xmm9           # 0x5b2 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5b2>
+		00000000000005ae:  IMAGE_REL_AMD64_REL32	__real@3fb999999999999a
+     5b2: f2 0f 10 05 00 00 00 00      	movsd	(%rip), %xmm0           # 0x5ba <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5ba>
+		00000000000005b6:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     5ba: 66 41 0f 28 c9               	movapd	%xmm9, %xmm1
+     5bf: e8 00 00 00 00               	callq	0x5c4 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5c4>
+		00000000000005c0:  IMAGE_REL_AMD64_REL32	pow
+     5c4: f2 0f 59 c6                  	mulsd	%xmm6, %xmm0
+     5c8: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x5d0 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5d0>
+		00000000000005cc:  IMAGE_REL_AMD64_REL32	__real@3fe8000000000000
+     5d0: 66 0f 28 ce                  	movapd	%xmm6, %xmm1
+     5d4: e8 00 00 00 00               	callq	0x5d9 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5d9>
+		00000000000005d5:  IMAGE_REL_AMD64_REL32	pow
+     5d9: 66 0f 28 f0                  	movapd	%xmm0, %xmm6
+     5dd: f2 0f 58 35 00 00 00 00      	addsd	(%rip), %xmm6           # 0x5e5 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5e5>
+		00000000000005e1:  IMAGE_REL_AMD64_REL32	__real@bff0000000000000
+     5e5: f2 0f 59 35 00 00 00 00      	mulsd	(%rip), %xmm6           # 0x5ed <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x5ed>
+		00000000000005e9:  IMAGE_REL_AMD64_REL32	__real@3fd6da82656064fe
+     5ed: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     5f1: f2 0f 5f f0                  	maxsd	%xmm0, %xmm6
+     5f5: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     5f9: 84 db                        	testb	%bl, %bl
+     5fb: 0f 84 df fc ff ff            	je	0x2e0 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2e0>
+     601: f2 44 0f 58 c0               	addsd	%xmm0, %xmm8
+     606: 66 44 0f 2e 05 00 00 00 00   	ucomisd	(%rip), %xmm8           # 0x60f <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x60f>
+		000000000000060b:  IMAGE_REL_AMD64_REL32	__real@4032000000000000
+     60f: 0f 86 da fc ff ff            	jbe	0x2ef <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2ef>
+     615: f2 44 0f 58 05 00 00 00 00   	addsd	(%rip), %xmm8           # 0x61e <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x61e>
+		000000000000061a:  IMAGE_REL_AMD64_REL32	__real@3fe3333340000000
+     61e: f2 44 0f 58 05 00 00 00 00   	addsd	(%rip), %xmm8           # 0x627 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x627>
+		0000000000000623:  IMAGE_REL_AMD64_REL32	__real@c032000000000000
+     627: f2 44 0f 59 05 00 00 00 00   	mulsd	(%rip), %xmm8           # 0x630 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x630>
+		000000000000062c:  IMAGE_REL_AMD64_REL32	__real@3fb999999999999a
+     630: f2 0f 10 05 00 00 00 00      	movsd	(%rip), %xmm0           # 0x638 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x638>
+		0000000000000634:  IMAGE_REL_AMD64_REL32	__real@4024000000000000
+     638: 66 41 0f 28 c8               	movapd	%xmm8, %xmm1
+     63d: e8 00 00 00 00               	callq	0x642 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x642>
+		000000000000063e:  IMAGE_REL_AMD64_REL32	pow
+     642: f2 0f 10 0d 00 00 00 00      	movsd	(%rip), %xmm1           # 0x64a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x64a>
+		0000000000000646:  IMAGE_REL_AMD64_REL32	__real@3fd0000000000000
+     64a: f2 0f 59 c1                  	mulsd	%xmm1, %xmm0
+     64e: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x656 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x656>
+		0000000000000652:  IMAGE_REL_AMD64_REL32	__real@3fe8000000000000
+     656: e8 00 00 00 00               	callq	0x65b <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x65b>
+		0000000000000657:  IMAGE_REL_AMD64_REL32	pow
+     65b: f2 0f 58 05 00 00 00 00      	addsd	(%rip), %xmm0           # 0x663 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x663>
+		000000000000065f:  IMAGE_REL_AMD64_REL32	__real@bff0000000000000
+     663: f2 0f 59 05 00 00 00 00      	mulsd	(%rip), %xmm0           # 0x66b <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x66b>
+		0000000000000667:  IMAGE_REL_AMD64_REL32	__real@3fc6e866b5314d9a
+     66b: 66 0f 57 c9                  	xorpd	%xmm1, %xmm1
+     66f: f2 0f 5f c1                  	maxsd	%xmm1, %xmm0
+     673: f2 0f 11 46 08               	movsd	%xmm0, 0x8(%rsi)
+     678: 84 db                        	testb	%bl, %bl
+     67a: 0f 84 7c fc ff ff            	je	0x2fc <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x2fc>
+     680: f2 0f 58 3d 00 00 00 00      	addsd	(%rip), %xmm7           # 0x688 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x688>
+		0000000000000684:  IMAGE_REL_AMD64_REL32	__real@3fe0000000000000
+     688: f2 0f 11 74 24 28            	movsd	%xmm6, 0x28(%rsp)
+     68e: 66 0f 2e 3d 00 00 00 00      	ucomisd	(%rip), %xmm7           # 0x696 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x696>
+		0000000000000692:  IMAGE_REL_AMD64_REL32	__real@4028000000000000
+     696: 66 0f 57 c0                  	xorpd	%xmm0, %xmm0
+     69a: 0f 87 70 fc ff ff            	ja	0x310 <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x310>
+     6a0: e9 c5 fc ff ff               	jmp	0x36a <_RNvNtNtCs7U3ifxJk1LS_8soneflow4core13main_loudness23main_loudness_unchecked.llvm.1636561584486773333+0x36a>
+
+Disassembly of section .text:
+

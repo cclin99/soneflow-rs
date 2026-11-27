@@ -1,0 +1,12 @@
+COMMAND ["cargo", "build", "-p", "soneflow-ffi", "--release"]
+CWD <AUDIT_ROOT>\repo
+   Compiling either v1.16.0
+   Compiling syn v2.0.119
+   Compiling rayon v1.12.0
+   Compiling thiserror-impl v1.0.69
+   Compiling thiserror v1.0.69
+   Compiling soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+   Compiling soneflow-ffi v0.2.1 (<AUDIT_ROOT>\repo\soneflow-ffi)
+    Finished `release` profile [optimized] target(s) in 5.76s
+
+EXIT 0

@@ -1,0 +1,57 @@
+COMMAND ["cargo", "test", "-p", "soneflow-ffi", "--features", "test-panic"]
+CWD <AUDIT_ROOT>\repo
+   Compiling either v1.16.0
+   Compiling thiserror v1.0.69
+   Compiling rayon v1.12.0
+   Compiling soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+   Compiling soneflow-ffi v0.2.1 (<AUDIT_ROOT>\repo\soneflow-ffi)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.18s
+     Running unittests src\lib.rs (<AUDIT_ROOT>\target-gates\debug\deps\soneflow_ffi-11de46ea50e36c87.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\ffi.rs (<AUDIT_ROOT>\target-gates\debug\deps\ffi-09101ca1846f71a9.exe)
+
+running 17 tests
+test field_constants_are_frozen ... ok
+test out_frames_query_forwards_core_at_representative_boundaries ... ok
+test stream_layout_flags_and_null_paths_are_frozen ... ok
+test out_frames_query_never_panics_below_min_length ... ok
+test stream_max_frames_forwards_rust_contract ... ok
+test null_pointers_return_err_null ... ok
+test injected_panic_returns_err_panic_not_abort ... ok
+test stream_residual_flags_null_handle_returns_zero ... ok
+test stream_path_panic_is_caught_at_ffi_boundary ... ok
+test rayon_worker_panic_is_caught_at_ffi_boundary ... ok
+test stream_rejects_small_output_without_consuming_input ... ok
+test error_mapping_matches_spec_table ... ok
+test zwtv_diffuse_field_matches_rust_api ... ok
+test zwtv_happy_path_matches_rust_api_bitwise ... ok
+test stream_tail_nonfinite_is_exposed_as_residual_flag ... ok
+test zwst_happy_path_matches_rust_api_bitwise ... ok
+test stream_matches_rust_stream_bitwise ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+
+     Running tests\quality_v1.rs (<AUDIT_ROOT>\target-gates\debug\deps\quality_v1-2bd3cd2632c8ece7.exe)
+
+running 6 tests
+test null_precedes_version_and_zeroes_only_written ... ok
+test quality_layout_is_additive ... ok
+test environment::environment_errors_preserve_payloads_and_creation_is_sticky ... ok
+test checked_buffers_versions_and_lifecycle_are_atomic ... ok
+test ffi_quality_matches_rust_on_signed_synthetic_chunks ... ok
+test batch_numeric_error_uses_code_five_without_output_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+   Doc-tests soneflow_ffi
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+EXIT 0

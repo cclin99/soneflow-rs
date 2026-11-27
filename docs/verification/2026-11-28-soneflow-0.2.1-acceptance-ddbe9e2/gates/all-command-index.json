@@ -1,0 +1,701 @@
+[
+  {
+    "name": "00-versions",
+    "args": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "cargo -V; rustc -Vv; cbindgen --version; cargo llvm-cov --version; cargo crap --version; rust-code-analysis-cli --version; python --version"
+    ],
+    "exit": 0,
+    "seconds": 0.482654333114624,
+    "ledger": "results.json",
+    "log": "00-versions.log"
+  },
+  {
+    "name": "01-fmt",
+    "args": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.4626944065093994,
+    "ledger": "results.json",
+    "log": "01-fmt.log"
+  },
+  {
+    "name": "02-product-debug",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--lib",
+      "--test",
+      "api_errors",
+      "--test",
+      "hash_gate",
+      "--test",
+      "l4_batch_fault",
+      "--test",
+      "nl_zero_init",
+      "--test",
+      "output_grid",
+      "--test",
+      "py_contract_dump",
+      "--test",
+      "simd_dispatch",
+      "--test",
+      "stream_alloc",
+      "--test",
+      "stream_fault_rt",
+      "--test",
+      "stream_no_rayon"
+    ],
+    "exit": 0,
+    "seconds": 184.77630186080933,
+    "ledger": "results.json",
+    "log": "02-product-debug.log"
+  },
+  {
+    "name": "03-hash-release",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--release",
+      "--test",
+      "hash_gate"
+    ],
+    "exit": 0,
+    "seconds": 41.63081407546997,
+    "ledger": "results.json",
+    "log": "03-hash-release.log"
+  },
+  {
+    "name": "04-internals-debug",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--features",
+      "internals",
+      "--test",
+      "core_characterization",
+      "--test",
+      "determinism",
+      "--test",
+      "low_freq_correction",
+      "--test",
+      "main_loudness_rounding",
+      "--test",
+      "simd_parity",
+      "--test",
+      "stream_contract",
+      "--test",
+      "stream_scalar",
+      "--test",
+      "zup_eps"
+    ],
+    "exit": 0,
+    "seconds": 13.951672315597534,
+    "ledger": "results.json",
+    "log": "04-internals-debug.log"
+  },
+  {
+    "name": "05-clippy-default",
+    "args": [
+      "cargo",
+      "clippy",
+      "-p",
+      "soneflow",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 10.385472536087036,
+    "ledger": "results.json",
+    "log": "05-clippy-default.log"
+  },
+  {
+    "name": "06-doctest-default",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--doc"
+    ],
+    "exit": 0,
+    "seconds": 19.226609706878662,
+    "ledger": "results.json",
+    "log": "06-doctest-default.log"
+  },
+  {
+    "name": "07-doc-default",
+    "args": [
+      "cargo",
+      "doc",
+      "-p",
+      "soneflow",
+      "--no-deps"
+    ],
+    "exit": 0,
+    "seconds": 3.4359652996063232,
+    "ledger": "results.json",
+    "log": "07-doc-default.log"
+  },
+  {
+    "name": "05-clippy-internals",
+    "args": [
+      "cargo",
+      "clippy",
+      "-p",
+      "soneflow",
+      "--all-targets",
+      "--features",
+      "internals",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 2.5491979122161865,
+    "ledger": "results.json",
+    "log": "05-clippy-internals.log"
+  },
+  {
+    "name": "06-doctest-internals",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--doc",
+      "--features",
+      "internals"
+    ],
+    "exit": 0,
+    "seconds": 7.28157114982605,
+    "ledger": "results.json",
+    "log": "06-doctest-internals.log"
+  },
+  {
+    "name": "07-doc-internals",
+    "args": [
+      "cargo",
+      "doc",
+      "-p",
+      "soneflow",
+      "--no-deps",
+      "--features",
+      "internals"
+    ],
+    "exit": 0,
+    "seconds": 0.7473230361938477,
+    "ledger": "results.json",
+    "log": "07-doc-internals.log"
+  },
+  {
+    "name": "08-cli",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow",
+      "--example",
+      "cli"
+    ],
+    "exit": 0,
+    "seconds": 1.0315921306610107,
+    "ledger": "results.json",
+    "log": "08-cli.log"
+  },
+  {
+    "name": "09-ffi-clippy",
+    "args": [
+      "cargo",
+      "clippy",
+      "-p",
+      "soneflow-ffi",
+      "--all-targets",
+      "--all-features",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 1.107450008392334,
+    "ledger": "results.json",
+    "log": "09-ffi-clippy.log"
+  },
+  {
+    "name": "10-ffi-test",
+    "args": [
+      "cargo",
+      "test",
+      "-p",
+      "soneflow-ffi",
+      "--features",
+      "test-panic"
+    ],
+    "exit": 0,
+    "seconds": 7.690961599349976,
+    "ledger": "results.json",
+    "log": "10-ffi-test.log"
+  },
+  {
+    "name": "11-ffi-release",
+    "args": [
+      "cargo",
+      "build",
+      "-p",
+      "soneflow-ffi",
+      "--release"
+    ],
+    "exit": 0,
+    "seconds": 5.803535461425781,
+    "ledger": "results.json",
+    "log": "11-ffi-release.log"
+  },
+  {
+    "name": "12-py-clippy",
+    "args": [
+      "cargo",
+      "clippy",
+      "-p",
+      "soneflow-py",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 13.194128274917603,
+    "ledger": "results.json",
+    "log": "12-py-clippy.log"
+  },
+  {
+    "name": "13-doc-default-api",
+    "args": [
+      "cargo",
+      "doc",
+      "-p",
+      "soneflow",
+      "--no-deps"
+    ],
+    "exit": 0,
+    "seconds": 0.7929067611694336,
+    "ledger": "results.json",
+    "log": "13-doc-default-api.log"
+  },
+  {
+    "name": "14-public-api",
+    "args": [
+      "python",
+      "tools/public_api.py",
+      "--doc-dir",
+      "<AUDIT_ROOT>\\target-gates\\doc\\soneflow",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.1809999942779541,
+    "ledger": "results.json",
+    "log": "14-public-api.log"
+  },
+  {
+    "name": "15-tools-tests",
+    "args": [
+      "python",
+      "-m",
+      "unittest",
+      "-v",
+      "tools/test_arch_check.py",
+      "tools/test_redact_paths.py",
+      "tools/test_env_guards.py",
+      "tools/test_public_api.py",
+      "tools/test_contract_tests.py",
+      "tools/test_fnmetrics.py"
+    ],
+    "exit": 0,
+    "seconds": 14.678118705749512,
+    "ledger": "results.json",
+    "log": "15-tools-tests.log"
+  },
+  {
+    "name": "16-doc-pairs",
+    "args": [
+      "python",
+      "tools/doc_pairs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.07244634628295898,
+    "ledger": "results.json",
+    "log": "16-doc-pairs.log"
+  },
+  {
+    "name": "17-contracts",
+    "args": [
+      "python",
+      "tools/contract_tests.py"
+    ],
+    "exit": 0,
+    "seconds": 0.11102128028869629,
+    "ledger": "results.json",
+    "log": "17-contracts.log"
+  },
+  {
+    "name": "18-fnmetrics",
+    "args": [
+      "python",
+      "tools/fnmetrics.py",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 1.2960727214813232,
+    "ledger": "results.json",
+    "log": "18-fnmetrics.log"
+  },
+  {
+    "name": "19-cbindgen",
+    "args": [
+      "cbindgen",
+      "--config",
+      "cbindgen.toml",
+      "--crate",
+      "soneflow-ffi",
+      "--output",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\soneflow.generated.h"
+    ],
+    "exit": 0,
+    "seconds": 0.4088866710662842,
+    "ledger": "results.json",
+    "log": "19-cbindgen.log"
+  },
+  {
+    "name": "20-frozen-diff",
+    "args": [
+      "git",
+      "diff",
+      "82d1d61",
+      "ddbe9e2",
+      "--",
+      "soneflow/public-api.txt",
+      "soneflow-ffi/include/soneflow.h",
+      "soneflow/tests/hash_gate.rs",
+      "soneflow-py/tests/test_smoke.py",
+      "soneflow-py/tests/test_stream.py",
+      "soneflow-py/tests/test_quality_v1.py"
+    ],
+    "exit": 0,
+    "seconds": 0.017002582550048828,
+    "ledger": "results.json",
+    "log": "20-frozen-diff.log"
+  },
+  {
+    "name": "21-venv",
+    "args": [
+      "python",
+      "-m",
+      "venv",
+      "<AUDIT_ROOT>\\venv-gates"
+    ],
+    "exit": 0,
+    "seconds": 2.474764585494995,
+    "ledger": "results.json",
+    "log": "21-venv.log"
+  },
+  {
+    "name": "22-pip",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "maturin",
+      "pytest",
+      "numpy"
+    ],
+    "exit": 0,
+    "seconds": 0.9071905612945557,
+    "ledger": "results.json",
+    "log": "22-pip.log"
+  },
+  {
+    "name": "23-wheel",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-m",
+      "maturin",
+      "build",
+      "--release",
+      "--out",
+      "<AUDIT_ROOT>\\wheels-gates"
+    ],
+    "exit": 0,
+    "seconds": 142.85688757896423,
+    "ledger": "results.json",
+    "log": "23-wheel.log"
+  },
+  {
+    "name": "24-wheel-install",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "<AUDIT_ROOT>\\wheels-gates\\soneflow-0.2.1-cp39-abi3-win_amd64.whl"
+    ],
+    "exit": 0,
+    "seconds": 1.0647578239440918,
+    "ledger": "results.json",
+    "log": "24-wheel-install.log"
+  },
+  {
+    "name": "25-python-contract",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "tests/test_smoke.py",
+      "tests/test_stream.py",
+      "tests/test_quality_v1.py",
+      "-v"
+    ],
+    "exit": 0,
+    "seconds": 14.219466924667358,
+    "ledger": "results.json",
+    "log": "25-python-contract.log"
+  },
+  {
+    "name": "26-coverage-clean",
+    "args": [
+      "cargo",
+      "llvm-cov",
+      "clean",
+      "--workspace"
+    ],
+    "exit": 0,
+    "seconds": 0.31555962562561035,
+    "ledger": "results.json",
+    "log": "26-coverage-clean.log"
+  },
+  {
+    "name": "27-coverage-soneflow",
+    "args": [
+      "cargo",
+      "llvm-cov",
+      "--no-report",
+      "--release",
+      "-p",
+      "soneflow",
+      "--features",
+      "internals",
+      "--lib",
+      "--test",
+      "api_errors",
+      "--test",
+      "hash_gate",
+      "--test",
+      "l4_batch_fault",
+      "--test",
+      "nl_zero_init",
+      "--test",
+      "output_grid",
+      "--test",
+      "py_contract_dump",
+      "--test",
+      "simd_dispatch",
+      "--test",
+      "stream_alloc",
+      "--test",
+      "stream_fault_rt",
+      "--test",
+      "stream_no_rayon",
+      "--test",
+      "core_characterization",
+      "--test",
+      "determinism",
+      "--test",
+      "low_freq_correction",
+      "--test",
+      "main_loudness_rounding",
+      "--test",
+      "simd_parity",
+      "--test",
+      "stream_contract",
+      "--test",
+      "stream_scalar",
+      "--test",
+      "zup_eps"
+    ],
+    "exit": 0,
+    "seconds": 283.2403943538666,
+    "ledger": "results.json",
+    "log": "27-coverage-soneflow.log"
+  },
+  {
+    "name": "28-coverage-ffi",
+    "args": [
+      "cargo",
+      "llvm-cov",
+      "--no-report",
+      "--release",
+      "-p",
+      "soneflow-ffi"
+    ],
+    "exit": 0,
+    "seconds": 56.36162328720093,
+    "ledger": "results.json",
+    "log": "28-coverage-ffi.log"
+  },
+  {
+    "name": "29-lcov",
+    "args": [
+      "cargo",
+      "llvm-cov",
+      "report",
+      "--release",
+      "--lcov",
+      "--output-path",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\lcov.info"
+    ],
+    "exit": 0,
+    "seconds": 0.38761138916015625,
+    "ledger": "results.json",
+    "log": "29-lcov.log"
+  },
+  {
+    "name": "30-crap",
+    "args": [
+      "cargo",
+      "crap",
+      "-p",
+      "soneflow",
+      "-p",
+      "soneflow-ffi",
+      "--lcov",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\lcov.info",
+      "--format",
+      "json",
+      "--output",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\crap.json"
+    ],
+    "exit": 0,
+    "seconds": 0.16794562339782715,
+    "ledger": "results.json",
+    "log": "30-crap.log"
+  },
+  {
+    "name": "31-arch",
+    "args": [
+      "python",
+      "tools/arch_check.py",
+      "--crap",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\crap.json"
+    ],
+    "exit": 0,
+    "seconds": 5.613351106643677,
+    "ledger": "results.json",
+    "log": "31-arch.log"
+  },
+  {
+    "name": "32-ffi-c-smoke",
+    "args": [
+      "cmd",
+      "/c",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\smoke.cmd"
+    ],
+    "exit": 1,
+    "seconds": 1.689626932144165,
+    "ledger": "results-stage3.json",
+    "log": "32-ffi-c-smoke.log"
+  },
+  {
+    "name": "33-wheel-provenance",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-c",
+      "import soneflow,importlib.metadata; print(soneflow.__file__); print(importlib.metadata.version(\"soneflow\"))"
+    ],
+    "exit": 0,
+    "seconds": 0.1540052890777588,
+    "ledger": "results-stage3.json",
+    "log": "33-wheel-provenance.log"
+  },
+  {
+    "name": "34-ffi-c-smoke-retry",
+    "args": [
+      "cmd",
+      "/c",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\smoke-retry.cmd"
+    ],
+    "exit": 0,
+    "seconds": 25.6827073097229,
+    "ledger": "results-stage3-retry.json",
+    "log": "34-ffi-c-smoke-retry.log"
+  },
+  {
+    "name": "35-cbindgen-lf-config",
+    "args": [
+      "cbindgen",
+      "--config",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\cbindgen.lf.toml",
+      "--crate",
+      "soneflow-ffi",
+      "--output",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\soneflow.generated-lf.h"
+    ],
+    "exit": 0,
+    "seconds": 0.32116055488586426,
+    "ledger": "results-header-retry.json",
+    "log": "35-cbindgen-lf-config.log"
+  },
+  {
+    "name": "stage3-raw-header-assert",
+    "exit": 1,
+    "evidence": "r1-check.json",
+    "reason": "CRLF working tree vs Git LF; final resolution r1-header-final.json"
+  },
+  {
+    "name": "stage3-first-header-retry-assert",
+    "exit": 1,
+    "evidence": "r1-header-normalization.json",
+    "reason": "Two CRLF header-literal lines from working-tree config; final resolution r1-header-final.json"
+  },
+  {
+    "name": "header-lf-config-final-assert",
+    "exit": 0,
+    "evidence": "r1-header-final.json"
+  },
+  {
+    "name": "initial-docs-redaction",
+    "args": [
+      "python",
+      "tools/redact_paths.py",
+      "--check",
+      "docs"
+    ],
+    "exit": 0,
+    "observed": "clean before new evidence created"
+  },
+  {
+    "name": "prep-venv",
+    "exit": 0,
+    "log": "21-prep-venv.log"
+  },
+  {
+    "name": "prep-pip",
+    "exit": 0,
+    "log": "22-prep-pip.log"
+  }
+]

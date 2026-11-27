@@ -1,0 +1,15 @@
+COMMAND ["cmd", "/c", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\smoke.cmd"]
+CWD <AUDIT_ROOT>\smoke-gates
+'vswhere.exe' is not recognized as an internal or external command,
+operable program or batch file.
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.0
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+smoke.c
+<AUDIT_ROOT>\repo\soneflow-ffi\tests\smoke.c(1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+<AUDIT_ROOT>\repo\soneflow-ffi\include\soneflow.h(1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+'smoke.exe' is not recognized as an internal or external command,
+operable program or batch file.
+
+EXIT 1

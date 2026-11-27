@@ -1,0 +1,362 @@
+{
+  "extra_prefix_redaction": [
+    {
+      "file": "gates/00-versions.log",
+      "count": 1
+    },
+    {
+      "file": "gates/01-fmt.log",
+      "count": 1
+    },
+    {
+      "file": "gates/02-product-debug.log",
+      "count": 13
+    },
+    {
+      "file": "gates/03-hash-release.log",
+      "count": 3
+    },
+    {
+      "file": "gates/04-internals-debug.log",
+      "count": 10
+    },
+    {
+      "file": "gates/05-clippy-default.log",
+      "count": 2
+    },
+    {
+      "file": "gates/05-clippy-internals.log",
+      "count": 2
+    },
+    {
+      "file": "gates/06-doctest-default.log",
+      "count": 1
+    },
+    {
+      "file": "gates/06-doctest-internals.log",
+      "count": 1
+    },
+    {
+      "file": "gates/07-doc-default.log",
+      "count": 3
+    },
+    {
+      "file": "gates/07-doc-internals.log",
+      "count": 3
+    },
+    {
+      "file": "gates/08-cli.log",
+      "count": 3
+    },
+    {
+      "file": "gates/09-ffi-clippy.log",
+      "count": 3
+    },
+    {
+      "file": "gates/10-ffi-test.log",
+      "count": 6
+    },
+    {
+      "file": "gates/11-ffi-release.log",
+      "count": 3
+    },
+    {
+      "file": "gates/12-py-clippy.log",
+      "count": 3
+    },
+    {
+      "file": "gates/13-doc-default-api.log",
+      "count": 3
+    },
+    {
+      "file": "gates/14-public-api.log",
+      "count": 2
+    },
+    {
+      "file": "gates/15-tools-tests.log",
+      "count": 1
+    },
+    {
+      "file": "gates/16-doc-pairs.log",
+      "count": 1
+    },
+    {
+      "file": "gates/17-contracts.log",
+      "count": 1
+    },
+    {
+      "file": "gates/18-fnmetrics.log",
+      "count": 1
+    },
+    {
+      "file": "gates/19-cbindgen.log",
+      "count": 2
+    },
+    {
+      "file": "gates/20-frozen-diff.log",
+      "count": 1
+    },
+    {
+      "file": "gates/21-venv.log",
+      "count": 2
+    },
+    {
+      "file": "gates/22-pip.log",
+      "count": 11
+    },
+    {
+      "file": "gates/22-prep-pip.log",
+      "count": 1
+    },
+    {
+      "file": "gates/23-wheel.log",
+      "count": 6
+    },
+    {
+      "file": "gates/24-wheel-install.log",
+      "count": 6
+    },
+    {
+      "file": "gates/25-python-contract.log",
+      "count": 4
+    },
+    {
+      "file": "gates/26-coverage-clean.log",
+      "count": 1
+    },
+    {
+      "file": "gates/27-coverage-soneflow.log",
+      "count": 21
+    },
+    {
+      "file": "gates/28-coverage-ffi.log",
+      "count": 6
+    },
+    {
+      "file": "gates/29-lcov.log",
+      "count": 3
+    },
+    {
+      "file": "gates/30-crap.log",
+      "count": 14
+    },
+    {
+      "file": "gates/31-arch.log",
+      "count": 4
+    },
+    {
+      "file": "gates/32-ffi-c-smoke.log",
+      "count": 4
+    },
+    {
+      "file": "gates/33-wheel-provenance.log",
+      "count": 3
+    },
+    {
+      "file": "gates/34-ffi-c-smoke-retry.log",
+      "count": 4
+    },
+    {
+      "file": "gates/35-cbindgen-lf-config.log",
+      "count": 3
+    },
+    {
+      "file": "gates/all-command-index.json",
+      "count": 18
+    },
+    {
+      "file": "gates/crap.json",
+      "count": 490
+    },
+    {
+      "file": "gates/lcov.info",
+      "count": 55
+    },
+    {
+      "file": "gates/results-header-retry.json",
+      "count": 2
+    },
+    {
+      "file": "gates/results-stage3-retry.json",
+      "count": 1
+    },
+    {
+      "file": "gates/results-stage3.json",
+      "count": 2
+    },
+    {
+      "file": "gates/results.json",
+      "count": 13
+    },
+    {
+      "file": "gates/retry_stage3.py",
+      "count": 1
+    },
+    {
+      "file": "gates/run_gates.py",
+      "count": 1
+    },
+    {
+      "file": "gates/run_stage3.py",
+      "count": 4
+    },
+    {
+      "file": "gates/smoke-retry.cmd",
+      "count": 5
+    },
+    {
+      "file": "gates/smoke.cmd",
+      "count": 4
+    },
+    {
+      "file": "numerical/build-b-debug.log",
+      "count": 1
+    },
+    {
+      "file": "numerical/build-b-release.log",
+      "count": 1
+    },
+    {
+      "file": "numerical/build-c-debug.log",
+      "count": 1
+    },
+    {
+      "file": "numerical/build-c-release.log",
+      "count": 1
+    },
+    {
+      "file": "numerical/cache-build.log",
+      "count": 1
+    },
+    {
+      "file": "numerical/mutate.ps1",
+      "count": 1
+    },
+    {
+      "file": "numerical/mutation-debug.log",
+      "count": 2
+    },
+    {
+      "file": "numerical/original-source-sha256.txt",
+      "count": 2
+    },
+    {
+      "file": "numerical/restored-debug.log",
+      "count": 2
+    },
+    {
+      "file": "numerical/restored-release.log",
+      "count": 2
+    },
+    {
+      "file": "numerical/restored-source-sha256.txt",
+      "count": 2
+    },
+    {
+      "file": "numerical/run.ps1",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-1-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-1-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-2-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-2-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-3-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch1-3-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-1-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-1-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-2-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-2-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-3-base.log",
+      "count": 1
+    },
+    {
+      "file": "performance/batch2-3-new.log",
+      "count": 1
+    },
+    {
+      "file": "performance/build-base.log",
+      "count": 2
+    },
+    {
+      "file": "performance/build-new.log",
+      "count": 2
+    },
+    {
+      "file": "performance/objdump-base.txt",
+      "count": 18
+    },
+    {
+      "file": "performance/objdump-new.txt",
+      "count": 18
+    }
+  ],
+  "standard_redaction_passes": [
+    {
+      "arguments": [
+        "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2"
+      ],
+      "exit": 0,
+      "output": "0 file(s) changed\n"
+    },
+    {
+      "arguments": [
+        "--check",
+        "--strict",
+        "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2"
+      ],
+      "exit": 0,
+      "output": "clean\n"
+    }
+  ],
+  "format_inspection": {
+    "non_utf8": [],
+    "archive_or_executable": [],
+    "remaining_audit_root_paths": [],
+    "extensions_seen_before_sealing": {
+      ".txt": 24,
+      ".json": 73,
+      ".py": 11,
+      ".log": 67,
+      ".toml": 1,
+      ".info": 1,
+      ".md": 11,
+      ".cmd": 2,
+      ".h": 2,
+      ".csv": 17,
+      ".rs": 2,
+      ".ps1": 2
+    }
+  },
+  "meaning": "Delivery hashes describe redacted files. Source and binary hashes in evidence retain their original-input meaning."
+}

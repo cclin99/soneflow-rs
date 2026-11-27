@@ -1,0 +1,143 @@
+COMMAND ["python", "-m", "unittest", "-v", "tools/test_arch_check.py", "tools/test_redact_paths.py", "tools/test_env_guards.py", "tools/test_public_api.py", "tools/test_contract_tests.py", "tools/test_fnmetrics.py"]
+CWD <AUDIT_ROOT>\repo
+test_cc_limit_applies_only_inside_its_scope (tools.test_arch_check.ArchitectureGateBehavior.test_cc_limit_applies_only_inside_its_scope)
+Given CC 9 in core and CC 20 (CRAP 20) in app, then only the core function is reported. ... ok
+test_clean_layered_crate_passes (tools.test_arch_check.ArchitectureGateBehavior.test_clean_layered_crate_passes)
+Given core uses only tables and app uses core, when checked, then no violation. ... ok
+test_cli_returns_one_on_a_violation_and_writes_json (tools.test_arch_check.ArchitectureGateBehavior.test_cli_returns_one_on_a_violation_and_writes_json)
+Given a layer violation, when run from the command line, then exit code 1 and a JSON report. ... ok
+test_file_over_the_code_line_limit_is_reported (tools.test_arch_check.ArchitectureGateBehavior.test_file_over_the_code_line_limit_is_reported)
+Given 201 code lines in core, then the size limit reports the file. ... ok
+test_file_size_counts_only_non_test_code (tools.test_arch_check.ArchitectureGateBehavior.test_file_size_counts_only_non_test_code)
+Given 250 comment/blank lines, a test module and 10 code lines, then the size limit holds. ... ok
+test_forbidden_pattern_is_reported_with_its_line (tools.test_arch_check.ArchitectureGateBehavior.test_forbidden_pattern_is_reported_with_its_line)
+Given #[allow(clippy::too_many_arguments)] in core, then file and line are reported. ... ok
+test_global_crap_limit_applies_everywhere (tools.test_arch_check.ArchitectureGateBehavior.test_global_crap_limit_applies_everywhere)
+Given a function outside every scope with CRAP 31, then the global limit reports it. ... ok
+test_lower_layer_using_upper_layer_is_a_violation (tools.test_arch_check.ArchitectureGateBehavior.test_lower_layer_using_upper_layer_is_a_violation)
+Given core uses crate::app, then the edge core::a -> app is a layer violation. ... ok
+test_module_without_rule_is_a_violation_when_rules_are_required (tools.test_arch_check.ArchitectureGateBehavior.test_module_without_rule_is_a_violation_when_rules_are_required)
+Given a new top-level module without a layer rule, then it is reported. ... ok
+test_parent_child_mutual_use_is_a_cycle (tools.test_arch_check.ArchitectureGateBehavior.test_parent_child_mutual_use_is_a_cycle)
+Given parent uses a child item and the child uses super::K, then a cycle is reported. ... ok
+test_repository_rules_give_every_core_module_its_own_rule (tools.test_arch_check.ArchitectureGateBehavior.test_repository_rules_give_every_core_module_its_own_rule)
+R7a criterion 4': require_exact_rules covers core, and every core module has a rule of its own. ... ok
+test_repository_rules_hold_for_layers_cycles_size_and_patterns (tools.test_arch_check.ArchitectureGateBehavior.test_repository_rules_hold_for_layers_cycles_size_and_patterns)
+Given this repository and tools/arch_rules.toml, then layers, cycles, size and patterns hold. ... ok
+test_test_module_file_does_not_count_toward_size (tools.test_arch_check.ArchitectureGateBehavior.test_test_module_file_does_not_count_toward_size)
+Given a 201-line file brought in by `#[cfg(test)] mod tests;`, then the size limit holds. ... ok
+test_functions_in_test_module_files_are_not_gated (tools.test_arch_check.CrapTestModuleFiles.test_functions_in_test_module_files_are_not_gated)
+Given CRAP 42 in core/tests/helper.rs and 56 in core/x86_tests.rs, then crap passes. ... ok
+test_product_file_beside_test_modules_is_still_gated (tools.test_arch_check.CrapTestModuleFiles.test_product_file_beside_test_modules_is_still_gated)
+Given CRAP 56 in the product file core/a.rs, then crap reports it. ... ok
+test_a_crap_scope_without_functions_is_a_violation (tools.test_arch_check.GateHardening.test_a_crap_scope_without_functions_is_a_violation)
+I2: metrics with functions outside core only, then scope core is reported as empty. ... ok
+test_a_stricter_submodule_rule_takes_precedence (tools.test_arch_check.GateHardening.test_a_stricter_submodule_rule_takes_precedence)
+core allows tables and types, core::a only tables; core::a using types is a violation. ... ok
+test_bare_cli_uses_the_repository_defaults (tools.test_arch_check.GateHardening.test_bare_cli_uses_the_repository_defaults)
+I5: with no --src / --rules the gate checks soneflow/src against tools/arch_rules.toml. ... ok
+test_exact_rules_require_a_rule_for_every_module_in_the_subtree (tools.test_arch_check.GateHardening.test_exact_rules_require_a_rule_for_every_module_in_the_subtree)
+require_exact_rules: core::b relies on core's rule, so it is reported; core::a is not. ... ok
+test_forbidden_lint_in_expect_and_cfg_attr_but_not_in_a_string (tools.test_arch_check.GateHardening.test_forbidden_lint_in_expect_and_cfg_attr_but_not_in_a_string)
+I3: expect(...) and cfg_attr(..., allow(...)) are reported once each; a string literal is not. ... ok
+test_inline_test_module_is_not_a_dependency_and_nested_inline_modules_are_layered (tools.test_arch_check.GateHardening.test_inline_test_module_is_not_a_dependency_and_nested_inline_modules_are_layered)
+I4: crate::core::inner -> crate::zwtv is reported; the cfg(test) module's use is not. ... ok
+test_literals_comments_and_lifetimes_do_not_confuse_the_scan (tools.test_arch_check.GateHardening.test_literals_comments_and_lifetimes_do_not_confuse_the_scan)
+I3: raw strings, block comments, char literals and lifetimes neither hide nor fake a hit. ... ok
+test_missing_metrics_fail_unless_explicitly_skipped (tools.test_arch_check.GateHardening.test_missing_metrics_fail_unless_explicitly_skipped)
+I2: without --crap the CLI prints crap: SKIPPED and exits 1; with --skip-crap it exits 0. ... ok
+test_path_attribute_and_missing_module_file_are_unsupported (tools.test_arch_check.GateHardening.test_path_attribute_and_missing_module_file_are_unsupported)
+I4: #[path] and a `mod x;` without a file are each reported, exit code 1. ... ok
+test_path_form_mul_add_is_forbidden (tools.test_arch_check.GateHardening.test_path_form_mul_add_is_forbidden)
+I3: f64::mul_add(x, 2.0, 1.0) in core is a forbidden call. ... ok
+test_use_with_an_alias_resolves_to_the_aliased_module (tools.test_arch_check.GateHardening.test_use_with_an_alias_resolves_to_the_aliased_module)
+`use crate::zwtv as z;` and `use crate::{zwtv::X as Y}` are edges to crate::zwtv. ... ok
+test_all_sixteen_controls_meet_their_expectation (tools.test_arch_check.ReviewControls.test_all_sixteen_controls_meet_their_expectation)
+Given the review's 16 control fixtures, then each is accepted or rejected as expected, for its own cause. ... ok
+test_cfg_all_test_module_is_test_code (tools.test_arch_check.TestOnlyCode.test_cfg_all_test_module_is_test_code)
+Given core declares `#[cfg(all(test, target_arch = ...))] mod t;` that uses app, then no layer violation. ... ok
+test_cfg_any_test_module_is_product_code (tools.test_arch_check.TestOnlyCode.test_cfg_any_test_module_is_product_code)
+Given `#[cfg(any(test, feature = "x"))] mod t;` uses app, then the layer violation is reported. ... ok
+test_not_test_gated_statement_still_counts (tools.test_arch_check.TestOnlyCode.test_not_test_gated_statement_still_counts)
+Given the child uses the parent through a `#[cfg(not(test))]` statement, then the cycle is reported. ... ok
+test_test_gated_items_statements_and_parameters_are_not_dependencies (tools.test_arch_check.TestOnlyCode.test_test_gated_items_statements_and_parameters_are_not_dependencies)
+Given a child reaches the parent's cfg(test) hooks only through a test-gated ... ok
+test_binary_and_non_utf8_files_are_left_alone_and_reported (tools.test_redact_paths.DirectoryModeBehavior.test_binary_and_non_utf8_files_are_left_alone_and_reported)
+Given a binary and a non-UTF-8 file, when redacting, then neither changes and both are listed as skipped. ... ok
+test_build_and_vcs_directories_are_still_skipped (tools.test_redact_paths.DirectoryModeBehavior.test_build_and_vcs_directories_are_still_skipped)
+Given target/ and .git/ inside the folder, when redacting, then files there are not touched. ... ok
+test_check_is_not_clean_while_files_are_skipped (tools.test_redact_paths.DirectoryModeBehavior.test_check_is_not_clean_while_files_are_skipped)
+Given only a skipped file, when --check runs, then it does not print a bare 'clean'. ... ok
+test_check_sees_paths_in_files_with_unlisted_suffixes (tools.test_redact_paths.DirectoryModeBehavior.test_check_sees_paths_in_files_with_unlisted_suffixes)
+Given a path left in lcov.info, when --check runs on the directory, then it is reported, not 'clean'. ... ok
+test_clean_directory_prints_clean (tools.test_redact_paths.DirectoryModeBehavior.test_clean_directory_prints_clean)
+Given only redacted text, when --check runs, then it prints 'clean' and exits 0. ... ok
+test_file_mode_is_unchanged (tools.test_redact_paths.DirectoryModeBehavior.test_file_mode_is_unchanged)
+Given a single file named on the command line, when redacting, then it is processed as before. ... ok
+test_second_pass_changes_nothing (tools.test_redact_paths.DirectoryModeBehavior.test_second_pass_changes_nothing)
+Given a redacted folder, when the tool runs again, then no file changes. ... ok
+test_strict_fails_on_skipped_files (tools.test_redact_paths.DirectoryModeBehavior.test_strict_fails_on_skipped_files)
+Given a skipped file, when --strict is set, then the exit code is 2 (redaction and --check alike). ... ok
+test_text_files_with_any_suffix_are_redacted (tools.test_redact_paths.DirectoryModeBehavior.test_text_files_with_any_suffix_are_redacted)
+Given text files whose suffixes were never listed, when a directory is redacted, then each one is. ... ok
+test_text_with_nul_bytes_is_still_text (tools.test_redact_paths.DirectoryModeBehavior.test_text_with_nul_bytes_is_still_text)
+Given a log cut off mid-write (NUL bytes, valid UTF-8), when redacting, then it is processed as text. ... ok
+test_current_working_copy_name_is_redacted (tools.test_redact_paths.RuleCoverage.test_current_working_copy_name_is_redacted)
+Given the iso532-1 working copy in every separator spelling, when redacted, then it becomes <REPO>. ... ok
+test_lowercase_user_profile_is_redacted (tools.test_redact_paths.RuleCoverage.test_lowercase_user_profile_is_redacted)
+Given a profile path printed in lower case, when redacted, then it becomes <USER_HOME>. ... ok
+test_renamed_working_copies_are_redacted (tools.test_redact_paths.RuleCoverage.test_renamed_working_copies_are_redacted)
+Given a clone named after the old or the new GitHub repo, when redacted, then it becomes <REPO>. ... ok
+test_urls_and_bare_names_are_left_alone (tools.test_redact_paths.RuleCoverage.test_urls_and_bare_names_are_left_alone)
+Given repository names in URLs and prose, when redacted, then nothing changes. ... ok
+test_boot_python_is_checked_before_venv_creation (tools.test_env_guards.EnvironmentGuardBehavior.test_boot_python_is_checked_before_venv_creation)
+Given PY_BOOT, when setup starts, then 3.11 is checked before venv creation. ... ok
+test_tarball_sha_has_one_source_in_lock_header (tools.test_env_guards.EnvironmentGuardBehavior.test_tarball_sha_has_one_source_in_lock_header)
+Given a pinned tarball, when setup verifies it, then SHA comes from the lock. ... ok
+test_testkit_guard_survives_python_optimization (tools.test_env_guards.EnvironmentGuardBehavior.test_testkit_guard_survives_python_optimization)
+Given python -O, when testkit loads, then its port guard is not an assert. ... ok
+test_extra_public_item_fails (tools.test_public_api.CheckTests.test_extra_public_item_fails) ... public_api: 1 added, 0 removed vs api.txt
+ok
+test_matching_list_passes (tools.test_public_api.CheckTests.test_matching_list_passes) ... ok
+test_missing_public_item_fails (tools.test_public_api.CheckTests.test_missing_public_item_fails) ... public_api: 0 added, 1 removed vs api.txt
+ok
+test_write_then_check_round_trips (tools.test_public_api.CheckTests.test_write_then_check_round_trips) ... ok
+test_items_members_and_traits (tools.test_public_api.CollectTests.test_items_members_and_traits) ... ok
+test_trait_methods_and_blanket_impls_are_not_listed (tools.test_public_api.CollectTests.test_trait_methods_and_blanket_impls_are_not_listed) ... ok
+test_unknown_section_is_an_error (tools.test_public_api.CollectTests.test_unknown_section_is_an_error) ... ok
+test_a_document_without_references_fails (tools.test_contract_tests.ContractTestsBehavior.test_a_document_without_references_fails)
+Given a table with no test references, then the check fails instead of passing empty. ... contract_tests: no `path::name` references in C.md
+ok
+test_a_helper_that_is_not_a_test_fails (tools.test_contract_tests.ContractTestsBehavior.test_a_helper_that_is_not_a_test_fails)
+Given a listed Rust fn without #[test] or a Python def without test_, then the check fails. ... contract_tests: 2 problem(s)
+ok
+test_a_missing_file_fails (tools.test_contract_tests.ContractTestsBehavior.test_a_missing_file_fails)
+Given a reference to a file that does not exist, then the check fails. ... contract_tests: 1 problem(s)
+ok
+test_a_missing_test_name_fails (tools.test_contract_tests.ContractTestsBehavior.test_a_missing_test_name_fails)
+Given a listed name with no test function, then the check fails and names it. ... contract_tests: 1 problem(s)
+ok
+test_language_versions_must_list_the_same_tests (tools.test_contract_tests.ContractTestsBehavior.test_language_versions_must_list_the_same_tests)
+Given an English table with a test the Chinese table lacks, then the check fails. ... contract_tests: 1 problem(s)
+ok
+test_listed_tests_that_exist_pass (tools.test_contract_tests.ContractTestsBehavior.test_listed_tests_that_exist_pass)
+Given Rust (with an extra attribute) and Python tests that exist, then the check passes. ... ok
+test_functions_at_the_limits_pass (tools.test_fnmetrics.CheckGate.test_functions_at_the_limits_pass)
+Given a product function at exactly CC 15 and 80 ploc, when --check runs, then it exits 0. ... ok
+test_no_analyser_output_is_an_error (tools.test_fnmetrics.CheckGate.test_no_analyser_output_is_an_error)
+Given the analyser writes nothing, when --check runs, then it exits 2 instead of passing. ... ok
+test_product_function_over_cc_fails_the_check (tools.test_fnmetrics.CheckGate.test_product_function_over_cc_fails_the_check)
+Given a product function with CC 16, when --check runs, then it exits 1 and names the function. ... ok
+test_product_function_over_ploc_fails_the_check (tools.test_fnmetrics.CheckGate.test_product_function_over_ploc_fails_the_check)
+Given a product function with 81 ploc, when --check runs, then it exits 1. ... ok
+test_test_functions_do_not_count (tools.test_fnmetrics.CheckGate.test_test_functions_do_not_count)
+Given an oversized function inside #[cfg(test)] mod tests, when --check runs, then it exits 0. ... ok
+test_without_check_an_excess_is_reported_but_exit_is_zero (tools.test_fnmetrics.CheckGate.test_without_check_an_excess_is_reported_but_exit_is_zero)
+Given a product function over the limits, when run without --check, then it is listed and exits 0. ... ok
+
+----------------------------------------------------------------------
+Ran 67 tests in 14.457s
+
+OK
+
+EXIT 0

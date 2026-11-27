@@ -1,0 +1,5 @@
+COMMAND ["python", "tools/doc_pairs.py", "--check"]
+CWD <AUDIT_ROOT>\repo
+ok
+
+EXIT 0

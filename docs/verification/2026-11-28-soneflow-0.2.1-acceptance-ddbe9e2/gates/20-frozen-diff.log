@@ -1,0 +1,4 @@
+COMMAND ["git", "diff", "82d1d61", "ddbe9e2", "--", "soneflow/public-api.txt", "soneflow-ffi/include/soneflow.h", "soneflow/tests/hash_gate.rs", "soneflow-py/tests/test_smoke.py", "soneflow-py/tests/test_stream.py", "soneflow-py/tests/test_quality_v1.py"]
+CWD <AUDIT_ROOT>\repo
+
+EXIT 0

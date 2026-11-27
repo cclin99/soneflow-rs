@@ -1,0 +1,311 @@
+{
+  "rows": [
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "base",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 188875463.75,
+      "evidence": "batch1-1-base-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "base",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 98178761.42857143,
+      "evidence": "batch1-1-base-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 182469733.3333333,
+      "evidence": "batch1-1-base-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 82866438.39285713,
+      "evidence": "batch1-1-base-stream_push_10s_480chunk_avx2-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "new",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 179651016.6666667,
+      "evidence": "batch1-1-new-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "new",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 89421434.72222222,
+      "evidence": "batch1-1-new-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 173628986.1111111,
+      "evidence": "batch1-1-new-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 1,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 73944241.66666666,
+      "evidence": "batch1-1-new-stream_push_10s_480chunk_avx2-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "base",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 189519660.0,
+      "evidence": "batch1-2-base-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "base",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 98211675.0,
+      "evidence": "batch1-2-base-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 184207950.0,
+      "evidence": "batch1-2-base-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 88590923.21428572,
+      "evidence": "batch1-2-base-stream_push_10s_480chunk_avx2-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "new",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 181394241.26984125,
+      "evidence": "batch1-2-new-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "new",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 93997091.66666666,
+      "evidence": "batch1-2-new-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 171911317.5,
+      "evidence": "batch1-2-new-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 2,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 73302529.16666666,
+      "evidence": "batch1-2-new-stream_push_10s_480chunk_avx2-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "base",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 189726641.6666667,
+      "evidence": "batch1-3-base-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "base",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 97514261.50793651,
+      "evidence": "batch1-3-base-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 181170350.0,
+      "evidence": "batch1-3-base-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "base",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 82992359.72222222,
+      "evidence": "batch1-3-base-stream_push_10s_480chunk_avx2-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "new",
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "median_ns": 179229105.0,
+      "evidence": "batch1-3-new-zwtv_10s_t1_scalar_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "new",
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "median_ns": 88194483.75,
+      "evidence": "batch1-3-new-zwtv_10s_t1_avx2_480000-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/scalar",
+      "median_ns": 171741460.0,
+      "evidence": "batch1-3-new-stream_push_10s_480chunk_scalar-estimates.json"
+    },
+    {
+      "batch": 1,
+      "round": 3,
+      "version": "new",
+      "arm": "stream_push_10s_480chunk/avx2",
+      "median_ns": 73139545.0,
+      "evidence": "batch1-3-new-stream_push_10s_480chunk_avx2-estimates.json"
+    }
+  ],
+  "summaries": [
+    {
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "version": "base",
+      "medians_ns": [
+        188875463.75,
+        189519660.0,
+        189726641.6666667
+      ],
+      "median_ns": 189519660.0,
+      "min_ns": 188875463.75,
+      "max_ns": 189726641.6666667,
+      "range_ns": 851177.9166666865,
+      "range_fraction": 0.00449123809459497
+    },
+    {
+      "arm": "zwtv_10s_t1/scalar/480000",
+      "version": "new",
+      "medians_ns": [
+        179651016.6666667,
+        181394241.26984125,
+        179229105.0
+      ],
+      "median_ns": 179651016.6666667,
+      "min_ns": 179229105.0,
+      "max_ns": 181394241.26984125,
+      "range_ns": 2165136.2698412538,
+      "range_fraction": 0.012051901013499712
+    },
+    {
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "version": "base",
+      "medians_ns": [
+        98178761.42857143,
+        98211675.0,
+        97514261.50793651
+      ],
+      "median_ns": 98178761.42857143,
+      "min_ns": 97514261.50793651,
+      "max_ns": 98211675.0,
+      "range_ns": 697413.4920634925,
+      "range_fraction": 0.00710350672503529
+    },
+    {
+      "arm": "zwtv_10s_t1/avx2/480000",
+      "version": "new",
+      "medians_ns": [
+        89421434.72222222,
+        93997091.66666666,
+        88194483.75
+      ],
+      "median_ns": 89421434.72222222,
+      "min_ns": 88194483.75,
+      "max_ns": 93997091.66666666,
+      "range_ns": 5802607.916666657,
+      "range_fraction": 0.06489057052922283
+    },
+    {
+      "arm": "stream_push_10s_480chunk/scalar",
+      "version": "base",
+      "medians_ns": [
+        182469733.3333333,
+        184207950.0,
+        181170350.0
+      ],
+      "median_ns": 182469733.3333333,
+      "min_ns": 181170350.0,
+      "max_ns": 184207950.0,
+      "range_ns": 3037600.0,
+      "range_fraction": 0.016647144403126583
+    },
+    {
+      "arm": "stream_push_10s_480chunk/scalar",
+      "version": "new",
+      "medians_ns": [
+        173628986.1111111,
+        171911317.5,
+        171741460.0
+      ],
+      "median_ns": 171911317.5,
+      "min_ns": 171741460.0,
+      "max_ns": 173628986.1111111,
+      "range_ns": 1887526.1111111045,
+      "range_fraction": 0.01097965008098495
+    },
+    {
+      "arm": "stream_push_10s_480chunk/avx2",
+      "version": "base",
+      "medians_ns": [
+        82866438.39285713,
+        88590923.21428572,
+        82992359.72222222
+      ],
+      "median_ns": 82992359.72222222,
+      "min_ns": 82866438.39285713,
+      "max_ns": 88590923.21428572,
+      "range_ns": 5724484.821428582,
+      "range_fraction": 0.06897604599493971
+    },
+    {
+      "arm": "stream_push_10s_480chunk/avx2",
+      "version": "new",
+      "medians_ns": [
+        73944241.66666666,
+        73302529.16666666,
+        73139545.0
+      ],
+      "median_ns": 73302529.16666666,
+      "min_ns": 73139545.0,
+      "max_ns": 73944241.66666666,
+      "range_ns": 804696.6666666567,
+      "range_fraction": 0.01097774764138127
+    }
+  ],
+  "obvious_noise": true
+}

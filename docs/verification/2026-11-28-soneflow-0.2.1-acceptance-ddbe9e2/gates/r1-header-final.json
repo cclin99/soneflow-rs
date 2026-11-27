@@ -1,0 +1,37 @@
+{
+  "core_autocrlf": "true",
+  "files": {
+    "generated": {
+      "sha256": "902fb3c9d3e165df82431ddc6965d262d064c2ab63eb4a196b7e1b0e0dbfbb97",
+      "bytes": 12588,
+      "crlf": 2,
+      "lf": 371
+    },
+    "generated_lf_config": {
+      "sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+      "bytes": 12586,
+      "crlf": 0,
+      "lf": 371
+    },
+    "working_tree": {
+      "sha256": "62c69acedd0b1b07e657a0c418e3e9a643918087d5668890a393df0c202db609",
+      "bytes": 12957,
+      "crlf": 371,
+      "lf": 371
+    },
+    "head_blob": {
+      "sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+      "bytes": 12586,
+      "crlf": 0,
+      "lf": 371
+    },
+    "baseline_blob": {
+      "sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+      "bytes": 12586,
+      "crlf": 0,
+      "lf": 371
+    }
+  },
+  "all_equal_after_crlf_normalization": true,
+  "lf_config_generated_equals_head_and_baseline": true
+}

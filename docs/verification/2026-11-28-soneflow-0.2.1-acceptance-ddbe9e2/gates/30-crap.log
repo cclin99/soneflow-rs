@@ -1,0 +1,18 @@
+COMMAND ["cargo", "crap", "-p", "soneflow", "-p", "soneflow-ffi", "--lcov", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\lcov.info", "--format", "json", "--output", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\crap.json"]
+CWD <AUDIT_ROOT>\repo
+warning: source/LCOV scope mismatch (64 analyzed, 55 in LCOV, 54 matched) — verify your --lcov path or coverage tool configuration
+  10 analyzed source file(s) had no matching entry in the LCOV report:
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\analytic.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\area_domain.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\cut_clamp.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\extremes.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\pieces.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\targeted.rs
+    <AUDIT_ROOT>\repo\soneflow\src\core\calc_slopes\tests\terminal_slice.rs
+    <AUDIT_ROOT>\repo\soneflow\src\numeric_guard\c4_tests.rs
+    <AUDIT_ROOT>\repo\soneflow\src\zwtv\batch_checked\tests.rs
+    <AUDIT_ROOT>\repo\soneflow\src\zwtv\stream\containment_tests.rs
+  1 LCOV file(s) matched no analyzed source file:
+    <AUDIT_ROOT>\repo\soneflow\src\tables.rs
+
+EXIT 0

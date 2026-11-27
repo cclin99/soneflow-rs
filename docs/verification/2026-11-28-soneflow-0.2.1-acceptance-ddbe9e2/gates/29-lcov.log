@@ -1,0 +1,6 @@
+COMMAND ["cargo", "llvm-cov", "report", "--release", "--lcov", "--output-path", "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\lcov.info"]
+CWD <AUDIT_ROOT>\repo
+
+    Finished report saved to <AUDIT_ROOT>\repo\docs\verification\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\gates\lcov.info
+
+EXIT 0

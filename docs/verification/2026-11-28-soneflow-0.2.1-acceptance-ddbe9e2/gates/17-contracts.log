@@ -1,0 +1,5 @@
+COMMAND ["python", "tools/contract_tests.py"]
+CWD <AUDIT_ROOT>\repo
+contract_tests: ok (102 tests)
+
+EXIT 0

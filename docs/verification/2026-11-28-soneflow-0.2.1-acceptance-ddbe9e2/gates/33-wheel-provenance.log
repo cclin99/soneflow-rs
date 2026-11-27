@@ -1,0 +1,6 @@
+COMMAND ["<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe", "-c", "import soneflow,importlib.metadata; print(soneflow.__file__); print(importlib.metadata.version(\"soneflow\"))"]
+CWD <AUDIT_ROOT>\repo
+<AUDIT_ROOT>\venv-gates\Lib\site-packages\soneflow\__init__.py
+0.2.1
+
+EXIT 0

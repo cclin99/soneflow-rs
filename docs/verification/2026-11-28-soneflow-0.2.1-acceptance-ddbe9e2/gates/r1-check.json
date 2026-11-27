@@ -1,0 +1,18 @@
+{
+  "soneflow": "0.2.1",
+  "soneflow-ffi": "0.2.1",
+  "soneflow-py": "0.2.1",
+  "lock": {
+    "soneflow": "0.2.1",
+    "soneflow-ffi": "0.2.1",
+    "soneflow-py": "0.2.1"
+  },
+  "citation": [
+    "version: 0.2.1"
+  ],
+  "header": {
+    "generated_equals_committed": false,
+    "committed_equals_baseline": false,
+    "sha256": "62c69acedd0b1b07e657a0c418e3e9a643918087d5668890a393df0c202db609"
+  }
+}

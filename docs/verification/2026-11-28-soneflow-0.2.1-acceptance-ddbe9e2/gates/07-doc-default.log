@@ -1,0 +1,12 @@
+COMMAND ["cargo", "doc", "-p", "soneflow", "--no-deps"]
+CWD <AUDIT_ROOT>\repo
+    Checking either v1.16.0
+   Compiling syn v2.0.119
+    Checking rayon v1.12.0
+   Compiling thiserror-impl v1.0.69
+    Checking thiserror v1.0.69
+ Documenting soneflow v0.2.1 (<AUDIT_ROOT>\repo\soneflow)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.38s
+   Generated <AUDIT_ROOT>\target-gates\doc\soneflow\index.html
+
+EXIT 0

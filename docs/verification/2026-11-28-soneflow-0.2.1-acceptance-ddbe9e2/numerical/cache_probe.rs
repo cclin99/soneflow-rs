@@ -1,0 +1,3 @@
+use soneflow::{FieldType,ZwtvStream,StreamFrame};
+use soneflow::internals::core::main_loudness::acceptance_cache_ready;
+fn main(){let bits:u32=std::env::args().nth(1).unwrap().parse().unwrap();let mut ctl=0u32;unsafe{std::arch::asm!("stmxcsr [{}]",in(reg)&mut ctl,options(nostack));}let altered=(ctl & !0xe040)|bits;unsafe{std::arch::asm!("ldmxcsr [{}]",in(reg)&altered,options(nostack));}assert!(!acceptance_cache_ready());println!("before_new=false, ftz_daz_bits={bits}");let mut s=ZwtvStream::new(FieldType::Free);assert!(acceptance_cache_ready());println!("after_new=true");let mut out=[StreamFrame::default();64];s.push(&[0.001;480],&mut out);assert!(acceptance_cache_ready());println!("after_push=true");unsafe{std::arch::asm!("ldmxcsr [{}]",in(reg)&ctl,options(nostack));}}

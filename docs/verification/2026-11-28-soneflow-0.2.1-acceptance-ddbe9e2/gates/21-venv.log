@@ -1,0 +1,4 @@
+COMMAND ["python", "-m", "venv", "<AUDIT_ROOT>\\venv-gates"]
+CWD <AUDIT_ROOT>\repo
+
+EXIT 0

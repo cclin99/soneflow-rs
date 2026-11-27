@@ -1,0 +1,60 @@
+{
+  "debug": {
+    "rn_rows": 1068,
+    "rn_equal": true,
+    "rn_differing_rows": 0,
+    "ftz_equal": true,
+    "runtime_reference_mismatching_rows": [],
+    "nonrn_differing_bands": {}
+  },
+  "release": {
+    "rn_rows": 1068,
+    "rn_equal": true,
+    "rn_differing_rows": 0,
+    "ftz_equal": true,
+    "runtime_reference_mismatching_rows": [],
+    "nonrn_differing_bands": {
+      "down": {
+        "0": {
+          "count": 562,
+          "min_ulp": 1,
+          "max_ulp": 5
+        },
+        "2": {
+          "count": 530,
+          "min_ulp": 1,
+          "max_ulp": 2
+        }
+      },
+      "up": {
+        "0": {
+          "count": 566,
+          "min_ulp": 1,
+          "max_ulp": 5
+        },
+        "1": {
+          "count": 552,
+          "min_ulp": 2,
+          "max_ulp": 5
+        },
+        "2": {
+          "count": 532,
+          "min_ulp": 1,
+          "max_ulp": 2
+        }
+      },
+      "zero": {
+        "0": {
+          "count": 562,
+          "min_ulp": 1,
+          "max_ulp": 5
+        },
+        "2": {
+          "count": 530,
+          "min_ulp": 1,
+          "max_ulp": 2
+        }
+      }
+    }
+  }
+}

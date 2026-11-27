@@ -1,0 +1,4 @@
+COMMAND ["cargo", "fmt", "--all", "--check"]
+CWD <AUDIT_ROOT>\repo
+
+EXIT 0

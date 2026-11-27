@@ -1,0 +1,22 @@
+[
+  {
+    "name": "32-ffi-c-smoke",
+    "args": [
+      "cmd",
+      "/c",
+      "<AUDIT_ROOT>\\repo\\docs\\verification\\2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2\\gates\\smoke.cmd"
+    ],
+    "exit": 1,
+    "seconds": 1.689626932144165
+  },
+  {
+    "name": "33-wheel-provenance",
+    "args": [
+      "<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe",
+      "-c",
+      "import soneflow,importlib.metadata; print(soneflow.__file__); print(importlib.metadata.version(\"soneflow\"))"
+    ],
+    "exit": 0,
+    "seconds": 0.1540052890777588
+  }
+]

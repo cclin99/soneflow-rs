@@ -1,0 +1,9 @@
+{
+  "generated_equals_head_blob": false,
+  "head_equals_baseline_blob": true,
+  "working_tree_normalized_crlf_equals_head": true,
+  "generated_sha256": "902fb3c9d3e165df82431ddc6965d262d064c2ab63eb4a196b7e1b0e0dbfbb97",
+  "head_blob_sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+  "baseline_blob_sha256": "d15241c28cd21dd8405f37ed97b2fe01887d2e79f97490e11db462ebad6cb60a",
+  "working_tree_sha256": "62c69acedd0b1b07e657a0c418e3e9a643918087d5668890a393df0c202db609"
+}

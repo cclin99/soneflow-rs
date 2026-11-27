@@ -1,0 +1,15 @@
+COMMAND ["<AUDIT_ROOT>\\venv-gates\\Scripts\\python.exe", "-m", "pip", "install", "maturin", "pytest", "numpy"]
+CWD <AUDIT_ROOT>\repo
+Requirement already satisfied: maturin in <AUDIT_ROOT>\venv-gates\lib\site-packages (1.16.0)
+Requirement already satisfied: pytest in <AUDIT_ROOT>\venv-gates\lib\site-packages (9.2.0)
+Requirement already satisfied: numpy in <AUDIT_ROOT>\venv-gates\lib\site-packages (2.4.6)
+Requirement already satisfied: colorama>=0.4 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from pytest) (0.4.6)
+Requirement already satisfied: iniconfig>=2 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from pytest) (2.3.1)
+Requirement already satisfied: packaging>=24 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from pytest) (26.4)
+Requirement already satisfied: pluggy<2,>=1.6 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from pytest) (1.7.0)
+Requirement already satisfied: pygments>=2.15 in <AUDIT_ROOT>\venv-gates\lib\site-packages (from pytest) (2.21.0)
+
+[notice] A new release of pip is available: 24.0 -> 26.3
+[notice] To update, run: <AUDIT_ROOT>\venv-gates\Scripts\python.exe -m pip install --upgrade pip
+
+EXIT 0

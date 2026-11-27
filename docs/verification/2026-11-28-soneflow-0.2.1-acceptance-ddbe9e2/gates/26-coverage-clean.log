@@ -1,0 +1,4 @@
+COMMAND ["cargo", "llvm-cov", "clean", "--workspace"]
+CWD <AUDIT_ROOT>\repo
+
+EXIT 0
