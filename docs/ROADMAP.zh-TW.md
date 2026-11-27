@@ -1,9 +1,9 @@
 # soneflow 專案 Roadmap
-> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-27
+> 對照／Pair: [English](ROADMAP.md) · 來源：zh · 同步 2026-11-28
 
-目前狀態（0.2.0）：`soneflow` crate（ISO 532-1:2017 Zwicker 響度，Rust + AVX2），含批次與串流 API、phon 轉換、C ABI v1 與 Python binding。0.2.0 把公開 Rust API 收窄到 crate 根層與 `soneflow::simd`，並重整內部結構，所有輸出都不變。
+目前狀態（0.2.1）：`soneflow` crate（ISO 532-1:2017 Zwicker 響度，Rust + AVX2），含批次與串流 API、phon 轉換、C ABI v1 與 Python binding。0.2.0 把公開 Rust API 收窄到 crate 根層與 `soneflow::simd`，並重整內部結構，所有輸出都不變。0.2.1 是維護版，並把 `main_loudness` 裡與輸入無關的因子改成快取；在 round-to-nearest 下輸出不變。
 
-以下為後續方向（2026-07-03 記錄）。**均不在 0.2.0 的範圍內**，但列出對現行實作的架構影響，避免之後重工。
+以下為後續方向（2026-07-03 記錄）。**均不在 0.2.1 的範圍內**，但列出對現行實作的架構影響，避免之後重工。
 
 ## 1. 分層架構與更多標準
 

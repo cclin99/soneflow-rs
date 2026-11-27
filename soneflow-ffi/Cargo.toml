@@ -1,6 +1,6 @@
 [package]
 name = "soneflow-ffi"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 description = "C ABI v1 for the soneflow crate"
 license = "Apache-2.0"

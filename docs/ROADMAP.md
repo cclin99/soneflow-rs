@@ -1,9 +1,9 @@
 # soneflow project roadmap
-> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-27
+> 對照／Pair: [中文版](ROADMAP.zh-TW.md) · source: zh · synced 2026-11-28
 
-Current state (0.2.0): the `soneflow` crate (ISO 532-1:2017 Zwicker loudness, Rust + AVX2) with batch and streaming APIs, phon conversion, a C ABI v1 and a Python binding. 0.2.0 narrowed the public Rust API to the crate root and `soneflow::simd` and restructured the internals without changing any output.
+Current state (0.2.1): the `soneflow` crate (ISO 532-1:2017 Zwicker loudness, Rust + AVX2) with batch and streaming APIs, phon conversion, a C ABI v1 and a Python binding. 0.2.0 narrowed the public Rust API to the crate root and `soneflow::simd` and restructured the internals without changing any output. 0.2.1 is maintenance and caches the input-independent factor of `main_loudness`; under round-to-nearest the output does not change.
 
-The items below are follow-on directions (recorded 2026-07-03). **None of them is in scope for 0.2.0.** They are listed here because they constrain the current implementation; stating the constraints now avoids rework later.
+The items below are follow-on directions (recorded 2026-07-03). **None of them is in scope for 0.2.1.** They are listed here because they constrain the current implementation; stating the constraints now avoids rework later.
 
 ## 1. Layered architecture and further standards
 

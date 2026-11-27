@@ -6,11 +6,11 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
-## Unreleased
+## 0.2.1 - 2026-11-28
 
 Maintenance after 0.2.0. The public API does not change. Under
 round-to-nearest, the default floating-point rounding mode, output is bit for
-bit that of 0.2.0.
+bit that of 0.2.0 built on the same machine.
 
 ### Changed
 

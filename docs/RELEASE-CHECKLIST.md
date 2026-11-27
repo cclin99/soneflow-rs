@@ -1,6 +1,6 @@
 # Release checklist
 
-> 對照／Pair: [中文版](RELEASE-CHECKLIST.zh-TW.md) · source: en · synced 2026-11-26
+> 對照／Pair: [中文版](RELEASE-CHECKLIST.zh-TW.md) · source: en · synced 2026-11-28
 
 Run this checklist immediately before publishing a release or making the README public.
 
@@ -11,6 +11,7 @@ Run this checklist immediately before publishing a release or making the README 
 - [ ] Check every capability and boundary statement against the tagged source and public artifacts.
 - [ ] Review `THIRD_PARTY_NOTICES.md`, `CITATION.cff`, `SECURITY.md`, and community templates against the release tag and current repository settings.
 - [ ] With the normal antivirus protection enabled, build and scan the release DLL/static library, wheel, and any plug-in bundle; record any detection by product, version, artifact hash, and exact build command. Do not treat a disabled-antivirus build as release evidence.
+- [ ] Run `llvm-objdump -d -r` on the release `soneflow` rlib and confirm that `init_mp1_table_rn` has 20 `pow` relocations (on Windows COFF they appear only with `-r`; Linux ELF uses other relocation types). `std::hint::black_box` is only best effort, so after a toolchain upgrade this confirms that the compiler has not folded these `pow` calls at compile time.
 - [ ] Generate and publish SHA-256 checksums for every release artifact; verify downloaded artifacts against those checksums before smoke testing.
 - [ ] Confirm that local-only files, archives, generated `data/`, credentials, and machine-specific paths are not staged.
 - [ ] Run the maintainer's local check that no ISO 532-1 electronic-insert material (Annex A program, Annex B signals or reference values) is in the tree, and check by hand the formats it cannot see (rewritten code, renamed columns, binaries, archives).
