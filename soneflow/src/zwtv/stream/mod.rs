@@ -1230,18 +1230,23 @@ impl PushHooks for stream_hooks::HookCursor {
         test_stream_hooks::record_env_fallback();
     }
     fn on_entry_due_replay(&self) {
+        #[cfg(target_arch = "x86_64")]
         test_stream_hooks::record_entry_due_replay();
     }
     fn on_entry_due_passed(&self) {
+        #[cfg(target_arch = "x86_64")]
         test_stream_hooks::record_entry_due_passed();
     }
     fn on_spec_block(&self) {
+        #[cfg(target_arch = "x86_64")]
         test_stream_hooks::record_spec_block();
     }
     fn on_swap(&self) {
+        #[cfg(target_arch = "x86_64")]
         test_stream_hooks::record_swap();
     }
     fn on_downstream_restart(&self) {
+        #[cfg(target_arch = "x86_64")]
         test_stream_hooks::record_downstream_restart();
     }
     fn finish(&self) {

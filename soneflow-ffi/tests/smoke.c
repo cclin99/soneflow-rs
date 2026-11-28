@@ -11,7 +11,7 @@
 #define LEN 48000
 #define FRAMES 500 /* ceil(ceil(48000/24)/4) */
 
-static double signal[LEN];
+static double sig_in[LEN];
 static double out_n[FRAMES];
 static double out_spec[240 * FRAMES];
 static double out_bark[240];
@@ -25,7 +25,7 @@ int main(void) {
 
     for (i = 0; i < LEN; i++) {
         /* 與 Rust 測試同款整數演算訊號,~54 dB SPL,無錯誤路徑 */
-        signal[i] = (double)(i % 480) / 480.0 * 0.02 - 0.01;
+        sig_in[i] = (double)(i % 480) / 480.0 * 0.02 - 0.01;
     }
 
     frames = snf_zwtv_out_frames(LEN);
@@ -34,7 +34,7 @@ int main(void) {
         return 1;
     }
 
-    code = snf_loudness_zwtv(signal, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
+    code = snf_loudness_zwtv(sig_in, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
                                 out_bark, out_time);
     if (code != 0) {
         fprintf(stderr, "zwtv: code %d\n", (int)code);
@@ -52,7 +52,7 @@ int main(void) {
         return 1;
     }
 
-    code = snf_loudness_zwst(signal, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
+    code = snf_loudness_zwst(sig_in, LEN, 48000.0, SNF_FIELD_FREE, out_n, out_spec,
                                 out_bark);
     if (code != 0) {
         fprintf(stderr, "zwst: code %d\n", (int)code);
@@ -79,7 +79,7 @@ int main(void) {
         while (offset < LEN) {
             size_t chunk_len = LEN - offset < 480 ? LEN - offset : 480;
             size_t written = 0;
-            code = snf_stream_push(stream, signal + offset, chunk_len, stream_out, 8,
+            code = snf_stream_push(stream, sig_in + offset, chunk_len, stream_out, 8,
                                       &written);
             if (code != SNF_OK) {
                 fprintf(stderr, "stream_push: code %d\n", (int)code);
@@ -107,7 +107,7 @@ int main(void) {
     }
 
     /* 錯誤碼 smoke:fs 不支援 → 3(字面值,不依賴 #define) */
-    code = snf_loudness_zwtv(signal, LEN, 44100.0, 0, out_n, out_spec,
+    code = snf_loudness_zwtv(sig_in, LEN, 44100.0, 0, out_n, out_spec,
                                 out_bark, out_time);
     if (code != 3) {
         fprintf(stderr, "error mapping: got %d want 3\n", (int)code);

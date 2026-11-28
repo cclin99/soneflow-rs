@@ -2,6 +2,8 @@ name: probe-aarch64
 
 # Decision probe, not a gate: runs the data-free CI steps on aarch64 runners to
 # size the work of adding them to CI. Lives only on the probe branch.
+# Second run (P2): with a temporary rounding-environment read for aarch64;
+# clippy is left out because the first run already listed its findings.
 on:
   push:
     branches: [probe/aarch64-ci]
@@ -35,12 +37,6 @@ jobs:
           lscpu 2>/dev/null || sysctl -n machdep.cpu.brand_string hw.ncpu
       # Every later step runs even when an earlier one fails, so one run shows
       # the whole list of failures.
-      - name: clippy (default)
-        if: ${{ !cancelled() }}
-        run: cargo clippy --all-targets -- -D warnings
-      - name: clippy (internals)
-        if: ${{ !cancelled() }}
-        run: cargo clippy --all-targets --features internals -- -D warnings
       - name: unit tests
         if: ${{ !cancelled() }}
         run: cargo test --lib --no-fail-fast
@@ -153,8 +149,6 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: .
-      - name: clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
       - name: tests
         if: ${{ !cancelled() }}
         run: cargo test --features test-panic --no-fail-fast
@@ -193,8 +187,6 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - name: clippy
-        run: cargo clippy --all-targets -- -D warnings
       - name: build wheel
         if: ${{ !cancelled() }}
         run: pip install maturin && maturin build --release --out dist

@@ -1,3 +1,4 @@
+#![cfg(target_arch = "x86_64")]
 #[allow(dead_code)]
 mod common;
 

@@ -174,7 +174,17 @@ fn rounding_bits() -> Option<u32> {
     {
         Some(read_mxcsr() & 0x6000)
     }
-    #[cfg(not(target_arch = "x86_64"))]
+    // PROBE P2 (not for merge): FPCR RMode, bits 23:22; 0 is round-to-nearest.
+    #[cfg(target_arch = "aarch64")]
+    {
+        let fpcr: u64;
+        // SAFETY: reading FPCR has no side effects and is allowed at EL0.
+        unsafe {
+            std::arch::asm!("mrs {}, fpcr", out(reg) fpcr, options(nomem, nostack, preserves_flags));
+        }
+        Some(((fpcr >> 22) & 3) as u32)
+    }
+    #[cfg(not(any(target_arch = "x86_64", target_arch = "aarch64")))]
     {
         None
     }
@@ -342,7 +352,7 @@ mod tests {
         assert_eq!(read_mxcsr(), saved);
     }
 
-    #[cfg(not(target_arch = "x86_64"))]
+    #[cfg(not(any(target_arch = "x86_64", target_arch = "aarch64")))]
     #[test]
     fn unsupported_target_is_unknown() {
         assert_eq!(read_rounding_environment(), RoundingEnvironment::Unknown);

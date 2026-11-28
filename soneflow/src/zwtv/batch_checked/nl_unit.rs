@@ -163,25 +163,28 @@ impl NlHooks for CtxNlHooks<'_> {
         self.ctx.record_due(3, self.band, t, *due);
     }
     fn on_unit(&self, qualified: bool) {
+        #[cfg(target_arch = "x86_64")]
         if self.avx2 {
             test_counters::record_nl_avx2(qualified);
-        } else {
-            test_counters::record_nl_scalar(qualified);
+            return;
         }
+        test_counters::record_nl_scalar(qualified);
     }
     fn on_fast_frame(&self) {
+        #[cfg(target_arch = "x86_64")]
         if self.avx2 {
             test_counters::record_nl_avx2_fast_frame();
-        } else {
-            test_counters::record_nl_scalar_fast_frame();
+            return;
         }
+        test_counters::record_nl_scalar_fast_frame();
     }
     fn on_entry_fallback(&self) {
+        #[cfg(target_arch = "x86_64")]
         if self.avx2 {
             test_counters::record_nl_avx2_entry_fallback();
-        } else {
-            test_counters::record_nl_scalar_entry_fallback();
+            return;
         }
+        test_counters::record_nl_scalar_entry_fallback();
     }
 }
 
