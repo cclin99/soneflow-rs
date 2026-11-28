@@ -1,0 +1,206 @@
+name: probe-aarch64
+
+# Decision probe, not a gate: runs the data-free CI steps on aarch64 runners to
+# size the work of adding them to CI. Lives only on the probe branch.
+on:
+  push:
+    branches: [probe/aarch64-ci]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: soneflow
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: machine
+        run: |
+          uname -a
+          rustc -vV
+          lscpu 2>/dev/null || sysctl -n machdep.cpu.brand_string hw.ncpu
+      # Every later step runs even when an earlier one fails, so one run shows
+      # the whole list of failures.
+      - name: clippy (default)
+        if: ${{ !cancelled() }}
+        run: cargo clippy --all-targets -- -D warnings
+      - name: clippy (internals)
+        if: ${{ !cancelled() }}
+        run: cargo clippy --all-targets --features internals -- -D warnings
+      - name: unit tests
+        if: ${{ !cancelled() }}
+        run: cargo test --lib --no-fail-fast
+      - name: unit tests (internals)
+        if: ${{ !cancelled() }}
+        run: cargo test --lib --features internals --no-fail-fast
+      - name: doc tests
+        if: ${{ !cancelled() }}
+        run: |
+          cargo test --doc
+          cargo test --doc --features internals
+      - name: rustdoc without warnings
+        if: ${{ !cancelled() }}
+        run: |
+          cargo doc --no-deps
+          cargo doc --no-deps --features internals
+        env:
+          RUSTDOCFLAGS: -D warnings
+      - name: public API listing
+        if: ${{ !cancelled() }}
+        run: python ../tools/public_api.py --check
+      - name: hash gate, dump only
+        if: ${{ !cancelled() }}
+        run: cargo test --test hash_gate -- --nocapture
+        env:
+          HASH_GATE_DUMP_ONLY: "1"
+      # On linux this compares against the constants frozen on x86_64 linux.
+      - name: hash gate, asserting
+        if: ${{ !cancelled() }}
+        run: cargo test --test hash_gate -- --nocapture
+        env:
+          HASH_GATE_DUMP_ONLY: "0"
+      - name: integration tests (default features)
+        if: ${{ !cancelled() }}
+        run: >
+          cargo test --no-fail-fast
+          --test api_errors
+          --test l4_batch_fault
+          --test nl_zero_init
+          --test output_grid
+          --test py_contract_dump
+          --test simd_dispatch
+          --test stream_alloc
+          --test stream_fault_rt
+          --test stream_no_rayon
+      - name: integration tests (internals)
+        if: ${{ !cancelled() }}
+        run: >
+          cargo test --no-fail-fast --features internals
+          --test core_characterization
+          --test determinism
+          --test low_freq_correction
+          --test main_loudness_rounding
+          --test simd_parity
+          --test stream_contract
+          --test stream_scalar
+          --test zup_eps
+      - name: annexb_validator without the csv tests
+        if: ${{ !cancelled() }}
+        run: cargo test --test annexb_validator -- --skip csv_
+      - name: cli example tests
+        if: ${{ !cancelled() }}
+        run: cargo test --example cli
+
+  # Rough timing only: shared runners are noisy. ubuntu-latest (x86_64) is the
+  # baseline measured in the same run.
+  bench:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, macos-15, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: soneflow
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .
+      - name: machine
+        run: |
+          uname -a
+          lscpu 2>/dev/null || sysctl -n machdep.cpu.brand_string hw.ncpu
+      - name: bench, all threads
+        run: cargo bench --bench loudness -- --sample-size 20 --warm-up-time 1 --measurement-time 5
+      - name: bench zwtv, one thread
+        if: ${{ !cancelled() }}
+        run: cargo bench --bench loudness -- zwtv_10s --sample-size 20 --warm-up-time 1 --measurement-time 5
+        env:
+          RAYON_NUM_THREADS: "1"
+
+  ffi:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: soneflow-ffi
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .
+      - name: clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: tests
+        if: ${{ !cancelled() }}
+        run: cargo test --features test-panic --no-fail-fast
+      - name: release build
+        if: ${{ !cancelled() }}
+        run: cargo build --release
+      - name: C smoke
+        if: ${{ !cancelled() }}
+        run: |
+          cc -Wall -Wextra -Iinclude tests/smoke.c -L../target/release -lsoneflow_ffi -lm -o smoke
+          LD_LIBRARY_PATH=../target/release DYLD_LIBRARY_PATH=../target/release ./smoke
+
+  py:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      # linux: compare against the N hashes frozen on x86_64 linux.
+      # macos: no frozen value, the suite prints instead.
+      HASH_GATE_DUMP_ONLY: "0"
+    defaults:
+      run:
+        working-directory: soneflow-py
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: build wheel
+        if: ${{ !cancelled() }}
+        run: pip install maturin && maturin build --release --out dist
+      - name: install wheel into clean venv, run smoke suite
+        if: ${{ !cancelled() }}
+        run: |
+          python -m venv sv
+          sv/bin/python -m pip install --quiet dist/*.whl pytest
+          sv/bin/python -m pytest tests/test_smoke.py tests/test_stream.py tests/test_quality_v1.py -v -s
