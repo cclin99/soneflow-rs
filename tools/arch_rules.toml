@@ -138,7 +138,8 @@ cc_max = 17
 path = "core"
 code_lines_max = 200
 
-# zwtv: frozen at the 0.2.0 maximum (stream/mod.rs, 739) so no file grows.
+# zwtv: frozen so no file grows. The largest file, stream/mod.rs, has been at
+# the limit (740) since 0.2.1: split it before adding to it.
 [[size]]
 path = "zwtv"
 code_lines_max = 740

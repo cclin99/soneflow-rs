@@ -33,6 +33,7 @@ The engine consumes **calibrated acoustic pressure samples in pascals**, not raw
 - Input calibration from digital full scale to pascals is the integrator's responsibility.
 - The Rust streaming hot path is tested for no allocation after construction and does not initialize Rayon; Python `push()` necessarily allocates NumPy outputs.
 - The stream has 24 input samples of algorithmic latency and marks the first 580 output frames as warm-up.
+- The main loudness factors that do not depend on the input are computed once per process, by the first call made under round-to-nearest; creating a stream under round-to-nearest is such a call. A stream created under another rounding mode does not compute them, so if it is then used under round-to-nearest and no earlier call has computed them, its first `push` does. That `push` takes longer.
 - Batch ZWTV uses Rayon for throughput. Do not treat batch benchmarks as audio-callback deadline evidence.
 - This repository does not provide a finished VST/DAW plug-in or observability dashboard.
 - ARM uses the scalar path; no NEON kernel is implemented.

@@ -33,6 +33,7 @@
 - 數位 full scale 到 Pa 的校準由整合端負責。
 - Rust 串流熱路徑在建立後通過零配置測試且不初始化 Rayon；Python `push()` 仍會配置 NumPy 輸出。
 - 串流演算法延遲為 24 個輸入 samples，前 580 個輸出 frames 會標記為 warm-up。
+- main loudness 階段裡與輸入無關的因子，每個 process 只算一次，由第一個在 round-to-nearest 下執行的呼叫算好；在 round-to-nearest 下建立串流也算這樣的呼叫。在其他捨入模式下建立的串流不會先算，之後若改在 round-to-nearest 下使用，而先前沒有任何呼叫算過，就由它的第一次 `push` 來算。那一次 `push` 會比較久。
 - Batch ZWTV 使用 Rayon 增加吞吐量；batch benchmark 不能直接當作 audio callback deadline 證據。
 - 本 repo 尚未提供完成的 VST／DAW plugin 或可觀測面板。
 - ARM 目前使用 scalar，尚無 NEON kernel。

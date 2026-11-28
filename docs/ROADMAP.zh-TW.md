@@ -81,7 +81,7 @@ phon 換算已在 0.1.0 完成（`sone2phon`）；面板本身仍待做。
 
 ## 執行順序建議
 
-1. 0.1.0 已完成：批次 ZWST／ZWTV（AVX2）、C ABI v1 + Python binding、串流 API + phon 轉換；0.2.0：公開 API 收窄、可維護性重構、行為契約
+1. 0.1.0 已完成：批次 ZWST／ZWTV（AVX2）、C ABI v1 + Python binding、串流 API + phon 轉換；0.2.0：公開 API 收窄、可維護性重構、行為契約；0.2.1：維護項目、快取 main loudness 階段裡與輸入無關的因子
 2. VST 插件（64 軌 + 面板）
 3. aarch64 的 NEON kernel
 4. 其他標準（workspace 化後逐一加）

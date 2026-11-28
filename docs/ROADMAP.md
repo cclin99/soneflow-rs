@@ -81,7 +81,7 @@ Shipped in 0.1.0 (C ABI v1 and the Python binding).
 
 ## Suggested execution order
 
-1. Done in 0.1.0: batch ZWST/ZWTV with AVX2, C ABI v1 + Python binding, streaming API + phon conversion; 0.2.0: narrower public API, maintainability refactor, behaviour contracts
+1. Done in 0.1.0: batch ZWST/ZWTV with AVX2, C ABI v1 + Python binding, streaming API + phon conversion; 0.2.0: narrower public API, maintainability refactor, behaviour contracts; 0.2.1: maintenance, cached input-independent factor of the main loudness stage
 2. VST plug-in (64 tracks + panel)
 3. NEON kernel for aarch64
 4. Other standards (added one by one after the workspace split)

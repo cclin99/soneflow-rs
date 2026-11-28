@@ -6,6 +6,16 @@ All notable changes to this project will be documented here. The project follows
 This repository restarts the version series at 0.1.0. Earlier development
 happened in a private repository and is not published.
 
+## Unreleased
+
+### Documentation
+
+- The README lists, under its current boundaries, when a stream computes the
+  cached main loudness factors in its first `push` instead of at creation.
+- The release checklist asks for the `pow` relocation check on every release
+  `soneflow` rlib, one per feature set built. The roadmap's execution order
+  mentions 0.2.1.
+
 ## 0.2.1 - 2026-11-28
 
 Maintenance after 0.2.0. The public API does not change. Under
