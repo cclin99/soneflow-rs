@@ -164,6 +164,42 @@ class RuleCoverage(unittest.TestCase):
                      "soneflow-rs/src/lib.rs"):
             self.assertRedacts(text, text)
 
+    def test_wsl_drive_mounts_are_redacted(self):
+        """Given WSL spellings (/mnt/<drive>/...), when redacted, then they get the placeholders of /<drive>/..."""
+        mnt = "/m" + "nt"
+        users = "Us" + "ers"
+        self.assertRedacts(mnt + "/c/" + users + "/someone/x", "<USER_HOME>/x")
+        self.assertRedacts("cd " + mnt + "/d/iso" + "532-1/soneflow && ls", "cd <REPO>/soneflow && ls")
+        self.assertRedacts(mnt + "/d/iso" + "532-rs-panel/x", "<PANEL_REPO>/x")
+
+    def test_sibling_work_directories_are_redacted(self):
+        """Given a drive-root directory whose name only starts with a repository name, then it becomes <WORK_DIR>."""
+        archive = "ISO" + "532-research-archive"
+        audit = "sone" + "flow-astra-0.2.1"
+        self.assertRedacts("D:\\" + archive + r"\x", r"<WORK_DIR>\x")
+        self.assertRedacts("D:\\\\" + archive + r"\\x", r"<WORK_DIR>\\x")
+        self.assertRedacts("d:/" + audit + "/repo/docs", "<WORK_DIR>/repo/docs")
+        self.assertRedacts("ls /d/" + archive + "/x", "ls <WORK_DIR>/x")
+        self.assertRedacts("/m" + "nt/d/" + audit + "/repo", "<WORK_DIR>/repo")
+        self.assertRedacts('"D:\\' + audit + '"', '"<WORK_DIR>"')
+
+    def test_working_copy_subdirectories_keep_their_names(self):
+        """Given crate directories inside the working copy, when redacted, then only the working copy prefix changes."""
+        name = "iso" + "532-1"
+        self.assertRedacts("D:\\" + name + r"\soneflow-ffi\include", r"<REPO>\soneflow-ffi\include")
+        self.assertRedacts("/d/" + name + "/soneflow-py/tests", "<REPO>/soneflow-py/tests")
+
+    def test_relative_paths_and_hosts_are_left_alone(self):
+        """Given crate-relative paths, diff prefixes and host names, when redacted, then nothing changes."""
+        for text in ("soneflow-ffi/include/soneflow.h",
+                     "--- a/soneflow/src/lib.rs",
+                     "+++ b/soneflow-ffi/src/lib.rs",
+                     "https://soneflow.example/x",
+                     "scheme:/soneflow/x",
+                     "/home/runner/work/soneflow-rs/soneflow-rs/soneflow",
+                     "/m" + "nt/data/soneflow"):
+            self.assertRedacts(text, text)
+
 
 if __name__ == "__main__":
     unittest.main()

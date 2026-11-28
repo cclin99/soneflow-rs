@@ -16,6 +16,13 @@ happened in a private repository and is not published.
   `soneflow` rlib, one per feature set built. The roadmap's execution order
   mentions 0.2.1.
 
+### Tools
+
+- `tools/redact_paths.py` also replaces WSL spellings of a drive
+  (`/mnt/<drive>/...`) and drive-root directories whose name only starts with
+  a repository name (new placeholder `<WORK_DIR>`). Paths elsewhere on a
+  workstation are still not recognised and need a manual read.
+
 ## 0.2.1 - 2026-11-28
 
 Maintenance after 0.2.0. The public API does not change. Under

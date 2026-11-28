@@ -5,8 +5,9 @@ Audit and verification reports are written outside this repository and quote
 command lines with absolute paths. Before they are committed, run this script
 on the files (or directories) so that the placeholders below replace the
 identifying prefixes. Backslash, JSON-escaped double-backslash and
-forward-slash spellings are all handled. GitHub handles and URLs are not paths
-and are left alone.
+forward-slash spellings are all handled, and so are the Git Bash (`/d/...`)
+and WSL (`/mnt/d/...`) spellings of a drive. GitHub handles and URLs are not
+paths and are left alone.
 
 A directory is walked in full, whatever the suffixes (lcov.info, .rs, .jsonl,
 .gitattributes and files without a suffix included): every file that decodes
@@ -25,6 +26,11 @@ The placeholder vocabulary is fixed so that different rounds stay comparable:
     <USER_HOME>     any other path under the auditor's user profile
     <REPO>          this repository's working copy
     <PANEL_REPO>    the iso532-rs-panel working copy
+    <WORK_DIR>      another directory at a drive root whose name starts with
+                    a repository name (archives, audit clones, worktrees)
+
+Only these locations are known. A path anywhere else on the workstation is not
+recognised: read the delivery for such paths as well.
 """
 from __future__ import annotations
 
@@ -39,6 +45,11 @@ SEP = r"(?:\\\\|\\|/)"
 # Working-copy names this repository has had: ISO532 until 2026-11-24, then
 # iso532-1; a clone of either GitHub repository defaults to its repo name.
 REPO_NAMES = r"(?:ISO532|iso532-1|iso532-1-rs|soneflow-rs)"
+# Any other drive-root directory named after the project: `ISO532-<suffix>`,
+# `soneflow-<suffix>`. The rules for the exact names above come first.
+WORK_DIR_NAME = r"(?:iso532|soneflow)[\w.-]*"
+# A drive in forward-slash spelling: Git Bash / MSYS `/d`, WSL `/mnt/d`.
+POSIX_DRIVE = r"(?<![\w.-])(?:/mnt)?/[a-z]"
 RULES: list[tuple[str, str]] = [
     # Profile paths are matched case-insensitively: shells and tools also print `c:\users\...`.
     (
@@ -47,15 +58,18 @@ RULES: list[tuple[str, str]] = [
     ),
     (rf"(?i)[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+{SEP}Documents{SEP}Codex", "<AUDIT_HOME>"),
     (rf"(?i)[A-Za-z]:{SEP}Users{SEP}[^\\/\s\"']+", "<USER_HOME>"),
-    (r"(?i)(?<![\w.-])/[a-z]/Users/[^/\s\"']+", "<USER_HOME>"),
+    (rf"(?i){POSIX_DRIVE}/Users/[^/\s\"']+", "<USER_HOME>"),
     # repository paths are matched case-insensitively (shell output may print `d:\iso532`)
     (rf"(?i)[A-Za-z]:{SEP}iso532-rs-panel", "<PANEL_REPO>"),
     (rf"(?i)[A-Za-z]:{SEP}iso532-panel", "<PANEL_REPO>"),
     (rf"(?i)[A-Za-z]:{SEP}{REPO_NAMES}(?![\w-])", "<REPO>"),
-    # Git Bash / MSYS drive spelling (`/d/ISO532`), as printed by shell scripts
-    (r"(?i)(?<![\w.-])/[a-z]/iso532-rs-panel(?![\w-])", "<PANEL_REPO>"),
-    (r"(?i)(?<![\w.-])/[a-z]/iso532-panel(?![\w-])", "<PANEL_REPO>"),
-    (rf"(?i)(?<![\w.-])/[a-z]/{REPO_NAMES}(?![\w-])", "<REPO>"),
+    # Git Bash / MSYS and WSL drive spellings (`/d/ISO532`, `/mnt/d/ISO532`), as printed by shell scripts
+    (rf"(?i){POSIX_DRIVE}/iso532-rs-panel(?![\w-])", "<PANEL_REPO>"),
+    (rf"(?i){POSIX_DRIVE}/iso532-panel(?![\w-])", "<PANEL_REPO>"),
+    (rf"(?i){POSIX_DRIVE}/{REPO_NAMES}(?![\w-])", "<REPO>"),
+    # what the exact names above left: sibling directories named after the project
+    (rf"(?i)(?<![A-Za-z])[A-Za-z]:{SEP}{WORK_DIR_NAME}", "<WORK_DIR>"),
+    (rf"(?i){POSIX_DRIVE}/{WORK_DIR_NAME}", "<WORK_DIR>"),
 ]
 COMPILED = [(re.compile(p), r) for p, r in RULES]
 # build products and vendored trees are never committed; skip them when a directory is given
