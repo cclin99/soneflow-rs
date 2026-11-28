@@ -6,7 +6,7 @@ Run this checklist immediately before publishing a release or making the README 
 
 - [ ] Confirm that neither `README.md` nor `README.zh-TW.md` carries review-draft wording; no public README may say "not yet announced as a public release" or "尚未對外宣布發布".
 - [ ] Re-run `tools/compare_mosqito.py` and update the date, environment, timing, and direct-parity values together.
-- [ ] Run the commands under "Measured results (0.2.0)" → "Reproduce" / 「實測結果（0.2.0）」→「重現」 from a locally regenerated golden environment.
+- [ ] Run the commands under "Measured results (0.2.1)" → "Reproduce" / 「實測結果（0.2.1）」→「重現」 from a locally regenerated golden environment.
 - [ ] Confirm that `docs/GOLDEN-REGEN-SOP.md` still describes every prerequisite needed by a fresh clone.
 - [ ] Check every capability and boundary statement against the tagged source and public artifacts.
 - [ ] Review `THIRD_PARTY_NOTICES.md`, `CITATION.cff`, `SECURITY.md`, and community templates against the release tag and current repository settings.

@@ -15,6 +15,9 @@ happened in a private repository and is not published.
 - The release checklist asks for the `pow` relocation check on every release
   `soneflow` rlib, one per feature set built. The roadmap's execution order
   mentions 0.2.1.
+- The README's measured results were taken again for 0.2.1 (speed, and
+  agreement with MoSQITo 1.2.1 on the synthetic fixtures). The agreement
+  figures are those of 0.2.0.
 
 ### Tools
 

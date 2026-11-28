@@ -226,21 +226,21 @@ cargo bench -p soneflow --features internals --bench core -- filter_bank
 
 The comparison tool measures the configured local Rust/Python environment. Interleave runs when comparing versions, and report their distributions and numerical differences together. Performance results must identify the version and environment actually measured.
 
-## Measured results (0.2.0)
+## Measured results (0.2.1)
 
-Measured on 2026-11-26 from source `c0b7748` (the product code of 0.2.0): Windows 10 (build 19045), AMD Zen 2 CPU (family 23 model 113, 12 logical CPUs), rustc 1.99.1, Python 3.11.9, NumPy 2.4.6, MoSQITo 1.2.1. Other machines will give other timings; the commands to reproduce are listed below the tables. 0.2.0 computes bit for bit what 0.1.0 computes, and on this machine its single-thread batch and stream timings are within 0.3% of 0.1.0 when the two are measured interleaved. Timings taken on different days differ more than that: MoSQITo, which did not change, took 7.17 s here and 6.59 s on 2026-11-24.
+Measured on 2026-11-28 from the product code of 0.2.1 (tag `v0.2.1`): Windows 10 (build 19045), AMD Zen 2 CPU (family 23 model 113, 12 logical CPUs), rustc 1.99.1, Python 3.11.9, NumPy 2.4.6, MoSQITo 1.2.1. Other machines will give other timings; the commands to reproduce are listed below the tables. Under round-to-nearest, 0.2.1 computes bit for bit what 0.2.0 computes when both are built on the same machine. Measured interleaved with 0.2.0 on this machine, single-thread time-varying loudness takes 4% to 12% less time, depending on the path and the backend (`docs/verification/2026-11-28-soneflow-0.2.1-acceptance-ddbe9e2/`). Timings taken on different days differ by several percent, so do not read a version difference from this table and an older one: MoSQITo, which did not change, took 6.92 s here and 7.17 s on 2026-11-26.
 
 ### Speed
 
 | Measurement | Result |
 |---|---|
-| ZWTV, 3 s test signal, Python binding vs MoSQITo 1.2.1 (30 runs each, after one warm-up) | soneflow 9.25 ms (sd 0.57 ms), MoSQITo 7.168 s (sd 0.315 s): about 775x faster; 324x real time vs 0.42x |
-| ZWTV, 10 s signal, Rust batch, 12 threads | scalar 44.1 ms, AVX2 30.6 ms |
-| ZWTV, 10 s signal, Rust batch, 1 thread (`RAYON_NUM_THREADS=1`) | scalar 195.3 ms, AVX2 101.1 ms |
-| Third-octave filter bank, 10 s signal, 12 threads | scalar 13.7 ms, AVX2 5.58 ms |
-| Stream, 10 s signal pushed in 480-sample (10 ms) chunks, one thread | scalar 187.5 ms, AVX2 84.5 ms (about 85 µs per 10 ms chunk on average) |
+| ZWTV, 3 s test signal, Python binding vs MoSQITo 1.2.1 (30 runs each, after one warm-up) | soneflow 8.66 ms (sd 0.38 ms), MoSQITo 6.916 s (sd 0.038 s): about 799x faster; 347x real time vs 0.43x |
+| ZWTV, 10 s signal, Rust batch, 12 threads | scalar 40.3 ms, AVX2 26.5 ms |
+| ZWTV, 10 s signal, Rust batch, 1 thread (`RAYON_NUM_THREADS=1`) | scalar 181.0 ms, AVX2 90.0 ms |
+| Third-octave filter bank, 10 s signal, 12 threads | scalar 13.3 ms, AVX2 5.40 ms |
+| Stream, 10 s signal pushed in 480-sample (10 ms) chunks, one thread | scalar 176.5 ms, AVX2 75.3 ms (about 75 µs per 10 ms chunk on average) |
 
-Rust timings are Criterion medians. Batch throughput is not callback latency; measure the stream on the target host before relying on it in an audio callback.
+Rust timings are Criterion medians. The Python row and the single-thread batch row were each measured three times and show the middle run; the other rows are single runs. Batch throughput is not callback latency; measure the stream on the target host before relying on it in an audio callback.
 
 ### ISO 532-1 Annex B
 
@@ -254,7 +254,7 @@ The test suite includes checks against ISO 532-1 Annex B. The Annex B test signa
 | ZWTV, 3 synthetic fixtures (sine, tone pulse, 60→80 dB step), same initial state as MoSQITo (`nl_init="mosqito_tail"`) | max 1.7e-4 sone, except 3.9e-3 on the step | max 2.2e-2 sone/Bark |
 | ZWTV, 3 s test signal, default zero state, Python binding | 5.8e-3 sone | 3.2e-2 sone/Bark |
 
-The specific-loudness differences are expected: where a slope ends inside a 0.1 Bark cell, this crate writes the core loudness and MoSQITo extrapolates the slope. With the default zero initial state the first part of a signal differs further (on the step fixture up to 5.6e-2 sone), because MoSQITo seeds the nonlinear decay from the last frame of the signal. The three loudness tables `ZUP`, `RNS` and `USL` are identical to MoSQITo's (`tools/compare_mosqito.py --check-tables`). The fixture rows come from the MoSQITo golden tests and are unchanged from 0.1.0, because the output is bit for bit the same; the 3 s row was measured again for 0.2.0.
+The specific-loudness differences are expected: where a slope ends inside a 0.1 Bark cell, this crate writes the core loudness and MoSQITo extrapolates the slope. With the default zero initial state the first part of a signal differs further (on the step fixture up to 5.6e-2 sone), because MoSQITo seeds the nonlinear decay from the last frame of the signal. The three loudness tables `ZUP`, `RNS` and `USL` are identical to MoSQITo's (`tools/compare_mosqito.py --check-tables`). The fixture rows come from the MoSQITo golden fixtures. All three rows were measured again for 0.2.1 and are the same as for 0.2.0.
 
 ### Reproduce
 

@@ -6,7 +6,7 @@
 
 - [ ] 確認 `README.md` 與 `README.zh-TW.md` 都沒有審查草稿用語；任何公開的 README 都不得寫「not yet announced as a public release」或「尚未對外宣布發布」。
 - [ ] 重跑 `tools/compare_mosqito.py`，並一併更新日期、環境、計時與直接 parity 數值。
-- [ ] 從本機重新產生的 golden 環境執行「Measured results (0.2.0)」→「Reproduce」／「實測結果（0.2.0）」→「重現」下的指令。
+- [ ] 從本機重新產生的 golden 環境執行「Measured results (0.2.1)」→「Reproduce」／「實測結果（0.2.1）」→「重現」下的指令。
 - [ ] 確認 `docs/GOLDEN-REGEN-SOP.md` 仍涵蓋全新 clone 所需的每一項先決條件。
 - [ ] 逐一核對每條能力與邊界敘述是否與已打 tag 的原始碼及公開產出物相符。
 - [ ] 對照 release tag 與目前的 repository 設定，檢視 `THIRD_PARTY_NOTICES.md`、`CITATION.cff`、`SECURITY.md` 與社群範本。
